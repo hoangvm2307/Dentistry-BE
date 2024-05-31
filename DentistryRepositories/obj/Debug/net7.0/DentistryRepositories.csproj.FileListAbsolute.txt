@@ -1,0 +1,17 @@
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DentistryRepositories.deps.json
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DentistryRepositories.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DentistryRepositories.pdb
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.csproj.AssemblyReference.cache
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.AssemblyInfoInputs.cache
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.AssemblyInfo.cs
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.csproj.CoreCompileInputs.cache
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\refint\DentistryRepositories.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.pdb
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\ref\DentistryRepositories.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DentistryBusinessObjects.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DTOs.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DTOs.pdb
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DentistryBusinessObjects.pdb
+D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.csproj.CopyComplete

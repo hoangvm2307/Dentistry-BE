@@ -1,0 +1,45 @@
+# OS generated files
+.DS_Store
+
+# Visual Studio Code generated files
+.vscode/
+
+# Visual Studio generated files
+.vs/
+
+# Binaries, build results
+bin/
+obj/
+
+# Local files
+*.user
+*.suo
+*.cache
+*.log
+
+# .NET Core
+project.lock.json
+*.exe
+*.pdb
+*.dll
+*.dll.config
+*.json
+*.junit
+*.coverage
+*.nupkg
+*.pfx
+*.snk
+*.sw*
+*.zip
+*.tgz
+*.map
+*.xml
+
+# Rider generated files
+.idea/
+*.sln.iml
+
+# Resharper files
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings

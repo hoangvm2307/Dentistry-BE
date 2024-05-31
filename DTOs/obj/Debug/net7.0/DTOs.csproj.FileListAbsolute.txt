@@ -1,0 +1,15 @@
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\bin\Debug\net7.0\DTOs.deps.json
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\bin\Debug\net7.0\DTOs.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\bin\Debug\net7.0\DTOs.pdb
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\bin\Debug\net7.0\DentistryBusinessObjects.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\bin\Debug\net7.0\DentistryBusinessObjects.pdb
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.csproj.AssemblyReference.cache
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.AssemblyInfoInputs.cache
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.AssemblyInfo.cs
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.csproj.CoreCompileInputs.cache
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.csproj.CopyComplete
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\refint\DTOs.dll
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\DTOs.pdb
+D:\Learning\FPT Course\PRN221\PRN_Project\DTOs\obj\Debug\net7.0\ref\DTOs.dll
