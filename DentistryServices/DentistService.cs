@@ -1,7 +1,7 @@
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
-using DTOs.DentistDto;
+using DTOs.DentistDtos;
 
 
 namespace DentistryServices

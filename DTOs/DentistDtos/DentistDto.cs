@@ -1,4 +1,4 @@
-namespace DTOs.DentistDto
+namespace DTOs.DentistDtos
 {
   public class DentistDto
   {

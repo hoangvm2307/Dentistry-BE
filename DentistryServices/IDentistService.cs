@@ -1,4 +1,4 @@
-using DTOs.DentistDto;
+using DTOs.DentistDtos;
 
 namespace DentistryServices
 {
