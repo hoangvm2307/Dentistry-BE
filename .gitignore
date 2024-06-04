@@ -1,0 +1,44 @@
+# Các thư mục và tệp của hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Các thư mục và tệp liên quan đến Visual Studio
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Các thư mục đầu ra của dự án .NET
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/Publish/
+
+# Các tệp khóa của dự án .NET
+*.lock.json
+
+# Các thư mục và tệp của nuget
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Các tệp cài đặt của Visual Studio Code
+.vscode/*
+
+# Tệp nhật ký
+*.log
+
+# Tệp tạm thời
+*.tmp
+*.temp
+
+# Thư mục đầu ra của Rider
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
