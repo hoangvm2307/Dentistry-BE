@@ -25,29 +25,30 @@ namespace prn_dentistry.API.Controllers
     public async Task<ActionResult<ServiceDto>> GetService(int id)
     {
       var service = await _serviceService.GetServiceByIdAsync(id);
-      if (service == null)
-      {
-        return NotFound();
-      }
 
+      if (service == null)  return NotFound();
+    
       return Ok(service);
     }
 
     [HttpPost]
     public async Task<ActionResult<ServiceDto>> CreateService(ServiceCreateDto serviceCreateDto)
     {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
       var service = await _serviceService.CreateServiceAsync(serviceCreateDto);
+
       return CreatedAtAction(nameof(GetService), new { id = service.ServiceID }, service);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateService(int id, ServiceUpdateDto serviceUpdateDto)
     {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
       var updatedService = await _serviceService.UpdateServiceAsync(id, serviceUpdateDto);
-      if (updatedService == null)
-      {
-        return NotFound();
-      }
+
+      if (updatedService == null) return NotFound();
 
       return NoContent();
     }
@@ -56,10 +57,8 @@ namespace prn_dentistry.API.Controllers
     public async Task<IActionResult> DeleteService(int id)
     {
       var success = await _serviceService.DeleteServiceAsync(id);
-      if (!success)
-      {
-        return NotFound();
-      }
+
+      if (!success) return NotFound();
 
       return NoContent();
     }

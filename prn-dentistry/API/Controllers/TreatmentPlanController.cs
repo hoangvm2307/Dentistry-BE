@@ -1,7 +1,7 @@
 using DentistryServices;
 using DTOs.TreatmentPlanDto;
 using Microsoft.AspNetCore.Mvc;
- 
+
 
 namespace prn_dentistry.API.Controllers
 {
@@ -35,14 +35,20 @@ namespace prn_dentistry.API.Controllers
     [HttpPost]
     public async Task<ActionResult<TreatmentPlanDto>> CreateTreatmentPlan(TreatmentPlanCreateDto treatmentPlanCreateDto)
     {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
       var treatmentPlan = await _treatmentPlanService.CreateTreatmentPlanAsync(treatmentPlanCreateDto);
+
       return CreatedAtAction(nameof(GetTreatmentPlan), new { id = treatmentPlan.PlanID }, treatmentPlan);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTreatmentPlan(int id, TreatmentPlanUpdateDto treatmentPlanUpdateDto)
     {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
       var updatedTreatmentPlan = await _treatmentPlanService.UpdateTreatmentAsync(id, treatmentPlanUpdateDto);
+
       if (updatedTreatmentPlan == null)
         return NotFound();
 
@@ -53,8 +59,8 @@ namespace prn_dentistry.API.Controllers
     public async Task<IActionResult> DeleteTreatmentPlan(int id)
     {
       var success = await _treatmentPlanService.DeleteTreatmentPlanAsync(id);
-      if (!success)
-        return NotFound();
+
+      if (!success) return NotFound();   
 
       return NoContent();
     }

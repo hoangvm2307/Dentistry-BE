@@ -25,30 +25,31 @@ namespace prn_dentistry.API.Controllers
     public async Task<ActionResult<ClinicScheduleDto>> GetClinicSchedule(int id)
     {
       var clinicSchedule = await _clinicScheduleService.GetClinicScheduleByIdAsync(id);
-      if (clinicSchedule == null)
-      {
-        return NotFound();
-      }
-
+      
+      if (clinicSchedule == null) return NotFound();
+      
       return Ok(clinicSchedule);
     }
 
     [HttpPost]
     public async Task<ActionResult<ClinicScheduleDto>> CreateClinicSchedule(ClinicScheduleCreateDto clinicScheduleCreateDto)
     {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
       var clinicSchedule = await _clinicScheduleService.CreateClinicScheduleAsync(clinicScheduleCreateDto);
+
       return CreatedAtAction(nameof(GetClinicSchedule), new { id = clinicSchedule.ScheduleID }, clinicSchedule);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateClinicSchedule(int id, ClinicScheduleUpdateDto clinicScheduleUpdateDto)
     {
-      var updatedClinicSchedule = await _clinicScheduleService.UpdateClinicScheduleAsync(id, clinicScheduleUpdateDto);
-      if (updatedClinicSchedule == null)
-      {
-        return NotFound();
-      }
+      if (!ModelState.IsValid) return BadRequest(ModelState);
 
+      var updatedClinicSchedule = await _clinicScheduleService.UpdateClinicScheduleAsync(id, clinicScheduleUpdateDto);
+
+      if (updatedClinicSchedule == null) return NotFound();
+      
       return NoContent();
     }
 
@@ -56,11 +57,9 @@ namespace prn_dentistry.API.Controllers
     public async Task<IActionResult> DeleteClinicSchedule(int id)
     {
       var result = await _clinicScheduleService.DeleteClinicScheduleAsync(id);
-      if (!result)
-      {
-        return NotFound();
-      }
 
+      if (!result) return NotFound();
+     
       return NoContent();
     }
   }
