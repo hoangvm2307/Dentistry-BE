@@ -42,3 +42,12 @@ artifacts/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
+prn-dentistry/Migrations/
+DTOs/obj/
+DTOs/bin/
+DentistryServices/obj/
+DentistryServices/bin/
+DentistryRepositories/obj/
+DentistryRepositories/bin/
+DentistryBusinessObjects/obj/
+DentistryBusinessObjects/bin/
