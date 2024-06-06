@@ -1,5 +1,6 @@
 using System.Text;
 using DentistryBusinessObjects;
+using DentistryRepositories;
 using DentistryServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -103,5 +104,6 @@ catch (Exception ex)
 {
   logger.LogError(ex, "A problem occurred during migration");
 }
+app.MigrateDatabase<DBContext>().Run();
 app.Run();
 
