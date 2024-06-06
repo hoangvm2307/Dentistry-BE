@@ -1,6 +1,5 @@
 using DentistryServices;
 using DTOs.ClinicDtos;
-using DTOs.DentistDtos;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -22,7 +21,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinics);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}/getById")]
     public async Task<ActionResult<ClinicDto>> GetClinicById(int id)
     {
       var clinic = await _clinicService.GetClinicByIdAsync(id);
@@ -32,8 +31,8 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinic);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ClinicDto>> GetClinicByStatus(List<bool> statuses)
+    [HttpGet("getFilter")]
+    public async Task<ActionResult<ClinicDto>> GetClinicByStatus([FromQuery] List<bool> statuses)
     {
       var clinic = await _clinicService.GetClinicsByStatusAsync(statuses);
 
