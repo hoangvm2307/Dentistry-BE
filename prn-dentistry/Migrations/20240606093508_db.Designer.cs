@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace prn_dentistry.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240604094818_user")]
-    partial class user
+    [Migration("20240606093508_db")]
+    partial class db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -434,25 +434,25 @@ namespace prn_dentistry.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c368a73b-cd6b-4063-84a9-adadc16e5841",
+                            Id = "5fc87da2-7359-4523-8db6-db4b21a66eff",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "2f47e4c7-1571-43f5-9881-dcbdb774d140",
+                            Id = "a7e63f06-41bf-4b8f-bdc1-dcaea2a98f9c",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "3756f43e-c404-414c-989a-cfc978bfd6d4",
+                            Id = "9b1ef092-a3c1-4a13-8e97-bdbb1e1d9f63",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cc569961-5085-444c-89a8-c4ff72d60bcd",
+                            Id = "62254194-a705-4027-85e9-2196a1b50435",
                             Name = "ClinicOwner",
                             NormalizedName = "CLINICOWNER"
                         });

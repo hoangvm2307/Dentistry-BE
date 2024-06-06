@@ -431,25 +431,25 @@ namespace prn_dentistry.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8aa1c2a2-be10-47da-978e-e574cafa0b50",
+                            Id = "5fc87da2-7359-4523-8db6-db4b21a66eff",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "8dde1af4-7210-4e46-925a-dc5b7c0077ca",
+                            Id = "a7e63f06-41bf-4b8f-bdc1-dcaea2a98f9c",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "3a46856a-bf80-449b-8ecd-89b39d36a19e",
+                            Id = "9b1ef092-a3c1-4a13-8e97-bdbb1e1d9f63",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9fc26733-cec1-4ea3-99f8-fd21a5196562",
+                            Id = "62254194-a705-4027-85e9-2196a1b50435",
                             Name = "ClinicOwner",
                             NormalizedName = "CLINICOWNER"
                         });
