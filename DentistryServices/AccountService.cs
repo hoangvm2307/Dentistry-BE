@@ -1,5 +1,6 @@
 
 
+using DentistryBusinessObjects;
 using DentistryRepositories;
 using DTOs.AccountDto;
 using Microsoft.AspNetCore.Identity;
@@ -35,11 +36,23 @@ namespace DentistryServices
 
     public async Task<IdentityResult> RegisterAsync(RegisterDto registerDto)
     {
-      var user = new IdentityUser
+      var user = new User
       {
         UserName = registerDto.Username,
         Email = registerDto.Email
       };
+      await _accountRepository.AssignRoleAsync(user, "Customer");
+      return await _accountRepository.RegisterAsync(user, registerDto.Password);
+    }
+
+    public async Task<IdentityResult> RegisterStaffAsync(RegisterDto registerDto)
+    {
+      var user = new User
+      {
+        UserName = registerDto.Username,
+        Email = registerDto.Email
+      };
+      await _accountRepository.AssignRoleAsync(user, "ClinicOwner");
       return await _accountRepository.RegisterAsync(user, registerDto.Password);
     }
 
