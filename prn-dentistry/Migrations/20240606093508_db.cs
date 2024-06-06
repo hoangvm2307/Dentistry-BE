@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace prn_dentistry.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDB : Migration
+    public partial class db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -263,6 +263,7 @@ namespace prn_dentistry.Migrations
                 {
                     DentistID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
@@ -272,6 +273,12 @@ namespace prn_dentistry.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dentists", x => x.DentistID);
+                    table.ForeignKey(
+                        name: "FK_Dentist",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Dentists_Clinics_ClinicID",
                         column: x => x.ClinicID,
@@ -381,8 +388,10 @@ namespace prn_dentistry.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7dc62630-a00f-426d-93d0-205f8231946f", null, "Admin", "ADMIN" },
-                    { "84a8cc6f-65ce-4039-b7cb-a7017875ccea", null, "Customer", "CUSTOMER" }
+                    { "5fc87da2-7359-4523-8db6-db4b21a66eff", null, "Customer", "CUSTOMER" },
+                    { "62254194-a705-4027-85e9-2196a1b50435", null, "ClinicOwner", "CLINICOWNER" },
+                    { "9b1ef092-a3c1-4a13-8e97-bdbb1e1d9f63", null, "Admin", "ADMIN" },
+                    { "a7e63f06-41bf-4b8f-bdc1-dcaea2a98f9c", null, "Guest", "GUEST" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -463,6 +472,12 @@ namespace prn_dentistry.Migrations
                 column: "ClinicID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Dentists_Id",
+                table: "Dentists",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TreatmentPlans_CustomerID",
                 table: "TreatmentPlans",
                 column: "CustomerID");
@@ -513,13 +528,13 @@ namespace prn_dentistry.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Dentists");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Clinics");
