@@ -23,4 +23,4 @@ COPY --from=build-env /app/out .
 # Verify the presence of prn_project.dll
 RUN ls -al /app
 
-ENTRYPOINT ["dotnet", "prn_project.dll"]
+ENTRYPOINT ["dotnet", "prn-dentistry.dll"]

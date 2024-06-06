@@ -47,7 +47,7 @@ builder.Services.AddDbContextPool<DBContext>(
 
 builder.Services.AddCors();
 builder.Services.AddControllers();
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DBContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DBContext>().AddDefaultTokenProviders();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
   .AddJwtBearer(options =>
   {
@@ -94,7 +94,7 @@ app.MapControllers();
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DBContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 try
 {
   await context.Database.MigrateAsync();
