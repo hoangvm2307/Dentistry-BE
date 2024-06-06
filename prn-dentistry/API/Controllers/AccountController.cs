@@ -2,7 +2,7 @@ using DentistryServices;
 using DTOs.AccountDto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
- 
+
 
 namespace prn_dentistry.API.Controllers
 {
