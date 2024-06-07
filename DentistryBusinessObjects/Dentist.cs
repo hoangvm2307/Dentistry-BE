@@ -14,6 +14,7 @@ namespace DentistryBusinessObjects
     public string PhoneNumber { get; set; }
     public string Email { get; set; }
     public string Specialization { get; set; }
+    public bool Status { get; set; }
 
     [ForeignKey("Clinic")]
     public int ClinicID { get; set; }
