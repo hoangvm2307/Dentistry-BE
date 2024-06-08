@@ -16,14 +16,14 @@ namespace prn_dentistry.API.Data
           Email = "bobtest@gmail.com"
         };
 
-
+        await userManager.CreateAsync(user, "Pa$$w0rd");
+        await userManager.AddToRoleAsync(user, "Customer");
         var admin = new User
         {
           UserName = "admin",
           Email = "admin@gmail.com"
         };
-        await userManager.CreateAsync(user, "Pa$$w0rd");
-        await userManager.AddToRoleAsync(user, "Customer");
+
         await userManager.CreateAsync(admin, "Pa$$w0rd");
         await userManager.AddToRolesAsync(admin, new[] { "Customer", "Admin" });
       }
