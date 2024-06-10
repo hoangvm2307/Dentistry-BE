@@ -35,7 +35,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ConnectionStrings__ConnectionString="User ID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;"
+      - ConnectionStrings__ConnectionString="UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;"
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev
