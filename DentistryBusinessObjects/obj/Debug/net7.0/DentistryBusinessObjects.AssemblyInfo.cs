@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DentistryBusinessObjects")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d3f91bc7782b6d8e1b0fd6258faf08c11a8ea4b1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5033cd77c533ea35e4b94000ec068ccf96ff1e26")]
 [assembly: System.Reflection.AssemblyProductAttribute("DentistryBusinessObjects")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DentistryBusinessObjects")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

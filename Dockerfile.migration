@@ -38,9 +38,7 @@ RUN apt-get install -y make
 ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet tool install --version 7.0.19 --global dotnet-ef
 
+ENTRYPOINT [ "make" ]
+CMD [ "update" ]
 
-# ENTRYPOINT [ "make" ]
-# CMD [ "update" ]
-
-ENTRYPOINT ["dotnet", "prn-dentistry.dll"]
 # CMD dotnet ef database update --project prn-dentistry
