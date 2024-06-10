@@ -5,9 +5,9 @@ add:
 	@dotnet ef migrations add -c CustomerManagementDbContext -o ./Migrations $$name
 
 rollback:
-	@./efbundle --connection $${ConnectionStrings__DatabaseConnection} $$previousmigname
+	@./efbundle --connection $${ConnectionStrings__ConnectionString} $$previousmigname
 
 update:
 	@echo $${ConnectionStrings__DatabaseConnection}
-	@./efbundle --connection $${ConnectionStrings__DatabaseConnection}
+	@./efbundle --connection $${ConnectionStrings__ConnectionString}
 	@tail -f /dev/null
