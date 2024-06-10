@@ -1,4 +1,4 @@
-namespace DTOs.AccountDto
+namespace DTOs.AccountDtos
 {
   public class UserDto
   {

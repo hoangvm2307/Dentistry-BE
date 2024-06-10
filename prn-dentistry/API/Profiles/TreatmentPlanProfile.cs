@@ -1,6 +1,6 @@
 using AutoMapper;
 using DentistryBusinessObjects;
-using DTOs.TreatmentPlanDto;
+using DTOs.TreatmentPlanDtos;
  
 
 namespace prn_dentistry.API.Profiles

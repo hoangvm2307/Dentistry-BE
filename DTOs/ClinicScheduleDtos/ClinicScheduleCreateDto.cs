@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DTOs.ClinicScheduleDto
+namespace DTOs.ClinicScheduleDtos
 {
   public class ClinicScheduleCreateDto
   {

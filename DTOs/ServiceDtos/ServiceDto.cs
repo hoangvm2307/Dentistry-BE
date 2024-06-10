@@ -1,4 +1,4 @@
-namespace DTOs.ServiceDto
+namespace DTOs.ServiceDtos
 {
   public class ServiceDto
     {
