@@ -1,14 +1,29 @@
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\bin\Debug\net7.0\DentistryBusinessObjects.deps.json
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\bin\Debug\net7.0\DentistryBusinessObjects.dll
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\bin\Debug\net7.0\DentistryBusinessObjects.pdb
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.csproj.AssemblyReference.cache
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.GeneratedMSBuildEditorConfig.editorconfig
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.AssemblyInfoInputs.cache
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.AssemblyInfo.cs
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.csproj.CoreCompileInputs.cache
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.dll
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\refint\DentistryBusinessObjects.dll
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.pdb
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\ref\DentistryBusinessObjects.dll
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\bin\Debug\net7.0\DentistryBusinessObjects.runtimeconfig.json
-D:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\obj\Debug\net7.0\DentistryBusinessObjects.genruntimeconfig.cache
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.deps.json
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.dll
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.pdb
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.csproj.AssemblyReference.cache
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.GeneratedMSBuildEditorConfig.editorconfig
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.AssemblyInfoInputs.cache
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.AssemblyInfo.cs
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.csproj.CoreCompileInputs.cache
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.dll
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/refint/DentistryBusinessObjects.dll
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.pdb
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/ref/DentistryBusinessObjects.dll
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.runtimeconfig.json
+D:/Learning/FPT Course/PRN221/PRN_Project/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.genruntimeconfig.cache
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.deps.json
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.runtimeconfig.json
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.dll
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/bin/Debug/net7.0/DentistryBusinessObjects.pdb
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.csproj.AssemblyReference.cache
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.GeneratedMSBuildEditorConfig.editorconfig
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.AssemblyInfoInputs.cache
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.AssemblyInfo.cs
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.csproj.CoreCompileInputs.cache
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.dll
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/refint/DentistryBusinessObjects.dll
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.pdb
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.genruntimeconfig.cache
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/ref/DentistryBusinessObjects.dll
+/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/obj/Debug/net7.0/DentistryBusinessObjects.sourcelink.json

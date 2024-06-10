@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DentistryBusinessObjects
-build_property.ProjectDir = d:\Learning\FPT Course\PRN221\PRN_Project\DentistryBusinessObjects\
+build_property.ProjectDir = /Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

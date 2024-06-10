@@ -1,0 +1,45 @@
+networks:
+  dev:
+    driver: bridge
+
+services:
+  app_db:
+    image: postgres:latest
+    container_name: app_db
+    ports:
+      - 54330:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=posgres
+      - POSTGRES_DB=dentistry_db
+    healthcheck:
+      test: [ 'CMD', 'pg_isready', '-q', '-d', 'dentistry_db', '-U', 'postgres' ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    volumes:
+      - dentistry-db-volume:/app/db
+    networks:
+      - dev
+
+  web:
+    image: docker.io/library/dentistry-be
+    depends_on:
+      "app_db":
+        condition: service_healthy
+    container_name: prn-dentistry
+    ports:
+      - 3000:80
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__ConnectionString=User ID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db; IntegratedSecurity=true; Pooling=true;
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+volumes:
+  dentistry-db-volume: 
+    external: true
+  

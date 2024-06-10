@@ -1944,34 +1944,32 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hoangvmdeptrai\\.nuget\\packages\\": {}
+    "/Users/markvo_mac/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\DTOs.csproj",
+      "projectUniqueName": "/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DTOs/DTOs.csproj",
       "projectName": "DTOs",
-      "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\DTOs.csproj",
-      "packagesPath": "C:\\Users\\hoangvmdeptrai\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\obj\\",
+      "projectPath": "/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DTOs/DTOs.csproj",
+      "packagesPath": "/Users/markvo_mac/.nuget/packages/",
+      "outputPath": "/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DTOs/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\hoangvmdeptrai\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/markvo_mac/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj": {
-              "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj"
+            "/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/DentistryBusinessObjects.csproj": {
+              "projectPath": "/Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DentistryBusinessObjects/DentistryBusinessObjects.csproj"
             }
           }
         }
@@ -1980,6 +1978,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1996,12 +1999,22 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[7.0.20, 7.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.20, 7.0.20]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.301/RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DTOs
-build_property.ProjectDir = d:\Learning\FPT Course\PRN221\PRN_Project\DTOs\
+build_property.ProjectDir = /Users/markvo_mac/Documents/Personal/Code/Dentistry-BE/DTOs/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
