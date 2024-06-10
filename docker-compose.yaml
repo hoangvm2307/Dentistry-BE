@@ -19,7 +19,7 @@ services:
       retries: 10
     restart: always
     volumes:
-      - dentistry-db-volume:/app/db
+      - ./container/db:/app/db
     networks:
       - dev
 
@@ -39,7 +39,4 @@ services:
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev
-volumes:
-  dentistry-db-volume: 
-    external: true
   
