@@ -1,10 +1,11 @@
-using System.ComponentModel.DataAnnotations;
+using DTOs.AppointmentDtos;
+using DTOs.TreatmentPlanDtos;
 
-namespace DentistryBusinessObjects
+namespace DTOs.CustomerDtos
 {
-  public class Customer : BaseEntity
+  public class CustomerDto
   {
-    [Key]
+    
     public int CustomerID { get; set; }
     public string Name { get; set; }
     public string PhoneNumber { get; set; }
@@ -14,8 +15,7 @@ namespace DentistryBusinessObjects
     public string Gender { get; set; }
     public bool Status { get; set; }
 
-    public List<Appointment> Appointments { get; set; }
-    public List<TreatmentPlan> TreatmentPlans { get; set; }
-    public List<ChatMessage> ChatMessages { get; set; }
+    public List<AppointmentDto> Appointments { get; set; }
+    public List<TreatmentPlanDto> TreatmentPlans { get; set; }
   }
 }

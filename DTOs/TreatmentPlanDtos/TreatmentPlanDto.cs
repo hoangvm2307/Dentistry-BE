@@ -1,4 +1,4 @@
-namespace DTOs.TreatmentPlanDto
+namespace DTOs.TreatmentPlanDtos
 {
   public class TreatmentPlanDto
 

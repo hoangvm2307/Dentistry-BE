@@ -29,7 +29,7 @@ namespace DentistryRepositories
       }
     }
 
-    public async Task<List<Clinic>> GetAllClinicsAsync()
+    public async Task<IEnumerable<Clinic>> GetAllClinicsAsync()
     {
         return await _context.Clinics.ToListAsync();
     }

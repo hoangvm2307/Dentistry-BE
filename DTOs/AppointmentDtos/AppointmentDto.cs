@@ -1,4 +1,4 @@
-namespace DTOs.AppointmentDto
+namespace DTOs.AppointmentDtos
 
 {
   public class AppointmentDto

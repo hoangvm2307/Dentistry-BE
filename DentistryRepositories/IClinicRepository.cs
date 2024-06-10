@@ -4,7 +4,7 @@ namespace DentistryRepositories
 {
   public interface IClinicRepository
   {
-    Task<List<Clinic>> GetAllClinicsAsync();
+    Task<IEnumerable<Clinic>> GetAllClinicsAsync();
     Task<Clinic> GetClinicByIdAsync(int id);
     Task AddClinicAsync(Clinic clinic);
     Task UpdateClinicAsync(Clinic clinic);

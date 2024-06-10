@@ -2,7 +2,7 @@
 
 using DentistryBusinessObjects;
 using DentistryRepositories;
-using DTOs.AccountDto;
+using DTOs.AccountDtos;
 using Microsoft.AspNetCore.Identity;
 
 namespace DentistryServices
