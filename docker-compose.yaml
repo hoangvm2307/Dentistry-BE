@@ -24,7 +24,7 @@ services:
       - dev
 
   migration:
-    image: docker.io/library/dentistry-be
+    # image: docker.io/library/dentistry-be
     depends_on:
       "app_db":
         condition: service_healthy
@@ -33,7 +33,7 @@ services:
     #   - 3000:80
     build:
       context: .
-      dockerfile: Dockerfile.migration
+      dockerfile: ./docker/migration/Dockerfile
     environment:
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
       # - ASPNETCORE_URLS=http://+:80
@@ -41,7 +41,7 @@ services:
       - dev
 
   web:
-    image: docker.io/library/dentistry-be
+    # image: docker.io/library/dentistry-be
     depends_on:
       "app_db":
         condition: service_healthy
@@ -50,7 +50,7 @@ services:
       - 3000:80
     build:
       context: .
-      dockerfile: Dockerfile.web
+      dockerfile: ./docker/web/Dockerfile
     environment:
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
       - ASPNETCORE_URLS=http://+:80
