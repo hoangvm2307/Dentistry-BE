@@ -4,9 +4,11 @@ namespace DentistryServices
 {
   public interface IAccountService
   {
-    Task<IdentityResult> RegisterAsync(RegisterDto registerDto);
+    Task<IdentityResult> RegisterCustomerAsync(RegisterCustomerDto registerDto);
     Task<UserDto> LoginAsync(LoginDto loginDto);
     Task<UserDto> GetCurrentUser(string username);
-    Task<IdentityResult> RegisterStaffAsync(RegisterDto registerDto);
+    Task<IdentityResult> RegisterClinicOwnerAsync(RegisterClinicOwnerDto registerDto);
+    Task<IdentityResult> RegisterDentistAsync(RegisterDentistDto registerDto);
+
   }
 }
