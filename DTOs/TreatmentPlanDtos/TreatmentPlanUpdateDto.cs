@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using DTOs.ValidationsAttributes;
 
-namespace DTOs.TreatmentPlanDto
+namespace DTOs.TreatmentPlanDtos
 {
   public class TreatmentPlanUpdateDto
   {

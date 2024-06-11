@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
-using DTOs.ServiceDto;
+using DTOs.ServiceDtos;
 
 
 namespace DentistryServices

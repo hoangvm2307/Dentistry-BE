@@ -1,4 +1,4 @@
-using DTOs.AppointmentDto;
+using DTOs.AppointmentDtos;
 
 namespace DentistryServices
 {

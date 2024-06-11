@@ -1,6 +1,6 @@
 using AutoMapper;
 using DentistryBusinessObjects;
-using DTOs.ClinicScheduleDto;
+using DTOs.ClinicScheduleDtos;
  
 
 namespace prn_dentistry.API.Profiles

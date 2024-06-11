@@ -1,7 +1,7 @@
 
 using AutoMapper;
 using DentistryBusinessObjects;
-using DTOs.AppointmentDto;
+using DTOs.AppointmentDtos;
 namespace prn_dentistry.API.Profiles
 
 {

@@ -70,6 +70,8 @@ builder.Services.AddServiceDependencyGroup();
 builder.Services.AddClinicScheduleDependencyGroup();
 builder.Services.AddDentistDependencyGroup();
 builder.Services.AddClinicDependencyGroup();
+builder.Services.AddClinicOwnerDependencyGroup();
+builder.Services.AddCustomerDependencyGroup();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();

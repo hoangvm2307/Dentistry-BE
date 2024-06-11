@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DTOs.ServiceDto
+namespace DTOs.ServiceDtos
 {
   public class ServiceUpdateDto
   {

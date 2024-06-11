@@ -2,7 +2,6 @@ using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DTOs.ClinicDtos;
-using DTOs.DentistDtos;
 
 
 namespace DentistryServices
@@ -36,14 +35,14 @@ namespace DentistryServices
       await _clinicRepository.DeleteClinicAsync(id);
     }
 
-    public async Task<List<ClinicDto>> GetAllClinicsAsync()
+    public async Task<IEnumerable<ClinicDto>> GetAllClinicsAsync()
     {
       var clinics = await _clinicRepository.GetAllClinicsAsync();
       if(clinics == null)
       {
         throw new NullReferenceException("Clinics object is null.");
       }
-      return _mapper.Map<List<ClinicDto>>(clinics);
+      return _mapper.Map<IEnumerable<ClinicDto>>(clinics);
     }
 
     public async Task<ClinicDto> GetClinicByIdAsync(int id)
@@ -56,18 +55,18 @@ namespace DentistryServices
       return _mapper.Map<ClinicDto>(clinics);
     }
 
-    public async Task<List<ClinicDto>> GetClinicsByStatusAsync(List<bool> statues)
+    public async Task<IEnumerable<ClinicDto>> GetClinicsByStatusAsync(List<bool> statues)
     {
       var clinics = await _clinicRepository.GetAllClinicsAsync();
 
       if (statues != null){
-        clinics = clinics.Where(clinic => statues.Contains(clinic.Status)).ToList();
+        clinics = clinics.Where(clinic => statues.Contains(clinic.Status));
       }
       
-      return _mapper.Map<List<ClinicDto>>(clinics);
+      return _mapper.Map<IEnumerable<ClinicDto>>(clinics);
     }
 
-    public async Task UpdateClinicAsync(int id, ClinicCreateDto clinicDto)
+    public async Task<ClinicDto> UpdateClinicAsync(int id, ClinicCreateDto clinicDto)
     {
       var clinic = await _clinicRepository.GetClinicByIdAsync(id);
       if(clinic == null)
@@ -77,6 +76,7 @@ namespace DentistryServices
 
       _mapper.Map(clinicDto, clinic);
       await _clinicRepository.UpdateClinicAsync(clinic);
+      return _mapper.Map<ClinicDto>(clinic);
     }
   }
 }

@@ -1,4 +1,4 @@
-using DTOs.TreatmentPlanDto;
+using DTOs.TreatmentPlanDtos;
 
 namespace DentistryServices
 {

@@ -15,7 +15,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ClinicDto>>> GetAllClinics()
+    public async Task<ActionResult<IEnumerable<ClinicDto>>> GetAllClinics()
     {
       var clinics = await _clinicService.GetAllClinicsAsync();
       return Ok(clinics);
@@ -32,7 +32,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("getFilter")]
-    public async Task<ActionResult<ClinicDto>> GetClinicByStatus([FromQuery] List<bool> statuses)
+    public async Task<ActionResult<IEnumerable<ClinicDto>>> GetClinicByStatus([FromQuery] List<bool> statuses)
     {
       var clinic = await _clinicService.GetClinicsByStatusAsync(statuses);
 
@@ -51,17 +51,18 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateService(int id, ClinicCreateDto clinicDto)
+    public async Task<ActionResult<ClinicDto>> UpdateService(int id, ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
+      var clinic = new ClinicDto();
 
       try {
-        await _clinicService.UpdateClinicAsync(id, clinicDto);
+        clinic = await _clinicService.UpdateClinicAsync(id, clinicDto);
       } catch {
         return NotFound();
       }
 
-      return NoContent();
+      return CreatedAtAction(nameof(GetClinicById), new { id = clinic.ClinicID }, clinic);
     }
 
     [HttpDelete("{id}")]

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace prn_dentistry.Migrations
 {
     /// <inheritdoc />
-    public partial class db : Migration
+    public partial class updatedb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,7 +64,8 @@ namespace prn_dentistry.Migrations
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     OpeningHours = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ClosingHours = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ClosingHours = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +83,8 @@ namespace prn_dentistry.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
-                    Gender = table.Column<string>(type: "text", nullable: false)
+                    Gender = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -220,6 +222,7 @@ namespace prn_dentistry.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
                     ClinicID = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -268,6 +271,7 @@ namespace prn_dentistry.Migrations
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Specialization = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
                     ClinicID = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -388,10 +392,10 @@ namespace prn_dentistry.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5fc87da2-7359-4523-8db6-db4b21a66eff", null, "Customer", "CUSTOMER" },
-                    { "62254194-a705-4027-85e9-2196a1b50435", null, "ClinicOwner", "CLINICOWNER" },
-                    { "9b1ef092-a3c1-4a13-8e97-bdbb1e1d9f63", null, "Admin", "ADMIN" },
-                    { "a7e63f06-41bf-4b8f-bdc1-dcaea2a98f9c", null, "Guest", "GUEST" }
+                    { "a21d50fe-26bd-440e-87de-d9e0e9da2576", null, "ClinicOwner", "CLINICOWNER" },
+                    { "dab1408b-df46-4261-8c60-bd17b47530ac", null, "Admin", "ADMIN" },
+                    { "dce12e9d-5cfe-45bb-8853-3457a2870eab", null, "Guest", "GUEST" },
+                    { "ebf436a0-4c0a-46ad-97b1-b47a7b96f6f7", null, "Customer", "CUSTOMER" }
                 });
 
             migrationBuilder.CreateIndex(

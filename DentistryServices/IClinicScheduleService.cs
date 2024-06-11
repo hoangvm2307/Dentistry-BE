@@ -1,4 +1,4 @@
-using DTOs.ClinicScheduleDto;
+using DTOs.ClinicScheduleDtos;
 
 namespace DentistryServices
 {

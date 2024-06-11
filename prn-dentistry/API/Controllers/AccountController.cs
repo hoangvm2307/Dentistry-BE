@@ -1,5 +1,5 @@
 using DentistryServices;
-using DTOs.AccountDto;
+using DTOs.AccountDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

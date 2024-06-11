@@ -15,7 +15,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<DentistDto>>> GetAllDentists()
+    public async Task<ActionResult<IEnumerable<DentistDto>>> GetAllDentists()
     {
       var dentists = await _dentistService.GetAllDentistsAsync();
       return Ok(dentists);
@@ -25,6 +25,16 @@ namespace prn_dentistry.API.Controllers
     public async Task<ActionResult<DentistDto>> GetDentistById(int id)
     {
       var dentist = await _dentistService.GetDentistByIdAsync(id);
+
+      if (dentist == null)  return NotFound();
+    
+      return Ok(dentist);
+    }
+
+    [HttpGet("getFilter")]
+    public async Task<ActionResult<IEnumerable<DentistDto>>> GetClinicByStatus([FromQuery] List<int> ids,[FromQuery] List<bool> statuses)
+    {
+      var dentist = await _dentistService.GetDentistsByClinicIdAndStatusAsync(ids, statuses);
 
       if (dentist == null)  return NotFound();
     
@@ -41,17 +51,18 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateService(int id, DentistCreateDto dentistDto)
+    public async Task<ActionResult<DentistDto>> UpdateService(int id, DentistCreateDto dentistDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
+      var dentist = new DentistDto();
 
       try {
-        await _dentistService.UpdateDentistAsync(id, dentistDto);
+        dentist = await _dentistService.UpdateDentistAsync(id, dentistDto);
       } catch {
         return NotFound();
       }
 
-      return NoContent();
+      return CreatedAtAction(nameof(GetDentistById), new { id = dentist.DentistId }, dentist);
     }
 
     [HttpDelete("{id}")]

@@ -35,14 +35,14 @@ namespace DentistryServices
       await _dentistRepository.DeleteDentistAsync(id);
     }
 
-    public async Task<List<DentistDto>> GetAllDentistsAsync()
+    public async Task<IEnumerable<DentistDto>> GetAllDentistsAsync()
     {
       var dentists = await _dentistRepository.GetAllDentistsAsync();
       if(dentists == null)
       {
         throw new NullReferenceException("Dentists object is null.");
       }
-      return _mapper.Map<List<DentistDto>>(dentists);
+      return _mapper.Map<IEnumerable<DentistDto>>(dentists);
     }
 
     public async Task<DentistDto> GetDentistByIdAsync(int id)
@@ -55,27 +55,27 @@ namespace DentistryServices
       return _mapper.Map<DentistDto>(dentists);
     }
 
-    public async Task<List<DentistDto>> GetDentistsByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues)
+    public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues)
     {
       var dentists = await _dentistRepository.GetAllDentistsAsync();
 
       if (clinicIds != null){
-        dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID)).ToList();
+        dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID));
       }
 
       if (statues != null){
-        dentists = dentists.Where(dentist => statues.Contains(dentist.Status)).ToList();
+        dentists = dentists.Where(dentist => statues.Contains(dentist.Status));
       }
 
       if (clinicIds != null && statues != null)
       {
-        dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID) && statues.Contains(dentist.Status)).ToList();
+        dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID) && statues.Contains(dentist.Status));
       }
       
-      return _mapper.Map<List<DentistDto>>(dentists);
+      return _mapper.Map<IEnumerable<DentistDto>>(dentists);
     }
 
-    public async Task UpdateDentistAsync(int id, DentistCreateDto dentistDto)
+    public async Task<DentistDto> UpdateDentistAsync(int id, DentistCreateDto dentistDto)
     {
       var dentist = await _dentistRepository.GetDentistByIdAsync(id);
       if(dentist == null)
@@ -85,6 +85,7 @@ namespace DentistryServices
 
       _mapper.Map(dentistDto, dentist);
       await _dentistRepository.UpdateDentistAsync(dentist);
+      return _mapper.Map<DentistDto>(dentist);
     }
   }
 }

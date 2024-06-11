@@ -1,5 +1,5 @@
 using DentistryServices;
-using DTOs.AppointmentDto;
+using DTOs.AppointmentDtos;
 using Microsoft.AspNetCore.Mvc;
 
 
