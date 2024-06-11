@@ -41,8 +41,9 @@ namespace DentistryServices
         UserName = registerDto.Username,
         Email = registerDto.Email
       };
+      await _accountRepository.RegisterAsync(user, registerDto.Password);
       await _accountRepository.AssignRoleAsync(user, "Customer");
-      return await _accountRepository.RegisterAsync(user, registerDto.Password);
+      return IdentityResult.Success;
     }
 
     public async Task<IdentityResult> RegisterStaffAsync(RegisterDto registerDto)

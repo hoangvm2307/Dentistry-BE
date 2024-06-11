@@ -1,9 +1,10 @@
+using DentistryBusinessObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace DentistryBusinessObjects
+namespace DentistryRepositories
 {
   public class DBContext : IdentityDbContext<User>
   {
