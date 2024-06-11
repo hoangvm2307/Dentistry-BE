@@ -10,9 +10,16 @@ namespace DentistryServices
   public class AccountService : IAccountService
   {
     private readonly IAccountRepository _accountRepository;
+    private readonly ICustomerRepository _customerRepository;
+    private readonly IClinicOwnerRepository _clinicOwnerRepository;
+    private readonly IDentistRepository _dentistRepository;
     private readonly TokenService _tokenService;
-    public AccountService(IAccountRepository accountRepository, TokenService tokenService)
+    public AccountService(IAccountRepository accountRepository, ICustomerRepository customerRepository,
+      IClinicOwnerRepository clinicOwnerRepository, IDentistRepository dentistRepository, TokenService tokenService)
     {
+      _dentistRepository = dentistRepository;
+      _customerRepository = customerRepository;
+      _clinicOwnerRepository = clinicOwnerRepository;
       _accountRepository = accountRepository;
       _tokenService = tokenService;
     }
@@ -34,7 +41,7 @@ namespace DentistryServices
       return null;
     }
 
-    public async Task<IdentityResult> RegisterAsync(RegisterDto registerDto)
+    public async Task<IdentityResult> RegisterCustomerAsync(RegisterCustomerDto registerDto)
     {
       var user = new User
       {
@@ -43,20 +50,65 @@ namespace DentistryServices
       };
       await _accountRepository.RegisterAsync(user, registerDto.Password);
       await _accountRepository.AssignRoleAsync(user, "Customer");
+
+      var customer = new Customer
+      {
+        Name = registerDto.Name,
+        Email = registerDto.Email,
+        PhoneNumber = registerDto.PhoneNumber,
+        DateOfBirth = registerDto.DateOfBirth,
+        Address = registerDto.Address,
+        Gender = registerDto.Gender,
+        Status = true
+      };
+      await _customerRepository.AddCustomerAsync(customer);
       return IdentityResult.Success;
     }
 
-    public async Task<IdentityResult> RegisterStaffAsync(RegisterDto registerDto)
+    public async Task<IdentityResult> RegisterClinicOwnerAsync(RegisterClinicOwnerDto registerDto)
     {
       var user = new User
       {
         UserName = registerDto.Username,
         Email = registerDto.Email
       };
+      await _accountRepository.RegisterAsync(user, registerDto.Password);
       await _accountRepository.AssignRoleAsync(user, "ClinicOwner");
-      return await _accountRepository.RegisterAsync(user, registerDto.Password);
+
+      var clinicOwner = new ClinicOwner
+      {
+        Name = registerDto.Name,
+        Email = registerDto.Email,
+        PhoneNumber = registerDto.PhoneNumber,
+        ClinicID = registerDto.ClinicID,
+        Status = true
+      };
+      await _clinicOwnerRepository.AddClinicOwnerAsync(clinicOwner);
+      return IdentityResult.Success;
     }
 
+    public async Task<IdentityResult> RegisterDentistAsync(RegisterDentistDto registerDto)
+    {
+      var user = new User
+      {
+        UserName = registerDto.Username,
+        Email = registerDto.Email
+      };
+
+      await _accountRepository.RegisterAsync(user, registerDto.Password);
+      await _accountRepository.AssignRoleAsync(user, "Dentist");
+
+      var dentist = new Dentist{
+        Name = registerDto.Name,
+        PhoneNumber = registerDto.PhoneNumber,
+        Specialization = registerDto.Specialization,
+        ClinicID = registerDto.ClinicID,
+        Status = true,
+      };
+
+      await _dentistRepository.AddDentistAsync(dentist);
+      return IdentityResult.Success;
+    }
     public async Task<UserDto> GetCurrentUser(string username)
     {
       var user = await _accountRepository.GetUserByUsernameAsync(username);
@@ -67,5 +119,7 @@ namespace DentistryServices
         Token = await _tokenService.GenerateToken(user)
       };
     }
+
+
   }
 }
