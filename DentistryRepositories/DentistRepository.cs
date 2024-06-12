@@ -31,12 +31,16 @@ namespace DentistryRepositories
 
     public async Task<IEnumerable<Dentist>> GetAllDentistsAsync()
     {
-        return await _context.Dentists.ToListAsync();
+        return await _context.Dentists
+        .Include(e => e.Clinic)
+        .ToListAsync();
     }
 
     public async Task<Dentist> GetDentistByIdAsync(int id)
     {
-        return await _context.Dentists.FindAsync(id);
+        return await _context.Dentists
+        .Include(e => e.Clinic)
+        .SingleOrDefaultAsync(e => e.DentistID == id);
     }
 
     public async Task UpdateDentistAsync(Dentist dentist)

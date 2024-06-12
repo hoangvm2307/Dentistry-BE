@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace prn_dentistry.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240611014415_updatedb")]
-    partial class updatedb
+    [Migration("20240612092628_newdb")]
+    partial class newdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -446,27 +446,33 @@ namespace prn_dentistry.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ebf436a0-4c0a-46ad-97b1-b47a7b96f6f7",
+                            Id = "edb4e15b-afaf-4946-b1bc-24a92bafb008",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "dce12e9d-5cfe-45bb-8853-3457a2870eab",
+                            Id = "5f2f0237-948f-469f-ac08-0ef11caef3be",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "dab1408b-df46-4261-8c60-bd17b47530ac",
+                            Id = "904b76c9-2735-4c0d-8d4d-775bb2a4f33a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a21d50fe-26bd-440e-87de-d9e0e9da2576",
+                            Id = "13320b37-700d-424d-8558-58299f4329e6",
                             Name = "ClinicOwner",
                             NormalizedName = "CLINICOWNER"
+                        },
+                        new
+                        {
+                            Id = "bdefe473-411b-4be7-ab77-bfc69f14b1e1",
+                            Name = "Dentist",
+                            NormalizedName = "DENTIST"
                         });
                 });
 

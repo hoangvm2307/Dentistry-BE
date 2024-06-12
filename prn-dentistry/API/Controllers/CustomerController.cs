@@ -22,7 +22,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<CustomerDto>> GetCustomer(int id)
+    public async Task<ActionResult<CustomerDto>> GetCustomerById(int id)
     {
       var customer = await _customerService.GetCustomerByIdAsync(id);
 
@@ -38,7 +38,7 @@ namespace prn_dentistry.API.Controllers
 
       var customer = await _customerService.CreateCustomerAsync(customerCreateDto);
 
-      return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerID }, customer);
+      return CreatedAtAction(nameof(GetCustomerById), new { id = customer.CustomerID }, customer);
     }
 
     [HttpPut("{id}")]
@@ -53,7 +53,7 @@ namespace prn_dentistry.API.Controllers
         return NotFound();
       }
 
-      return CreatedAtAction(nameof(GetCustomer), new { id = customer.CustomerID }, customer);
+      return CreatedAtAction(nameof(GetCustomerById), new { id = customer.CustomerID }, customer);
     }
 
     [HttpDelete("{id}")]

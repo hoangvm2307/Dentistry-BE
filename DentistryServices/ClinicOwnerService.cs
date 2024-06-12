@@ -29,6 +29,17 @@ namespace DentistryServices
       return _mapper.Map<ClinicOwnerDto>(clinicOwner);
     }
 
+    public async Task<IEnumerable<ClinicOwnerDto>> GetClinicOwnersByClinicIdAsync(int id)
+    {
+      var allClinicOwners = await _clinicOwnerRepository.GetAllClinicOwnersAsync();
+      var clinicOwners = allClinicOwners.Where(e => e.ClinicID == id);
+      if(clinicOwners == null)
+      {
+        throw new NullReferenceException("Clinic Owner object is null.");
+      }
+      return _mapper.Map<IEnumerable<ClinicOwnerDto>>(clinicOwners);
+    }
+
     public async Task<IEnumerable<ClinicOwnerDto>> GetClinicOwnersByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statuses)
     {
       var clinicOwner = await _clinicOwnerRepository.GetAllClinicOwnersAsync();

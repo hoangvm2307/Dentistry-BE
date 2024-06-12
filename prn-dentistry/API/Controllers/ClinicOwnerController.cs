@@ -21,7 +21,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinicOwners);
     }
 
-    [HttpGet("{id}/getById")]
+    [HttpGet("getById/{id}")]
     public async Task<ActionResult<ClinicOwnerDto>> GetClinicOwner(int id)
     {
       var clinicOwner = await _clinicOwnerService.GetClinicOwnerByIdAsync(id);
@@ -29,6 +29,13 @@ namespace prn_dentistry.API.Controllers
       if (clinicOwner == null)  return NotFound();
     
       return Ok(clinicOwner);
+    }
+
+    [HttpGet("/getByClinicId/{id}")]
+    public async Task<ActionResult<IEnumerable<ClinicOwnerDto>>> GetDentistsByClinicIdAsync(int id)
+    {
+      var clinicOwners = await _clinicOwnerService.GetClinicOwnersByClinicIdAsync(id);
+      return Ok(clinicOwners);
     }
 
     [HttpGet("getFilter")]
