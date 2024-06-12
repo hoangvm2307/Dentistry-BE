@@ -21,7 +21,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(dentists);
     }
 
-    [HttpGet("/getByClinicId/{id}")]
+    [HttpGet("/getDentistByClinicId/{id}")]
     public async Task<ActionResult<IEnumerable<DentistDto>>> GetDentistsByClinicIdAsync(int id)
     {
       var dentists = await _dentistService.GetDentistsByClinicIdAsync(id);

@@ -22,7 +22,7 @@ namespace DentistryRepositories
     {
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder builder) 
     {
       base.OnModelCreating(builder);
       builder.Entity<IdentityRole>()
@@ -30,7 +30,9 @@ namespace DentistryRepositories
               new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" },
               new IdentityRole { Name = "Guest", NormalizedName = "GUEST" },
               new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
-              new IdentityRole { Name = "ClinicOwner", NormalizedName = "CLINICOWNER" }
+              new IdentityRole { Name = "ClinicOwner", NormalizedName = "CLINICOWNER" },
+              new IdentityRole { Name = "Dentist", NormalizedName = "DENTIST" }
+
           );
       builder.Entity<Service>()
                  .Property(s => s.Price)
@@ -131,6 +133,7 @@ namespace DentistryRepositories
       builder.Entity<Dentist>()
           .HasOne(u => u.User)
           .WithOne(d => d.Dentist)
+          .HasForeignKey<Dentist>(d => d.Id)
           .HasConstraintName("FK_Dentist");
     }
 
