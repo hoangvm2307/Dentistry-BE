@@ -15,12 +15,16 @@ namespace DentistryRepositories
 
     public async Task<IEnumerable<ClinicOwner>> GetAllClinicOwnersAsync()
     {
-      return await _context.ClinicOwners.ToListAsync();
+      return await _context.ClinicOwners
+        .Include(e => e.Clinic)
+        .ToListAsync();
     }
 
     public async Task<ClinicOwner> GetClinicOwnerByIdAsync(int id)
     {
-      return await _context.ClinicOwners.FindAsync(id);
+      return await _context.ClinicOwners
+        .Include(e => e.Clinic)
+        .SingleOrDefaultAsync(e => e.OwnerID == id);
     }
 
     public async Task AddClinicOwnerAsync(ClinicOwner clinicOwner)

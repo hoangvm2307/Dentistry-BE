@@ -9,7 +9,9 @@ namespace prn_dentistry.API.Profiles
   {
     public DentistProfile()
     {
-      CreateMap<Dentist, DentistDto>();
+      CreateMap<Dentist, DentistDto>()
+        .ForMember(dest => dest.ClinicID, opt => opt.MapFrom(src => src.Clinic.ClinicID))
+        .ForMember(dest => dest.ClinicName, opt => opt.MapFrom(src => src.Clinic.Name));
       CreateMap<DentistCreateDto, Dentist>();
     }
   }

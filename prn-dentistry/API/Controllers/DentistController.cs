@@ -21,7 +21,14 @@ namespace prn_dentistry.API.Controllers
       return Ok(dentists);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("/getByClinicId/{id}")]
+    public async Task<ActionResult<IEnumerable<DentistDto>>> GetDentistsByClinicIdAsync(int id)
+    {
+      var dentists = await _dentistService.GetDentistsByClinicIdAsync(id);
+      return Ok(dentists);
+    }
+
+    [HttpGet("/getById/{id}")]
     public async Task<ActionResult<DentistDto>> GetDentistById(int id)
     {
       var dentist = await _dentistService.GetDentistByIdAsync(id);
@@ -32,7 +39,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("getFilter")]
-    public async Task<ActionResult<IEnumerable<DentistDto>>> GetClinicByStatus([FromQuery] List<int> ids,[FromQuery] List<bool> statuses)
+    public async Task<ActionResult<IEnumerable<DentistDto>>> GetDentistsByClinicIdAndStatusAsync([FromQuery] List<int> ids,[FromQuery] List<bool> statuses)
     {
       var dentist = await _dentistService.GetDentistsByClinicIdAndStatusAsync(ids, statuses);
 
