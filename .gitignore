@@ -58,14 +58,14 @@ Thumbs.db
 ehthumbs.db
 
 # Folder specific for your project
-BusinessObjects/obj/
-Dtos/obj/
-Repositories/obj/
-Services/obj/
-Controller/obj/
+DentistryBusinessObjects/obj/
+DTOs/obj/
+DentistryReositories/obj/
+DentistryServices/obj/
+prn-dentistry/obj/
 
-BusinessObjects/bin/
-Dtos/bin/
-Repositories/bin/
-Services/bin/
-Controller/bin/
+DentistryBusinessObjects/bin/
+DTOs/bin/
+DentistryReositories/bin/
+DentistryServices/bin/
+prn-dentistry/bin/
