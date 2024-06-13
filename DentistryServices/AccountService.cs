@@ -89,26 +89,38 @@ namespace DentistryServices
 
     public async Task<IdentityResult> RegisterDentistAsync(RegisterDentistDto registerDto)
     {
+      // Create the user
       var user = new User
       {
         UserName = registerDto.Username,
         Email = registerDto.Email
       };
 
-      await _accountRepository.RegisterAsync(user, registerDto.Password);
+      var userCreationResult = await _accountRepository.RegisterAsync(user, registerDto.Password);
+      if (!userCreationResult.Succeeded)
+      {
+        return userCreationResult;
+      }
+
+      // Assign the role to the user
       await _accountRepository.AssignRoleAsync(user, "Dentist");
 
-      var dentist = new Dentist{
+      // Create the Dentist entity and link it to the user
+      var dentist = new Dentist
+      {
+        Email = registerDto.Email,
         Name = registerDto.Name,
         PhoneNumber = registerDto.PhoneNumber,
         Specialization = registerDto.Specialization,
         ClinicID = registerDto.ClinicID,
         Status = true,
+        Id = user.Id // Link the Dentist to the User
       };
 
       await _dentistRepository.AddDentistAsync(dentist);
       return IdentityResult.Success;
     }
+
     public async Task<UserDto> GetCurrentUser(string username)
     {
       var user = await _accountRepository.GetUserByUsernameAsync(username);
