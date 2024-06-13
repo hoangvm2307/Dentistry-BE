@@ -26,8 +26,8 @@ namespace prn_dentistry.API.Controllers
     {
       var service = await _serviceService.GetServiceByIdAsync(id);
 
-      if (service == null)  return NotFound();
-    
+      if (service == null) return NotFound();
+
       return Ok(service);
     }
 
@@ -41,6 +41,21 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetService), new { id = service.ServiceID }, service);
     }
 
+    [HttpPost("batch")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> BatchCreateServices(BatchServiceCreateDto batchServiceCreateDto)
+    {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
+      var createdServices = new List<ServiceDto>();
+
+      foreach (var serviceCreateDto in batchServiceCreateDto.Services)
+      {
+        var service = await _serviceService.CreateServiceAsync(serviceCreateDto);
+        createdServices.Add(service);
+      }
+
+      return Ok(createdServices);
+    }
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateService(int id, ServiceUpdateDto serviceUpdateDto)
     {
