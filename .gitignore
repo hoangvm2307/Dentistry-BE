@@ -58,14 +58,20 @@ Thumbs.db
 ehthumbs.db
 
 # Folder specific for your project
-DentistryBusinessObjects/obj/
-DTOs/obj/
-DentistryReositories/obj/
-DentistryServices/obj/
-prn-dentistry/obj/
+DentistryBusinessObjects/obj/*
+DTOs/obj/*
+DentistryReositories/obj/*
+DentistryServices/obj/*
+prn-dentistry/obj/*
 
-DentistryBusinessObjects/bin/
-DTOs/bin/
-DentistryRepositories/bin/
-DentistryServices/bin/
-prn-dentistry/bin/
+DentistryBusinessObjects/bin/*
+DTOs/bin/*
+DentistryReositories/bin/*
+DentistryServices/bin/*
+prn-dentistry/bin/*
+
+# container related dir
+.container/*
+container/*
+
+out
