@@ -30,7 +30,9 @@ namespace DentistryRepositories
               new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" },
               new IdentityRole { Name = "Guest", NormalizedName = "GUEST" },
               new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
-              new IdentityRole { Name = "ClinicOwner", NormalizedName = "CLINICOWNER" }
+              new IdentityRole { Name = "ClinicOwner", NormalizedName = "CLINICOWNER" },
+              new IdentityRole { Name = "Dentist", NormalizedName = "DENTIST" }
+
           );
       builder.Entity<Service>()
                  .Property(s => s.Price)
@@ -131,9 +133,20 @@ namespace DentistryRepositories
       builder.Entity<Dentist>()
           .HasOne(u => u.User)
           .WithOne(d => d.Dentist)
+          .HasForeignKey<Dentist>(d => d.Id)
           .HasConstraintName("FK_Dentist");
+
+      builder.Entity<Customer>()
+      .HasOne(u => u.User)
+      .WithOne(d => d.Customer)
+      .HasForeignKey<Customer>(d => d.Id)
+      .HasConstraintName("FK_Customer");
+
+      builder.Entity<ClinicOwner>()
+      .HasOne(u => u.User)
+      .WithOne(d => d.ClinicOwner)
+      .HasForeignKey<ClinicOwner>(d => d.Id)
+      .HasConstraintName("FK_ClinicOwner");
     }
-
-
   }
 }

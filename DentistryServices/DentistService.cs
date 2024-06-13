@@ -9,6 +9,7 @@ namespace DentistryServices
     public class DentistService : IDentistService
   {
     private readonly IDentistRepository _dentistRepository;
+    private readonly IClinicRepository _clinicRepository;
     private readonly IMapper _mapper;
 
     public DentistService(IDentistRepository dentistRepository, IMapper mapper)
@@ -42,17 +43,35 @@ namespace DentistryServices
       {
         throw new NullReferenceException("Dentists object is null.");
       }
+
+      // foreach (Dentist dentist in dentists)
+      // {
+      //   dentist.Clinic = await _clinicRepository.GetClinicByIdAsync(dentist.ClinicID);
+      // }
+      return _mapper.Map<IEnumerable<DentistDto>>(dentists);
+    }
+
+    public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAsync(int id)
+    {
+      var allDentists = await _dentistRepository.GetAllDentistsAsync();
+      var dentists = allDentists.Where(e => e.ClinicID == id);
+      if(dentists == null)
+      {
+        throw new NullReferenceException("Dentists object is null.");
+      }
       return _mapper.Map<IEnumerable<DentistDto>>(dentists);
     }
 
     public async Task<DentistDto> GetDentistByIdAsync(int id)
     {
-      var dentists = await _dentistRepository.GetDentistByIdAsync(id);
-      if(dentists == null)
+      var dentist = await _dentistRepository.GetDentistByIdAsync(id);
+      if(dentist == null)
       {
         throw new NullReferenceException("Dentists object is null.");
       }
-      return _mapper.Map<DentistDto>(dentists);
+      dentist.Clinic = await _clinicRepository.GetClinicByIdAsync(dentist.ClinicID);
+
+      return _mapper.Map<DentistDto>(dentist);
     }
 
     public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues)
@@ -70,6 +89,11 @@ namespace DentistryServices
       if (clinicIds != null && statues != null)
       {
         dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID) && statues.Contains(dentist.Status));
+      }
+
+      foreach (Dentist dentist in dentists)
+      {
+        dentist.Clinic = await _clinicRepository.GetClinicByIdAsync(dentist.ClinicID);
       }
       
       return _mapper.Map<IEnumerable<DentistDto>>(dentists);
