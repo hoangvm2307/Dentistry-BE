@@ -9,7 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using prn_dentistry.API.Data;
 using prn_dentistry.API.Extensions;
-
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,24 +19,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-  var jwtSecurityScheme = new OpenApiSecurityScheme
-  {
-    BearerFormat = "JWT",
-    Name = "Authorization",
-    In = ParameterLocation.Header,
-    Type = SecuritySchemeType.ApiKey,
-    Scheme = JwtBearerDefaults.AuthenticationScheme,
-    Description = "Put Bearer + your token in the box below",
-    Reference = new OpenApiReference
+    var jwtSecurityScheme = new OpenApiSecurityScheme
     {
-      Id = JwtBearerDefaults.AuthenticationScheme,
-      Type = ReferenceType.SecurityScheme
-    }
-  };
+        BearerFormat = "JWT",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Put Bearer + your token in the box below",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
 
-  c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
 
-  c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             jwtSecurityScheme, Array.Empty<string>()
@@ -50,18 +51,17 @@ builder.Services.AddCors();
 builder.Services.AddControllers();
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DBContext>().AddDefaultTokenProviders();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-  .AddJwtBearer(options =>
-  {
-    options.TokenValidationParameters = new TokenValidationParameters
+    .AddJwtBearer(options =>
     {
-      ValidateIssuer = false,
-      ValidateAudience = false,
-      ValidateLifetime = true,
-      ValidateIssuerSigningKey = true,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.
-        GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
-    };
-  });
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
+        };
+    });
 builder.Services.AddAuthorization();
 builder.Services.AddAccountDependencyGroup();
 builder.Services.AddAppointmentDependencyGroup();
@@ -74,26 +74,48 @@ builder.Services.AddClinicOwnerDependencyGroup();
 builder.Services.AddCustomerDependencyGroup();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();
-  app.UseSwaggerUI(c =>
-  {
-    c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-  });
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+    });
 }
 
 app.UseHttpsRedirection();
 app.UseCors(opt =>
 {
-  opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
 });
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Serve static files from StaticFiles folder
+var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
+if (!Directory.Exists(staticFilesPath))
+{
+    Directory.CreateDirectory(staticFilesPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(staticFilesPath),
+    RequestPath = ""
+});
+
 app.MapControllers();
+
+// Serve the HTML file
+app.MapGet("/", async context =>
+{
+    context.Response.ContentType = "text/html";
+    await context.Response.SendFileAsync(Path.Combine(staticFilesPath, "index.html"));
+});
 
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DBContext>();
@@ -101,13 +123,13 @@ var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 try
 {
-  await context.Database.MigrateAsync();
-  await DBInitializer.Initialize(context, userManager);
+    await context.Database.MigrateAsync();
+    await DBInitializer.Initialize(context, userManager);
 }
 catch (Exception ex)
 {
-  logger.LogError(ex, "A problem occurred during migration");
+    logger.LogError(ex, "A problem occurred during migration");
 }
+
 app.MigrateDatabase<DBContext>().Run();
 app.Run();
-
