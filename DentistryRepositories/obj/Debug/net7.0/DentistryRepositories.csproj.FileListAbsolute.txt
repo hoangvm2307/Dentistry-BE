@@ -15,3 +15,21 @@ D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0
 D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DTOs.pdb
 D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\bin\Debug\net7.0\DentistryBusinessObjects.pdb
 D:\Learning\FPT Course\PRN221\PRN_Project\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.csproj.CopyComplete
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\bin\Debug\net7.0\DentistryRepositories.deps.json
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\bin\Debug\net7.0\DentistryRepositories.dll
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\bin\Debug\net7.0\DentistryRepositories.pdb
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\bin\Debug\net7.0\DentistryBusinessObjects.dll
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\bin\Debug\net7.0\DTOs.dll
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\bin\Debug\net7.0\DTOs.pdb
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\bin\Debug\net7.0\DentistryBusinessObjects.pdb
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.csproj.AssemblyReference.cache
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.GeneratedMSBuildEditorConfig.editorconfig
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.AssemblyInfoInputs.cache
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.AssemblyInfo.cs
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.csproj.CoreCompileInputs.cache
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.sourcelink.json
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\Dentistr.C8C26D71.Up2Date
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.dll
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\refint\DentistryRepositories.dll
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\DentistryRepositories.pdb
+D:\FPTU\SUM24\PRN221\Project\Dentistry-BE\DentistryRepositories\obj\Debug\net7.0\ref\DentistryRepositories.dll

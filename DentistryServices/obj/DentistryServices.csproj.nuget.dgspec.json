@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryServices\\DentistryServices.csproj": {}
+    "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryServices\\DentistryServices.csproj": {}
   },
   "projects": {
-    "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj": {
+    "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj",
+        "projectUniqueName": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj",
         "projectName": "DentistryBusinessObjects",
-        "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj",
-        "packagesPath": "C:\\Users\\hoangvmdeptrai\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\obj\\",
+        "projectPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryBusinessObjects\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\hoangvmdeptrai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -70,26 +80,44 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryRepositories\\DentistryRepositories.csproj": {
+    "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryRepositories\\DentistryRepositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryRepositories\\DentistryRepositories.csproj",
+        "projectUniqueName": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryRepositories\\DentistryRepositories.csproj",
         "projectName": "DentistryRepositories",
-        "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryRepositories\\DentistryRepositories.csproj",
-        "packagesPath": "C:\\Users\\hoangvmdeptrai\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryRepositories\\obj\\",
+        "projectPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryRepositories\\DentistryRepositories.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryRepositories\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\hoangvmdeptrai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -97,14 +125,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\DTOs.csproj": {
-                "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\DTOs.csproj"
+              "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DTOs\\DTOs.csproj": {
+                "projectPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DTOs\\DTOs.csproj"
               }
             }
           }
@@ -113,6 +142,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -129,26 +163,44 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryServices\\DentistryServices.csproj": {
+    "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryServices\\DentistryServices.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryServices\\DentistryServices.csproj",
+        "projectUniqueName": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryServices\\DentistryServices.csproj",
         "projectName": "DentistryServices",
-        "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryServices\\DentistryServices.csproj",
-        "packagesPath": "C:\\Users\\hoangvmdeptrai\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryServices\\obj\\",
+        "projectPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryServices\\DentistryServices.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryServices\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\hoangvmdeptrai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -156,14 +208,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryRepositories\\DentistryRepositories.csproj": {
-                "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryRepositories\\DentistryRepositories.csproj"
+              "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryRepositories\\DentistryRepositories.csproj": {
+                "projectPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryRepositories\\DentistryRepositories.csproj"
               }
             }
           }
@@ -172,6 +225,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -198,26 +256,44 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\DTOs.csproj": {
+    "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DTOs\\DTOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\DTOs.csproj",
+        "projectUniqueName": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DTOs\\DTOs.csproj",
         "projectName": "DTOs",
-        "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\DTOs.csproj",
-        "packagesPath": "C:\\Users\\hoangvmdeptrai\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DTOs\\obj\\",
+        "projectPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DTOs\\DTOs.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DTOs\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\hoangvmdeptrai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -225,14 +301,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj": {
-                "projectPath": "D:\\Learning\\FPT Course\\PRN221\\PRN_Project\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj"
+              "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj": {
+                "projectPath": "D:\\FPTU\\SUM24\\PRN221\\Project\\Dentistry-BE\\DentistryBusinessObjects\\DentistryBusinessObjects.csproj"
               }
             }
           }
@@ -241,6 +318,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -257,12 +339,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }
