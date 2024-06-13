@@ -1,5 +1,5 @@
 networks:
-  dev:
+  dentistry-be-network:
     driver: bridge
 
 services:
@@ -21,7 +21,7 @@ services:
     volumes:
       - ./container/db:/app/db
     networks:
-      - dev
+      - dentistry-be-network
 
   migration:
     # image: docker.io/library/dentistry-be
@@ -29,16 +29,13 @@ services:
       "app_db":
         condition: service_healthy
     container_name: prn-dentistry-migration
-    # ports:
-    #   - 3000:80
     build:
       context: .
       dockerfile: ./docker/migration/Dockerfile
     environment:
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
-      # - ASPNETCORE_URLS=http://+:80
     networks:
-      - dev
+      - dentistry-be-network
 
   web:
     # image: docker.io/library/dentistry-be
@@ -51,9 +48,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/web/Dockerfile
+    restart: always
     environment:
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
       - ASPNETCORE_URLS=http://+:80
     networks:
-      - dev
-  
+      - dentistry-be-network
