@@ -12,6 +12,7 @@ namespace DentistryBusinessObjects
     public string Email { get; set; }
     public DateTime OpeningHours { get; set; }
     public DateTime ClosingHours { get; set; }
+    public bool Status { get; set; }
     public List<ClinicOwner> ClinicOwners { get; set; }
     public List<Dentist> Dentists { get; set; }
     public List<ClinicSchedule> ClinicSchedules { get; set; }

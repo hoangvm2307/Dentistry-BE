@@ -1,5 +1,6 @@
 using System.Text;
 using DentistryBusinessObjects;
+using DentistryRepositories;
 using DentistryServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -48,7 +49,7 @@ builder.Services.AddDbContextPool<DBContext>(
 
 builder.Services.AddCors();
 builder.Services.AddControllers();
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DBContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DBContext>().AddDefaultTokenProviders();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
   .AddJwtBearer(options =>
   {
@@ -68,6 +69,10 @@ builder.Services.AddAppointmentDependencyGroup();
 builder.Services.AddTreatmentPlanDependencyGroup();
 builder.Services.AddServiceDependencyGroup();
 builder.Services.AddClinicScheduleDependencyGroup();
+builder.Services.AddDentistDependencyGroup();
+builder.Services.AddClinicDependencyGroup();
+builder.Services.AddClinicOwnerDependencyGroup();
+builder.Services.AddCustomerDependencyGroup();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
@@ -94,7 +99,7 @@ app.MapControllers();
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DBContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 try
 {
   await context.Database.MigrateAsync();
@@ -104,5 +109,6 @@ catch (Exception ex)
 {
   logger.LogError(ex, "A problem occurred during migration");
 }
+app.MigrateDatabase<DBContext>().Run();
 app.Run();
 

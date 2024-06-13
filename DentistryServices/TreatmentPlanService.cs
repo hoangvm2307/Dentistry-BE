@@ -1,6 +1,6 @@
 using AutoMapper;
 using DentistryRepositories;
-using DTOs.TreatmentPlanDto;
+using DTOs.TreatmentPlanDtos;
 using DentistryBusinessObjects;
 namespace DentistryServices
 {

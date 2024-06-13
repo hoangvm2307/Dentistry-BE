@@ -1,5 +1,5 @@
 using DentistryServices;
-using DTOs.TreatmentPlanDto;
+using DTOs.TreatmentPlanDtos;
 using Microsoft.AspNetCore.Mvc;
 
 

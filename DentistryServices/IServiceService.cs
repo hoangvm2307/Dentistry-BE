@@ -1,5 +1,5 @@
 
-using DTOs.ServiceDto;
+using DTOs.ServiceDtos;
 
 namespace DentistryServices
 {

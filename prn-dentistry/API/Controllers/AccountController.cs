@@ -1,8 +1,8 @@
 using DentistryServices;
-using DTOs.AccountDto;
+using DTOs.AccountDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
- 
+
 
 namespace prn_dentistry.API.Controllers
 {
@@ -15,12 +15,36 @@ namespace prn_dentistry.API.Controllers
       _accountService = accountService;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+    [HttpPost("register-customer")]
+    public async Task<IActionResult> RegisterCustomer([FromBody] RegisterCustomerDto registerDto)
     {
       if (registerDto == null || !ModelState.IsValid) return BadRequest("Invalid registration request");
 
-      var result = await _accountService.RegisterAsync(registerDto);
+      var result = await _accountService.RegisterCustomerAsync(registerDto);
+
+      if (result.Succeeded) return Ok("User registered successfully");
+
+      return BadRequest(result.Errors);
+    }
+
+    [HttpPost("register-clinicowner")]
+    public async Task<IActionResult> RegisterClinicOwner([FromBody] RegisterClinicOwnerDto registerDto)
+    {
+      if (registerDto == null || !ModelState.IsValid) return BadRequest("Invalid registration request");
+
+      var result = await _accountService.RegisterClinicOwnerAsync(registerDto);
+
+      if (result.Succeeded) return Ok("User registered successfully");
+
+      return BadRequest(result.Errors);
+    }
+
+    [HttpPost("register-dentist")]
+    public async Task<IActionResult> RegisterDentist([FromBody] RegisterDentistDto registerDto)
+    {
+      if (registerDto == null || !ModelState.IsValid) return BadRequest("Invalid registration request");
+
+      var result = await _accountService.RegisterDentistAsync(registerDto);
 
       if (result.Succeeded) return Ok("User registered successfully");
 

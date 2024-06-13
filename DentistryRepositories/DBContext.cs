@@ -1,12 +1,13 @@
+using DentistryBusinessObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
- 
 
-namespace DentistryBusinessObjects
+
+namespace DentistryRepositories
 {
-  public class DBContext : IdentityDbContext<IdentityUser>
-  { 
+  public class DBContext : IdentityDbContext<User>
+  {
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Clinic> Clinics { get; set; }
     public DbSet<ClinicOwner> ClinicOwners { get; set; }
@@ -16,18 +17,22 @@ namespace DentistryBusinessObjects
     public DbSet<Service> Services { get; set; }
     public DbSet<TreatmentPlan> TreatmentPlans { get; set; }
 
-     public DBContext(DbContextOptions<DBContext> options)
-           : base(options)
+    public DBContext(DbContextOptions<DBContext> options)
+          : base(options)
     {
     }
- 
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
       builder.Entity<IdentityRole>()
           .HasData(
               new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" },
-              new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" }
+              new IdentityRole { Name = "Guest", NormalizedName = "GUEST" },
+              new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+              new IdentityRole { Name = "ClinicOwner", NormalizedName = "CLINICOWNER" },
+              new IdentityRole { Name = "Dentist", NormalizedName = "DENTIST" }
+
           );
       builder.Entity<Service>()
                  .Property(s => s.Price)
@@ -124,8 +129,24 @@ namespace DentistryBusinessObjects
           .HasMany(d => d.ChatMessages)
           .WithOne(cm => cm.Receiver)
           .HasForeignKey(cm => cm.ReceiverID);
+
+      builder.Entity<Dentist>()
+          .HasOne(u => u.User)
+          .WithOne(d => d.Dentist)
+          .HasForeignKey<Dentist>(d => d.Id)
+          .HasConstraintName("FK_Dentist");
+
+      builder.Entity<Customer>()
+      .HasOne(u => u.User)
+      .WithOne(d => d.Customer)
+      .HasForeignKey<Customer>(d => d.Id)
+      .HasConstraintName("FK_Customer");
+
+      builder.Entity<ClinicOwner>()
+      .HasOne(u => u.User)
+      .WithOne(d => d.ClinicOwner)
+      .HasForeignKey<ClinicOwner>(d => d.Id)
+      .HasConstraintName("FK_ClinicOwner");
     }
-
-
   }
 }
