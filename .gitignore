@@ -69,3 +69,7 @@ DTOs/bin/*
 DentistryReositories/bin/*
 DentistryServices/bin/*
 prn-dentistry/bin/*
+
+# container related dir
+.container/*
+container/*
