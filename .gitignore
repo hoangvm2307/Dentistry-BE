@@ -73,3 +73,5 @@ prn-dentistry/bin/*
 # container related dir
 .container/*
 container/*
+
+out
