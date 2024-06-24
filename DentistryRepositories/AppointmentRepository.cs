@@ -46,18 +46,10 @@ namespace DentistryRepositories
 
     public async Task UpdateAppointmentAsync(Appointment appointment)
     {
-      _context.Appointments.Update(appointment);
+      // _context.Appointments.Update(appointment);
+      // await _context.SaveChangesAsync();
+      _context.Entry(appointment).State = EntityState.Modified;
       await _context.SaveChangesAsync();
-    }
-
-    Task<IEnumerable<Appointment>> IAppointmentRepository.GetAllAppointmentsAsync()
-    {
-      throw new NotImplementedException();
-    }
-
-    Task<Appointment> IAppointmentRepository.GetAppointmentByIdAsync(int id)
-    {
-      throw new NotImplementedException();
     }
 
 

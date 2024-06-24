@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace prn_dentistry.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240612092628_newdb")]
+    [Migration("20240613085123_newdb")]
     partial class newdb
     {
         /// <inheritdoc />
@@ -146,6 +146,10 @@ namespace prn_dentistry.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Id")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -160,6 +164,9 @@ namespace prn_dentistry.Migrations
                     b.HasKey("OwnerID");
 
                     b.HasIndex("ClinicID");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("ClinicOwners");
                 });
@@ -221,6 +228,10 @@ namespace prn_dentistry.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Id")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -233,6 +244,9 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("boolean");
 
                     b.HasKey("CustomerID");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -446,31 +460,31 @@ namespace prn_dentistry.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "edb4e15b-afaf-4946-b1bc-24a92bafb008",
+                            Id = "7c7334d9-508e-40cc-9de2-05913fe2e1a6",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "5f2f0237-948f-469f-ac08-0ef11caef3be",
+                            Id = "141694b3-cf45-4c13-ab70-9c00ba7ea7c1",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "904b76c9-2735-4c0d-8d4d-775bb2a4f33a",
+                            Id = "838a479b-acba-44c1-b404-51ff9092b89a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "13320b37-700d-424d-8558-58299f4329e6",
+                            Id = "47c08342-7938-4c40-88cf-56d7ad225ba8",
                             Name = "ClinicOwner",
                             NormalizedName = "CLINICOWNER"
                         },
                         new
                         {
-                            Id = "bdefe473-411b-4be7-ab77-bfc69f14b1e1",
+                            Id = "ba87a9a5-8b6e-4d2f-a957-15b536c6dac8",
                             Name = "Dentist",
                             NormalizedName = "DENTIST"
                         });
@@ -636,7 +650,16 @@ namespace prn_dentistry.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DentistryBusinessObjects.User", "User")
+                        .WithOne("ClinicOwner")
+                        .HasForeignKey("DentistryBusinessObjects.ClinicOwner", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ClinicOwner");
+
                     b.Navigation("Clinic");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DentistryBusinessObjects.ClinicSchedule", b =>
@@ -648,6 +671,18 @@ namespace prn_dentistry.Migrations
                         .IsRequired();
 
                     b.Navigation("Clinic");
+                });
+
+            modelBuilder.Entity("DentistryBusinessObjects.Customer", b =>
+                {
+                    b.HasOne("DentistryBusinessObjects.User", "User")
+                        .WithOne("Customer")
+                        .HasForeignKey("DentistryBusinessObjects.Customer", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Customer");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DentistryBusinessObjects.Dentist", b =>
@@ -774,6 +809,10 @@ namespace prn_dentistry.Migrations
 
             modelBuilder.Entity("DentistryBusinessObjects.User", b =>
                 {
+                    b.Navigation("ClinicOwner");
+
+                    b.Navigation("Customer");
+
                     b.Navigation("Dentist");
                 });
 #pragma warning restore 612, 618

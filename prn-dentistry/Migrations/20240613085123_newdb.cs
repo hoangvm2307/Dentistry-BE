@@ -73,25 +73,6 @@ namespace prn_dentistry.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    CustomerID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    Gender = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
                 {
@@ -214,6 +195,32 @@ namespace prn_dentistry.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    Gender = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
+                    table.ForeignKey(
+                        name: "FK_Customer",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClinicOwners",
                 columns: table => new
                 {
@@ -223,11 +230,18 @@ namespace prn_dentistry.Migrations
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
-                    ClinicID = table.Column<int>(type: "integer", nullable: false)
+                    ClinicID = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ClinicOwners", x => x.OwnerID);
+                    table.ForeignKey(
+                        name: "FK_ClinicOwner",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ClinicOwners_Clinics_ClinicID",
                         column: x => x.ClinicID,
@@ -392,11 +406,11 @@ namespace prn_dentistry.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "13320b37-700d-424d-8558-58299f4329e6", null, "ClinicOwner", "CLINICOWNER" },
-                    { "5f2f0237-948f-469f-ac08-0ef11caef3be", null, "Guest", "GUEST" },
-                    { "904b76c9-2735-4c0d-8d4d-775bb2a4f33a", null, "Admin", "ADMIN" },
-                    { "bdefe473-411b-4be7-ab77-bfc69f14b1e1", null, "Dentist", "DENTIST" },
-                    { "edb4e15b-afaf-4946-b1bc-24a92bafb008", null, "Customer", "CUSTOMER" }
+                    { "141694b3-cf45-4c13-ab70-9c00ba7ea7c1", null, "Guest", "GUEST" },
+                    { "47c08342-7938-4c40-88cf-56d7ad225ba8", null, "ClinicOwner", "CLINICOWNER" },
+                    { "7c7334d9-508e-40cc-9de2-05913fe2e1a6", null, "Customer", "CUSTOMER" },
+                    { "838a479b-acba-44c1-b404-51ff9092b89a", null, "Admin", "ADMIN" },
+                    { "ba87a9a5-8b6e-4d2f-a957-15b536c6dac8", null, "Dentist", "DENTIST" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -467,9 +481,21 @@ namespace prn_dentistry.Migrations
                 column: "ClinicID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClinicOwners_Id",
+                table: "ClinicOwners",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClinicSchedules_ClinicID",
                 table: "ClinicSchedules",
                 column: "ClinicID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_Id",
+                table: "Customers",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dentists_ClinicID",

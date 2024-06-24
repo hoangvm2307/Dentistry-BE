@@ -5,13 +5,15 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prn-dentistry", "prn-dentistry\prn-dentistry.csproj", "{0C5EE7BD-9EAC-44AA-8F70-E066DD312574}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentistryRepositories", "DentistryRepositories\DentistryRepositories.csproj", "{441DE73B-66FE-44BF-A7D6-1433A19A5FA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentistryRepositories", "DentistryRepositories\DentistryRepositories.csproj", "{441DE73B-66FE-44BF-A7D6-1433A19A5FA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentistryServices", "DentistryServices\DentistryServices.csproj", "{1F94AD05-BD3D-49DB-A17E-74351F7F3AAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentistryServices", "DentistryServices\DentistryServices.csproj", "{1F94AD05-BD3D-49DB-A17E-74351F7F3AAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{1EBA8E81-EF3B-4AA2-A630-E44F061DCAA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOs", "DTOs\DTOs.csproj", "{1EBA8E81-EF3B-4AA2-A630-E44F061DCAA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentistryBusinessObjects", "DentistryBusinessObjects\DentistryBusinessObjects.csproj", "{D142C9A3-F8B4-4339-BAF6-B550D339648C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentistryBusinessObjects", "DentistryBusinessObjects\DentistryBusinessObjects.csproj", "{D142C9A3-F8B4-4339-BAF6-B550D339648C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search", "Search\Search.csproj", "{60CEFD25-5E58-4245-B6FB-B2602C212324}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D142C9A3-F8B4-4339-BAF6-B550D339648C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D142C9A3-F8B4-4339-BAF6-B550D339648C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D142C9A3-F8B4-4339-BAF6-B550D339648C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60CEFD25-5E58-4245-B6FB-B2602C212324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CEFD25-5E58-4245-B6FB-B2602C212324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CEFD25-5E58-4245-B6FB-B2602C212324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CEFD25-5E58-4245-B6FB-B2602C212324}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
