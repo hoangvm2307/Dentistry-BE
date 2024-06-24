@@ -94,14 +94,14 @@ builder.Services.AddSingleton(provider =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
+// {
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-    });
-}
+    c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+});
+// }
 
 app.UseHttpsRedirection();
 app.UseCors(opt =>

@@ -19,35 +19,35 @@ services:
       retries: 10
     restart: always
     volumes:
-      - ./container/db:/app/db
+      - ./container-volumes/db:/app/db
     networks:
       - dentistry-be-network
 
   migration:
-    # image: docker.io/library/dentistry-be
+    image: markvovn/dentistry-be-migration:latest
     depends_on:
       "app_db":
         condition: service_healthy
     container_name: prn-dentistry-migration
-    build:
-      context: .
-      dockerfile: ./docker/migration/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/migration/Dockerfile
     environment:
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
     networks:
       - dentistry-be-network
 
   web:
-    # image: docker.io/library/dentistry-be
+    image: markvovn/dentistry-be-web:latest
     depends_on:
       "app_db":
         condition: service_healthy
     container_name: prn-dentistry-web
     ports:
       - 3000:80
-    build:
-      context: .
-      dockerfile: ./docker/web/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/web/Dockerfile
     restart: always
     environment:
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;

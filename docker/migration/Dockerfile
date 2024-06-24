@@ -25,7 +25,6 @@ RUN dotnet ef migrations bundle --force --project prn-dentistry -r linux-x64 --v
 FROM mcr.microsoft.com/dotnet/sdk:7.0
 WORKDIR /app
 COPY --from=migration-build-env /app/efbundle .
-COPY --from=migration-build-env /app/out .
 COPY --from=migration-build-env /app/Makefile .
 
 # Verify the presence of prn_project.dll

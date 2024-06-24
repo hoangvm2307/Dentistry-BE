@@ -10,4 +10,3 @@ rollback:
 update:
 	@echo "$${ConnectionStrings__DatabaseConnection}"
 	@./efbundle --connection "$${ConnectionStrings__ConnectionString}"
-	@tail -f /dev/null
