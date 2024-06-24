@@ -1,5 +1,6 @@
 
 
+using System.Transactions;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DTOs.AccountDtos;
@@ -43,82 +44,132 @@ namespace DentistryServices
 
     public async Task<IdentityResult> RegisterCustomerAsync(RegisterCustomerDto registerDto)
     {
-      var user = new User
+      using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
       {
-        UserName = registerDto.Username,
-        Email = registerDto.Email
-      };
-      await _accountRepository.RegisterAsync(user, registerDto.Password);
-      await _accountRepository.AssignRoleAsync(user, "Customer");
+        try
+        {
+          var user = new User
+          {
+            UserName = registerDto.Username,
+            Email = registerDto.Email
+          };
 
-      var customer = new Customer
-      {
-        Name = registerDto.Name,
-        Email = registerDto.Email,
-        PhoneNumber = registerDto.PhoneNumber,
-        DateOfBirth = registerDto.DateOfBirth,
-        Address = registerDto.Address,
-        Gender = registerDto.Gender,
-        Status = true
-      };
-      await _customerRepository.AddCustomerAsync(customer);
-      return IdentityResult.Success;
+          var userCreationResult = await _accountRepository.RegisterAsync(user, registerDto.Password);
+          if (!userCreationResult.Succeeded)
+          {
+            return userCreationResult;
+          }
+
+          await _accountRepository.AssignRoleAsync(user, "Customer");
+
+          var customer = new Customer
+          {
+            Id = user.Id,
+            Name = registerDto.Name,
+            Email = registerDto.Email,
+            PhoneNumber = registerDto.PhoneNumber,
+            DateOfBirth = registerDto.DateOfBirth,
+            Address = registerDto.Address,
+            Gender = registerDto.Gender,
+            Status = true
+          };
+          await _customerRepository.AddCustomerAsync(customer);
+
+          transaction.Complete();
+
+          return IdentityResult.Success;
+        }
+        catch (Exception)
+        {
+          return IdentityResult.Failed(new IdentityError { Description = "An error occurred while registering the customer." });
+        }
+      }
     }
 
     public async Task<IdentityResult> RegisterClinicOwnerAsync(RegisterClinicOwnerDto registerDto)
     {
-      var user = new User
+      using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
       {
-        UserName = registerDto.Username,
-        Email = registerDto.Email
-      };
-      await _accountRepository.RegisterAsync(user, registerDto.Password);
-      await _accountRepository.AssignRoleAsync(user, "ClinicOwner");
+        try
+        {
+          var user = new User
+          {
+            UserName = registerDto.Username,
+            Email = registerDto.Email
+          };
 
-      var clinicOwner = new ClinicOwner
-      {
-        Name = registerDto.Name,
-        Email = registerDto.Email,
-        PhoneNumber = registerDto.PhoneNumber,
-        ClinicID = registerDto.ClinicID,
-        Status = true
-      };
-      await _clinicOwnerRepository.AddClinicOwnerAsync(clinicOwner);
-      return IdentityResult.Success;
+          var userCreationResult = await _accountRepository.RegisterAsync(user, registerDto.Password);
+          if (!userCreationResult.Succeeded)
+          {
+            return userCreationResult;
+          }
+
+          await _accountRepository.AssignRoleAsync(user, "ClinicOwner");
+
+          var clinicOwner = new ClinicOwner
+          {
+            Id = user.Id,
+            Name = registerDto.Name,
+            Email = registerDto.Email,
+            PhoneNumber = registerDto.PhoneNumber,
+            ClinicID = registerDto.ClinicID,
+            Status = true
+          };
+          await _clinicOwnerRepository.AddClinicOwnerAsync(clinicOwner);
+
+          transaction.Complete();
+
+          return IdentityResult.Success;
+        }
+        catch (Exception)
+        {
+          return IdentityResult.Failed(new IdentityError { Description = "An error occurred while registering the clinic owner." });
+        }
+      }
     }
 
     public async Task<IdentityResult> RegisterDentistAsync(RegisterDentistDto registerDto)
     {
-      // Create the user
-      var user = new User
+      using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
       {
-        UserName = registerDto.Username,
-        Email = registerDto.Email
-      };
+        try
+        {
+          var user = new User
+          {
+            UserName = registerDto.Username,
+            Email = registerDto.Email
+          };
 
-      var userCreationResult = await _accountRepository.RegisterAsync(user, registerDto.Password);
-      if (!userCreationResult.Succeeded)
-      {
-        return userCreationResult;
+          var userCreationResult = await _accountRepository.RegisterAsync(user, registerDto.Password);
+          if (!userCreationResult.Succeeded)
+          {
+            return userCreationResult;
+          }
+
+          await _accountRepository.AssignRoleAsync(user, "Dentist");
+
+          var dentist = new Dentist
+          {
+            Email = registerDto.Email,
+            Name = registerDto.Name,
+            PhoneNumber = registerDto.PhoneNumber,
+            Specialization = registerDto.Specialization,
+            ClinicID = registerDto.ClinicID,
+            Status = true,
+            Id = user.Id
+          };
+
+          await _dentistRepository.AddDentistAsync(dentist);
+
+          transaction.Complete();
+
+          return IdentityResult.Success;
+        }
+        catch (Exception)
+        {
+          return IdentityResult.Failed(new IdentityError { Description = "An error occurred while registering the dentist." });
+        }
       }
-
-      // Assign the role to the user
-      await _accountRepository.AssignRoleAsync(user, "Dentist");
-
-      // Create the Dentist entity and link it to the user
-      var dentist = new Dentist
-      {
-        Email = registerDto.Email,
-        Name = registerDto.Name,
-        PhoneNumber = registerDto.PhoneNumber,
-        Specialization = registerDto.Specialization,
-        ClinicID = registerDto.ClinicID,
-        Status = true,
-        Id = user.Id // Link the Dentist to the User
-      };
-
-      await _dentistRepository.AddDentistAsync(dentist);
-      return IdentityResult.Success;
     }
 
     public async Task<UserDto> GetCurrentUser(string username)

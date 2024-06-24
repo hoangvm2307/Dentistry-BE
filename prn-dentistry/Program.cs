@@ -11,9 +11,10 @@ using prn_dentistry.API.Data;
 using prn_dentistry.API.Extensions;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
+using Search;
 
 var builder = WebApplication.CreateBuilder(args);
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -73,8 +74,22 @@ builder.Services.AddDentistDependencyGroup();
 builder.Services.AddClinicDependencyGroup();
 builder.Services.AddClinicOwnerDependencyGroup();
 builder.Services.AddCustomerDependencyGroup();
+builder.Services.AddSearchDependencyGroup();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+ 
+builder.Services.AddScoped<ILuceneSearcherService>(provider =>
+{
+    var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
+    return new LuceneSearcherService(indexPath);
+});
+
+
+builder.Services.AddSingleton(provider =>
+{
+    var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
+    return new LuceneIndexer(indexPath);
+});
 
 var app = builder.Build();
 
@@ -120,12 +135,14 @@ app.MapGet("/", async context =>
 
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DBContext>();
+var luceneIndexer = scope.ServiceProvider.GetRequiredService<LuceneIndexer>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 try
 {
     await context.Database.MigrateAsync();
     await DBInitializer.Initialize(context, userManager);
+    await SearchIndexInitializer.Initialize(context, luceneIndexer); 
 }
 catch (Exception ex)
 {

@@ -47,6 +47,8 @@ namespace prn_dentistry.API.Controllers
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAppointment(int id, AppointmentUpdateDto appointmentUpdateDto)
     {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
       var appointment = await _appointmentService.UpdateAppointmentAsync(id, appointmentUpdateDto);
 
       if (appointment == null) return NotFound();
