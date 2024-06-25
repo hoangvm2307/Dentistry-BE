@@ -9,10 +9,10 @@ namespace DentistryServices
     public class ClinicService : IClinicService
   {
     private readonly IClinicRepository _clinicRepository;
-    private readonly IDentistRepository _dentistRepository;
+    private readonly IBaseRepository<Dentist> _dentistRepository;
     private readonly IMapper _mapper;
 
-    public ClinicService(IClinicRepository clinicRepository, IDentistRepository dentistRepository, IMapper mapper)
+    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper)
     {
       _clinicRepository = clinicRepository;
       _dentistRepository = dentistRepository;
@@ -54,7 +54,7 @@ namespace DentistryServices
       {
         throw new NullReferenceException("Clinics object is null.");
       }
-      var list = await _dentistRepository.GetAllDentistsAsync();
+      var list = await _dentistRepository.GetAllAsync();
       clinic.Dentists = list?.Where(e => e.ClinicID == clinic.ClinicID).ToList();
 
       return _mapper.Map<ClinicDto>(clinic);

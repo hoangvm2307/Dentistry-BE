@@ -4,6 +4,7 @@ using DTOs.SearchDtos;
 using DTOs.ServiceDtos;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
+using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
@@ -12,146 +13,155 @@ using Lucene.Net.Util;
 
 namespace Search
 {
-  public class LuceneSearcherService : ILuceneSearcherService
-  {
-    private readonly Lucene.Net.Store.Directory _indexDirectory;
-    private readonly Analyzer _analyzer;
-
-    public LuceneSearcherService(string indexPath)
+    public class LuceneSearcherService : ILuceneSearcherService
     {
-      _indexDirectory = FSDirectory.Open(new DirectoryInfo(indexPath));
-      _analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
-    }
+        private readonly Lucene.Net.Store.Directory _indexDirectory;
+        private readonly Analyzer _analyzer;
 
-    public async Task<SearchResultDto> SearchAsync(string queryText)
-{
-    try
-    {
-        using var reader = DirectoryReader.Open(_indexDirectory);
-        var searcher = new IndexSearcher(reader);
-
-        var parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48, new[] { "Name", "DentistName", "Address", "PhoneNumber" }, _analyzer);
-        var query = parser.Parse(queryText);
-
-        var hits = searcher.Search(query, 5).ScoreDocs;
-
-        var clinics = new List<ClinicDto>();
-        var dentists = new List<DentistDto>();
-        var services = new List<ServiceDto>();
-
-        var seenIds = new HashSet<string>();
-
-        foreach (var hit in hits)
+        public LuceneSearcherService(string indexPath)
         {
-            var doc = searcher.Doc(hit.Doc);
-            var type = doc.Get("Type");
+            _indexDirectory = FSDirectory.Open(new DirectoryInfo(indexPath));
+            _analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
+        }
 
-            if (type == "Clinic")
+        public async Task<SearchResultDto> SearchAsync(string queryText)
+        {
+            try
             {
-                var clinicId = doc.Get("ClinicId");
-                var address = doc.Get("Address");
-                var phoneNumber = doc.Get("PhoneNumber");
-                var email = doc.Get("Email");
-                var name = doc.Get("Name");
+                using var reader = DirectoryReader.Open(_indexDirectory);
+                var searcher = new IndexSearcher(reader);
 
-                var clinicDto = new ClinicDto
+                var parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48, new[] { "Name", "DentistName", "Address", "PhoneNumber" }, _analyzer);
+                var query = parser.Parse(queryText);
+
+                var hits = searcher.Search(query, 1000).ScoreDocs;
+
+                var clinics = new List<ClinicDto>();
+                var dentists = new List<DentistDto>();
+                var services = new List<ServiceDto>();
+
+                var seenClinicIds = new HashSet<string>();
+                var seenDentistIds = new HashSet<string>();
+
+                foreach (var hit in hits)
                 {
-                    ClinicID = int.Parse(clinicId),
-                    Name = name,
-                    Address = address,
-                    PhoneNumber = phoneNumber,
-                    Email = email,
-                    Dentists = new List<DentistDto>() // Initialize the list of dentists
+                    var doc = searcher.Doc(hit.Doc);
+                    var type = doc.Get("Type");
+
+                    switch (type)
+                    {
+                        case "Clinic":
+                            ProcessClinic(doc, searcher, clinics, seenClinicIds, seenDentistIds);
+                            break;
+                        case "Service":
+                            ProcessService(doc, services);
+                            break;
+                        case "Dentist":
+                            ProcessDentist(doc, dentists, seenDentistIds);
+                            break;
+                        default:
+                            Console.WriteLine($"Unknown type: {type}");
+                            break;
+                    }
+                }
+
+                return new SearchResultDto
+                {
+                    Clinics = clinics,
+                    Dentists = dentists,
+                    Services = services
                 };
-
-                // Query to find dentists working at this clinic
-                var dentistQuery = new TermQuery(new Term("ClinicId", clinicId));
-                var dentistHits = searcher.Search(dentistQuery, 10).ScoreDocs;
-
-                foreach (var dentistHit in dentistHits)
-                {
-                    var dentistDoc = searcher.Doc(dentistHit.Doc);
-                    var dentistIdString = dentistDoc.Get("DentistId");
-                    var dentistPhoneNumber = dentistDoc.Get("DentistPhoneNumber");
-                    var dentistName = dentistDoc.Get("Name");
-                    var dentistClinicId = dentistDoc.Get("ClinicId");
-
-                    if (!string.IsNullOrEmpty(dentistIdString))
-                    {
-                        clinicDto.Dentists.Add(new DentistDto
-                        {
-                            Id = dentistIdString,
-                            Name = dentistName,
-                            ClinicID = int.Parse(dentistClinicId),
-                            PhoneNumber = dentistPhoneNumber
-                        });
-                    }
-                    else
-                    {
-                        // Log error message or handle invalid dentistIdString
-                        Console.WriteLine($"Error parsing DentistId '{dentistIdString}' to integer.");
-                    }
-                }
-
-                clinics.Add(clinicDto);
             }
-            else if (type == "Service")
+            catch (Exception ex)
             {
-                var serviceClinicIdString = doc.Get("ClinicId");
-                var serviceId = doc.Get("ServiceId");
-                var name = doc.Get("Name");
-                if (int.TryParse(serviceClinicIdString, out int serviceClinicId))
-                {
-                    services.Add(new ServiceDto { ServiceID = int.Parse(serviceId), Name = name, ClinicID = serviceClinicId });
-                }
-            }
-            else if (type == "Dentist")
-            {
-                var dentistIdString = doc.Get("DentistId");
-                var clinicIdString = doc.Get("ClinicId");
-                if (!string.IsNullOrEmpty(dentistIdString))
-                {
-                    var dentistPhoneNumber = doc.Get("DentistPhoneNumber");
-                    var dentistName = doc.Get("Name");
-                    dentists.Add(new DentistDto
-                    {
-                        Id = dentistIdString,
-                        Name = dentistName,
-                        ClinicID = int.Parse(clinicIdString),
-                        PhoneNumber = dentistPhoneNumber
-                    });
-                }
-                else
-                {
-                    // Log error message or handle invalid dentistIdString
-                    Console.WriteLine($"Error parsing DentistId '{dentistIdString}' to integer.");
-                }
-            }
-            else
-            {
-                // Log error message or handle empty idString
-                Console.WriteLine($"Id is null or empty for type {type}.");
+                Console.WriteLine($"Error searching Lucene index: {ex.Message}");
+                throw;
             }
         }
 
-        return new SearchResultDto
+        private void ProcessClinic(Document doc, IndexSearcher searcher, List<ClinicDto> clinics, HashSet<string> seenClinicIds, HashSet<string> seenDentistIds)
         {
-            Clinics = clinics,
-            Dentists = dentists,
-            Services = services
-        };
+            var clinicIdString = doc.Get("ClinicId");
+
+            if (int.TryParse(clinicIdString, out int clinicId) && !seenClinicIds.Contains(clinicIdString))
+            {
+                seenClinicIds.Add(clinicIdString);
+
+                var clinicDto = new ClinicDto
+                {
+                    ClinicID = clinicId,
+                    Name = doc.Get("Name"),
+                    Address = doc.Get("Address"),
+                    PhoneNumber = doc.Get("PhoneNumber"),
+                    Email = doc.Get("Email"),
+                    Dentists = GetDentistsForClinic(searcher, clinicIdString, seenDentistIds)
+                };
+
+                clinics.Add(clinicDto);
+            }
+        }
+
+        private List<DentistDto> GetDentistsForClinic(IndexSearcher searcher, string clinicIdString, HashSet<string> seenDentistIds)
+        {
+            var dentistQuery = new TermQuery(new Term("ClinicId", clinicIdString));
+            var dentistHits = searcher.Search(dentistQuery, 1000).ScoreDocs;
+
+            var dentists = new List<DentistDto>();
+
+            foreach (var dentistHit in dentistHits)
+            {
+                var dentistDoc = searcher.Doc(dentistHit.Doc);
+                var dentistIdString = dentistDoc.Get("DentistId");
+
+                if (!seenDentistIds.Contains(dentistIdString) && !string.IsNullOrEmpty(dentistIdString))
+                {
+                    seenDentistIds.Add(dentistIdString);
+
+                    var dentistDto = new DentistDto
+                    {
+                        Id = dentistIdString,
+                        Name = dentistDoc.Get("Name"),
+                        ClinicID = int.Parse(dentistDoc.Get("ClinicId")),
+                        PhoneNumber = dentistDoc.Get("DentistPhoneNumber")
+                    };
+
+                    dentists.Add(dentistDto);
+                }
+            }
+
+            return dentists;
+        }
+
+        private void ProcessService(Document doc, List<ServiceDto> services)
+        {
+            var serviceClinicIdString = doc.Get("ClinicId");
+            if (int.TryParse(serviceClinicIdString, out int serviceClinicId))
+            {
+                services.Add(new ServiceDto
+                {
+                    ServiceID = int.Parse(doc.Get("ServiceId")),
+                    Name = doc.Get("Name"),
+                    ClinicID = serviceClinicId
+                });
+            }
+        }
+
+        private void ProcessDentist(Document doc, List<DentistDto> dentists, HashSet<string> seenDentistIds)
+        {
+            var dentistIdString = doc.Get("DentistId");
+
+            if (!seenDentistIds.Contains(dentistIdString) && !string.IsNullOrEmpty(dentistIdString))
+            {
+                seenDentistIds.Add(dentistIdString);
+
+                dentists.Add(new DentistDto
+                {
+                    Id = dentistIdString,
+                    Name = doc.Get("Name"),
+                    ClinicID = int.Parse(doc.Get("ClinicId")),
+                    PhoneNumber = doc.Get("DentistPhoneNumber")
+                });
+            }
+        }
     }
-    catch (Exception ex)
-    {
-        // Log the exception message
-        Console.WriteLine($"Error searching Lucene index: {ex.Message}");
-        throw;
-    }
-}
-
-
-
-
-
-  }
 }

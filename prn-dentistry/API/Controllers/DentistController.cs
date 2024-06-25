@@ -1,3 +1,7 @@
+using System.Diagnostics;
+using System.Linq.Expressions;
+using DentistryBusinessObjects;
+using DentistryRepositories;
 using DentistryServices;
 using DTOs.DentistDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -5,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace prn_dentistry.API.Controllers
 {
-    public class DentistController : BaseApiController
+  public class DentistController : BaseApiController
   {
     private readonly IDentistService _dentistService;
 
@@ -15,10 +19,17 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<DentistDto>>> GetAllDentists()
+    public async Task<ActionResult<IEnumerable<DentistDto>>> GetAllDentists([FromQuery] Dictionary<string, int> param)
     {
       var dentists = await _dentistService.GetAllDentistsAsync();
+
       return Ok(dentists);
+    }
+    [HttpGet("paged")]
+    public async Task<ActionResult<PaginatedList<DentistDto>>> GetPagedDentists([FromQuery] DentistRequestQueryParams queryParams)
+    {
+      var pagedDentists = await _dentistService.GetPagedDentistsAsync(queryParams);
+      return Ok(pagedDentists);
     }
 
     [HttpGet("/getDentistByClinicId/{id}")]
@@ -33,18 +44,18 @@ namespace prn_dentistry.API.Controllers
     {
       var dentist = await _dentistService.GetDentistByIdAsync(id);
 
-      if (dentist == null)  return NotFound();
-    
+      if (dentist == null) return NotFound();
+
       return Ok(dentist);
     }
 
     [HttpGet("getFilter")]
-    public async Task<ActionResult<IEnumerable<DentistDto>>> GetDentistsByClinicIdAndStatusAsync([FromQuery] List<int> ids,[FromQuery] List<bool> statuses)
+    public async Task<ActionResult<IEnumerable<DentistDto>>> GetDentistsByClinicIdAndStatusAsync([FromQuery] List<int> ids, [FromQuery] List<bool> statuses)
     {
       var dentist = await _dentistService.GetDentistsByClinicIdAndStatusAsync(ids, statuses);
 
-      if (dentist == null)  return NotFound();
-    
+      if (dentist == null) return NotFound();
+
       return Ok(dentist);
     }
 
@@ -63,9 +74,12 @@ namespace prn_dentistry.API.Controllers
       if (!ModelState.IsValid) return BadRequest(ModelState);
       var dentist = new DentistDto();
 
-      try {
+      try
+      {
         dentist = await _dentistService.UpdateDentistAsync(id, dentistDto);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 
@@ -75,9 +89,12 @@ namespace prn_dentistry.API.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteService(int id)
     {
-      try {
+      try
+      {
         await _dentistService.DeleteDentistAsync(id);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 
