@@ -2,6 +2,7 @@ using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DTOs.ClinicOwnerDtos;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace DentistryServices
@@ -44,15 +45,15 @@ namespace DentistryServices
     {
       var clinicOwner = await _clinicOwnerRepository.GetAllClinicOwnersAsync();
 
-      if (clinicIds != null){
+      if (!clinicIds.IsNullOrEmpty()){
         clinicOwner = clinicOwner.Where(clinicOwner => clinicIds.Contains(clinicOwner.ClinicID));
       }
 
-      if (statuses != null){
+      if (!statuses.IsNullOrEmpty()){
         clinicOwner = clinicOwner.Where(clinicOwner => statuses.Contains(clinicOwner.Status));
       }
 
-      if (clinicIds != null && statuses != null)
+      if (!clinicIds.IsNullOrEmpty() && !statuses.IsNullOrEmpty())
       {
         clinicOwner = clinicOwner.Where(clinicOwner => clinicIds.Contains(clinicOwner.ClinicID) && statuses.Contains(clinicOwner.Status));
       }

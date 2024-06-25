@@ -113,7 +113,7 @@ namespace DentistryServices
             Email = registerDto.Email,
             PhoneNumber = registerDto.PhoneNumber,
             ClinicID = registerDto.ClinicID,
-            Status = true
+            Status = registerDto.Status
           };
           await _clinicOwnerRepository.AddClinicOwnerAsync(clinicOwner);
 
@@ -155,7 +155,7 @@ namespace DentistryServices
             PhoneNumber = registerDto.PhoneNumber,
             Specialization = registerDto.Specialization,
             ClinicID = registerDto.ClinicID,
-            Status = true,
+            Status = registerDto.Status,
             Id = user.Id
           };
 

@@ -3,6 +3,7 @@ using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DTOs.DentistDtos;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace DentistryServices
@@ -44,11 +45,6 @@ namespace DentistryServices
       {
         throw new NullReferenceException("Dentists object is null.");
       }
-
-      // foreach (Dentist dentist in dentists)
-      // {
-      //   dentist.Clinic = await _clinicRepository.GetClinicByIdAsync(dentist.ClinicID);
-      // }
       return _mapper.Map<IEnumerable<DentistDto>>(dentists);
     }
 
@@ -79,17 +75,15 @@ namespace DentistryServices
     {
       var dentists = await _dentistRepository.GetAllAsync();
 
-      if (clinicIds != null)
-      {
+      if (!clinicIds.IsNullOrEmpty()){
         dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID));
       }
 
-      if (statues != null)
-      {
+      if (!statues.IsNullOrEmpty()){
         dentists = dentists.Where(dentist => statues.Contains(dentist.Status));
       }
 
-      if (clinicIds != null && statues != null)
+      if (!clinicIds.IsNullOrEmpty() && !statues.IsNullOrEmpty())
       {
         dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID) && statues.Contains(dentist.Status));
       }
