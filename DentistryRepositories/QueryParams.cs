@@ -4,7 +4,7 @@ public class DentistRequestQueryParams
   public int PageSize { get; set; } = 10;
   public string? Filter { get; set; }
   public SortField? Sort { get; set; }
- 
+  public string Search { get; set; }
 }
 
 public class SortField

@@ -13,10 +13,10 @@ namespace DentistryServices
     private readonly IAccountRepository _accountRepository;
     private readonly ICustomerRepository _customerRepository;
     private readonly IClinicOwnerRepository _clinicOwnerRepository;
-    private readonly IDentistRepository _dentistRepository;
+    private readonly IBaseRepository<Dentist> _dentistRepository;
     private readonly TokenService _tokenService;
     public AccountService(IAccountRepository accountRepository, ICustomerRepository customerRepository,
-      IClinicOwnerRepository clinicOwnerRepository, IDentistRepository dentistRepository, TokenService tokenService)
+      IClinicOwnerRepository clinicOwnerRepository, IBaseRepository<Dentist> dentistRepository, TokenService tokenService)
     {
       _dentistRepository = dentistRepository;
       _customerRepository = customerRepository;
@@ -159,7 +159,7 @@ namespace DentistryServices
             Id = user.Id
           };
 
-          await _dentistRepository.AddDentistAsync(dentist);
+          await _dentistRepository.AddAsync(dentist);
 
           transaction.Complete();
 

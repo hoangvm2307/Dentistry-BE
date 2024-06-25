@@ -9,11 +9,11 @@ namespace DentistryServices
 {
   public class DentistService : IDentistService
   {
-    private readonly IDentistRepository _dentistRepository;
+    private readonly IBaseRepository<Dentist> _dentistRepository;
     private readonly IClinicRepository _clinicRepository;
     private readonly IMapper _mapper;
 
-    public DentistService(IDentistRepository dentistRepository, IMapper mapper)
+    public DentistService(IBaseRepository<Dentist> dentistRepository, IMapper mapper)
     {
       _dentistRepository = dentistRepository;
       _mapper = mapper;
@@ -22,24 +22,24 @@ namespace DentistryServices
     public async Task<DentistDto> AddDentistAsync(DentistCreateDto dentistDto)
     {
       var dentist = _mapper.Map<Dentist>(dentistDto);
-      await _dentistRepository.AddDentistAsync(dentist);
+      await _dentistRepository.AddAsync(dentist);
       return _mapper.Map<DentistDto>(dentist);
     }
 
     public async Task DeleteDentistAsync(int id)
     {
-      var dentist = await _dentistRepository.GetDentistByIdAsync(id);
+      var dentist = await _dentistRepository.GetByIdAsync(id);
       if (dentist == null)
       {
         throw new NullReferenceException("Dentist object is null.");
       }
 
-      await _dentistRepository.DeleteDentistAsync(id);
+      await _dentistRepository.DeleteAsync(id);
     }
 
     public async Task<IEnumerable<DentistDto>> GetAllDentistsAsync()
     {
-      var dentists = await _dentistRepository.GetAllDentistsAsync();
+      var dentists = await _dentistRepository.GetAllAsync();
       if (dentists == null)
       {
         throw new NullReferenceException("Dentists object is null.");
@@ -54,7 +54,7 @@ namespace DentistryServices
 
     public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAsync(int id)
     {
-      var allDentists = await _dentistRepository.GetAllDentistsAsync();
+      var allDentists = await _dentistRepository.GetAllAsync();
       var dentists = allDentists.Where(e => e.ClinicID == id);
       if (dentists == null)
       {
@@ -65,7 +65,7 @@ namespace DentistryServices
 
     public async Task<DentistDto> GetDentistByIdAsync(int id)
     {
-      var dentist = await _dentistRepository.GetDentistByIdAsync(id);
+      var dentist = await _dentistRepository.GetByIdAsync(id);
       if (dentist == null)
       {
         throw new NullReferenceException("Dentists object is null.");
@@ -77,7 +77,7 @@ namespace DentistryServices
 
     public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues)
     {
-      var dentists = await _dentistRepository.GetAllDentistsAsync();
+      var dentists = await _dentistRepository.GetAllAsync();
 
       if (clinicIds != null)
       {
@@ -104,14 +104,14 @@ namespace DentistryServices
 
     public async Task<DentistDto> UpdateDentistAsync(int id, DentistCreateDto dentistDto)
     {
-      var dentist = await _dentistRepository.GetDentistByIdAsync(id);
+      var dentist = await _dentistRepository.GetByIdAsync(id);
       if (dentist == null)
       {
         throw new NullReferenceException("Dentist object is null.");
       }
 
       _mapper.Map(dentistDto, dentist);
-      await _dentistRepository.UpdateDentistAsync(dentist);
+      await _dentistRepository.UpdateAsync(dentist);
       return _mapper.Map<DentistDto>(dentist);
     }
 
@@ -120,11 +120,23 @@ namespace DentistryServices
       Expression<Func<Dentist, bool>> filterExpression = null;
       if (!string.IsNullOrEmpty(queryParams.Filter))
       {
-        filterExpression = e => e.Name.Contains(queryParams.Filter);
+        filterExpression = e => e.Clinic.Name.Contains(queryParams.Filter);
       }
-
+      if (!string.IsNullOrEmpty(queryParams.Search))
+      {
+        string searchLower = queryParams.Search.ToLower();
+        Expression<Func<Dentist, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
+        if (filterExpression != null)
+        {
+          filterExpression = filterExpression.AndAlso(searchExpression);
+        }
+        else
+        {
+          filterExpression = searchExpression;
+        }
+      }
       Func<IQueryable<Dentist>, IOrderedQueryable<Dentist>> orderBy = null;
-      if (queryParams.Sort.Key != null)
+      if (queryParams.Sort != null)
       {
         switch (queryParams.Sort.Key)
         {
@@ -144,7 +156,7 @@ namespace DentistryServices
         orderBy = q => q.OrderBy(e => e.DentistID); // Default sort by DentistID
       }
 
-      var pagedDentists = await _dentistRepository.GetPagedDentistsAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
+      var pagedDentists = await _dentistRepository.GetPagedAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
       return new PaginatedList<DentistDto>(
           _mapper.Map<List<DentistDto>>(pagedDentists),
           pagedDentists.Count,

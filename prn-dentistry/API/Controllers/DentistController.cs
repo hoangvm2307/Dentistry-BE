@@ -31,7 +31,7 @@ namespace prn_dentistry.API.Controllers
       var pagedDentists = await _dentistService.GetPagedDentistsAsync(queryParams);
       return Ok(pagedDentists);
     }
-    
+
     [HttpGet("/getDentistByClinicId/{id}")]
     public async Task<ActionResult<IEnumerable<DentistDto>>> GetDentistsByClinicIdAsync(int id)
     {
