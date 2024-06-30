@@ -2,6 +2,7 @@ using AutoMapper;
 using DentistryRepositories;
 using DTOs.TreatmentPlanDtos;
 using DentistryBusinessObjects;
+using System.Linq.Expressions;
 namespace DentistryServices
 {
   public class TreatmentPlanService : ITreatmentPlanService
@@ -55,5 +56,55 @@ namespace DentistryServices
 
       return _mapper.Map<TreatmentPlanDto>(existingTreatmentPlan);
     }
+
+    // public async Task<PaginatedList<TreatmentPlanDto>> GetPagedTreatmentPlansAsync(QueryParams queryParams)
+    // {
+    //   Expression<Func<TreatmentPlan, bool>> filterExpression = null;
+    //   if (!string.IsNullOrEmpty(queryParams.Filter))
+    //   {
+    //     filterExpression = e => e.Name.Contains(queryParams.Filter);
+    //   }
+    //   if (!string.IsNullOrEmpty(queryParams.Search))
+    //   {
+    //     string searchLower = queryParams.Search.ToLower();
+    //     Expression<Func<TreatmentPlan, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
+    //     if (filterExpression != null)
+    //     {
+    //       filterExpression = filterExpression.AndAlso(searchExpression);
+    //     }
+    //     else
+    //     {
+    //       filterExpression = searchExpression;
+    //     }
+    //   }
+    //   Func<IQueryable<TreatmentPlan>, IOrderedQueryable<TreatmentPlan>> orderBy = null;
+    //   if (queryParams.Sort != null)
+    //   {
+    //     switch (queryParams.Sort.Key)
+    //     {
+    //       case "name":
+    //         orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
+    //         break;
+    //       case "status":
+    //         orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
+    //         break;
+    //       default:
+    //         orderBy = q => q.OrderBy(e => e.TreatmentPlanID); // Default sort by TreatmentPlanID
+    //         break;
+    //     }
+    //   }
+    //   else
+    //   {
+    //     orderBy = q => q.OrderBy(e => e.TreatmentPlanID); // Default sort by TreatmentPlanID
+    //   }
+
+    //   var pagedTreatmentPlans = await _TreatmentPlanRepository.GetPagedTreatmentPlansAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
+    //   return new PaginatedList<TreatmentPlanDto>(
+    //       _mapper.Map<List<TreatmentPlanDto>>(pagedTreatmentPlans),
+    //       pagedTreatmentPlans.Count,
+    //       pagedTreatmentPlans.PageIndex,
+    //       queryParams.PageSize
+    //   );
+    // }
   }
 }

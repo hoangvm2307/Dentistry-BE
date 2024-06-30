@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace DentistryRepositories
 {
-  public interface IBaseRepository<T>
+    public interface IBaseRepository<T>
   {
     Task AddAsync(T entity);
     Task DeleteAsync(object id);

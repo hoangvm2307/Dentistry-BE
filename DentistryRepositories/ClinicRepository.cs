@@ -1,14 +1,16 @@
+using System.Linq.Expressions;
 using DentistryBusinessObjects;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace DentistryRepositories
 {
-    public class ClinicRepository : IClinicRepository
+    public class ClinicRepository : BaseRepository<Clinic>, IClinicRepository
   {
     private readonly DBContext _context;
+    private readonly IBaseRepository<Clinic> _baseRepository;
 
-    public ClinicRepository(DBContext context)
+    public ClinicRepository(DBContext context) : base(context)
     {
       _context = context;
     }
@@ -37,6 +39,11 @@ namespace DentistryRepositories
     public async Task<Clinic> GetClinicByIdAsync(int id)
     {
         return await _context.Clinics.FindAsync(id);
+    }
+
+    public Task<PaginatedList<Clinic>> GetPagedClinicsAsync(int pageIndex, int pageSize, Expression<Func<Clinic, bool>> filter, Func<IQueryable<Clinic>, IOrderedQueryable<Clinic>> orderBy)
+    {
+        return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
     }
 
     public async Task UpdateClinicAsync(Clinic clinic)

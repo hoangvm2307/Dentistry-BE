@@ -20,8 +20,6 @@ namespace prn_dentistry.API.Controllers
       var appointments = await _appointmentService.GetAllAppointmentsAsync();
 
       return Ok(appointments);
-
-      // return Ok("Helloworld");
     }
 
     [HttpGet("{id}")]

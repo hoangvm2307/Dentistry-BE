@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using DentistryBusinessObjects;
 using Microsoft.EntityFrameworkCore;
  
@@ -7,6 +8,7 @@ namespace DentistryRepositories
   public class ClinicOwnerRepository : IClinicOwnerRepository
   {
     private readonly DBContext _context;
+    private readonly IBaseRepository<ClinicOwner> _baseRepository;
 
     public ClinicOwnerRepository(DBContext context)
     {
@@ -47,6 +49,11 @@ namespace DentistryRepositories
         _context.ClinicOwners.Remove(clinicOwner);
         await _context.SaveChangesAsync();
       }
+    }
+
+    public Task<PaginatedList<ClinicOwner>> GetPagedClinicOwnersAsync(int pageIndex, int pageSize, Expression<Func<ClinicOwner, bool>> filter, Func<IQueryable<ClinicOwner>, IOrderedQueryable<ClinicOwner>> orderBy)
+    {
+        return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
     }
   }
 }

@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using DentistryBusinessObjects;
 using DTOs.AppointmentDtos;
