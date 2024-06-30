@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
@@ -11,7 +7,7 @@ using DTOs.ServiceDtos;
 
 namespace DentistryServices
 {
-  public class ServiceService : IServiceService
+    public class ServiceService : IServiceService
   {
     private readonly IServiceRepository _serviceRepository;
     private readonly IMapper _mapper;

@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using System.Linq.Expressions;
-using DentistryBusinessObjects;
 using DentistryRepositories;
 using DentistryServices;
 using DTOs.DentistDtos;
@@ -9,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace prn_dentistry.API.Controllers
 {
-  public class DentistController : BaseApiController
+    public class DentistController : BaseApiController
   {
     private readonly IDentistService _dentistService;
 
