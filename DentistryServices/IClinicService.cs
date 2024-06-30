@@ -1,3 +1,4 @@
+using DentistryRepositories;
 using DTOs.ClinicDtos;
 
 namespace DentistryServices
@@ -6,6 +7,7 @@ namespace DentistryServices
   {
     Task<IEnumerable<ClinicDto>> GetAllClinicsAsync();
     Task<IEnumerable<ClinicDto>> GetClinicsByStatusAsync(List<bool> statuses);
+    Task<PaginatedList<ClinicDto>> GetPagedClinicsAsync(QueryParams queryParams);
     Task<ClinicDto> GetClinicByIdAsync(int id);
     Task<ClinicDto> AddClinicAsync(ClinicCreateDto clinic);
     Task<ClinicDto> UpdateClinicAsync(int id, ClinicCreateDto clinic);

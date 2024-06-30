@@ -26,7 +26,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(dentists);
     }
     [HttpGet("paged")]
-    public async Task<ActionResult<PaginatedList<DentistDto>>> GetPagedDentists([FromQuery] DentistRequestQueryParams queryParams)
+    public async Task<ActionResult<PaginatedList<DentistDto>>> GetPagedDentists([FromQuery] QueryParams queryParams)
     {
       var pagedDentists = await _dentistService.GetPagedDentistsAsync(queryParams);
       return Ok(pagedDentists);
