@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using DentistryBusinessObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace DentistryRepositories
   public class AppointmentRepository : IAppointmentRepository
   {
     private readonly DBContext _context;
+    private readonly IBaseRepository<Appointment> _baseRepository;
     public AppointmentRepository(DBContext context)
     {
       _context = context;
@@ -52,6 +54,9 @@ namespace DentistryRepositories
       await _context.SaveChangesAsync();
     }
 
-
+    public Task<PaginatedList<Appointment>> GetPagedAppointmentsAsync(int pageIndex, int pageSize, Expression<Func<Appointment, bool>> filter, Func<IQueryable<Appointment>, IOrderedQueryable<Appointment>> orderBy)
+    {
+        return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
+    }
   }
 }

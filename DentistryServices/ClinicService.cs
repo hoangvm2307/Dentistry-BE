@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
@@ -91,6 +92,56 @@ namespace DentistryServices
       _mapper.Map(clinicDto, clinic);
       await _clinicRepository.UpdateClinicAsync(clinic);
       return _mapper.Map<ClinicDto>(clinic);
+    }
+
+    public async Task<PaginatedList<ClinicDto>> GetPagedClinicsAsync(QueryParams queryParams)
+    {
+      Expression<Func<Clinic, bool>> filterExpression = null;
+      if (!string.IsNullOrEmpty(queryParams.Filter))
+      {
+        filterExpression = e => e.Name.Contains(queryParams.Filter);
+      }
+      if (!string.IsNullOrEmpty(queryParams.Search))
+      {
+        string searchLower = queryParams.Search.ToLower();
+        Expression<Func<Clinic, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
+        if (filterExpression != null)
+        {
+          filterExpression = filterExpression.AndAlso(searchExpression);
+        }
+        else
+        {
+          filterExpression = searchExpression;
+        }
+      }
+      Func<IQueryable<Clinic>, IOrderedQueryable<Clinic>> orderBy = null;
+      if (queryParams.Sort != null)
+      {
+        switch (queryParams.Sort.Key)
+        {
+          case "name":
+            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
+            break;
+          case "status":
+            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
+            break;
+          default:
+            orderBy = q => q.OrderBy(e => e.ClinicID); // Default sort by ClinicID
+            break;
+        }
+      }
+      else
+      {
+        orderBy = q => q.OrderBy(e => e.ClinicID); // Default sort by ClinicID
+      }
+
+      var pagedClinics = await _clinicRepository.GetPagedClinicsAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
+      return new PaginatedList<ClinicDto>(
+          _mapper.Map<List<ClinicDto>>(pagedClinics),
+          pagedClinics.Count,
+          pagedClinics.PageIndex,
+          queryParams.PageSize
+      );
     }
   }
 }
