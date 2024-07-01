@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DentistryRepositories\DentistryRepositories.csproj" />
+    <ProjectReference Include="..\Firebase\Firebase.csproj" />
   </ItemGroup>
 
   <ItemGroup>

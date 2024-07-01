@@ -109,6 +109,10 @@ namespace prn_dentistry.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -231,6 +235,10 @@ namespace prn_dentistry.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -266,6 +274,10 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Id")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -464,31 +476,31 @@ namespace prn_dentistry.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "33f9f243-8d3e-42a0-ba35-d79c859b051c",
+                            Id = "8e1d2269-c255-4957-ab3e-554a4c0925a5",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "6ba1807d-28e4-4e9b-a4b3-77957e3660f9",
+                            Id = "65424cb7-8bb3-4076-80e4-f8cc7a1a2dc7",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "997f59bb-3212-4c62-a86b-0f39e7ee3c6e",
+                            Id = "56782f32-ac01-4189-9caa-693625bb3d87",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3090f373-9267-4bd5-98b3-05e50cca8f83",
+                            Id = "69e691df-0862-4736-9851-c501a89a70a7",
                             Name = "ClinicOwner",
                             NormalizedName = "CLINICOWNER"
                         },
                         new
                         {
-                            Id = "cdbaac27-8527-4e65-90fe-e9521baecb70",
+                            Id = "2398b982-92d7-4337-9201-d346fac7c65a",
                             Name = "Dentist",
                             NormalizedName = "DENTIST"
                         });

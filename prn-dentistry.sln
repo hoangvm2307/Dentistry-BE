@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOs", "DTOs\DTOs.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentistryBusinessObjects", "DentistryBusinessObjects\DentistryBusinessObjects.csproj", "{D142C9A3-F8B4-4339-BAF6-B550D339648C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search", "Search\Search.csproj", "{60CEFD25-5E58-4245-B6FB-B2602C212324}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Search", "Search\Search.csproj", "{60CEFD25-5E58-4245-B6FB-B2602C212324}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firebase", "Firebase\Firebase.csproj", "{23E7031F-9D6A-4FC0-A799-40F06AC161CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{60CEFD25-5E58-4245-B6FB-B2602C212324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60CEFD25-5E58-4245-B6FB-B2602C212324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60CEFD25-5E58-4245-B6FB-B2602C212324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23E7031F-9D6A-4FC0-A799-40F06AC161CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23E7031F-9D6A-4FC0-A799-40F06AC161CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23E7031F-9D6A-4FC0-A799-40F06AC161CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23E7031F-9D6A-4FC0-A799-40F06AC161CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace prn_dentistry.Migrations
 {
     /// <inheritdoc />
-    public partial class newdb : Migration
+    public partial class newDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,29 +63,14 @@ namespace prn_dentistry.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    OpeningHours = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ClosingHours = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: false),
+                    OpeningHours = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ClosingHours = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clinics", x => x.ClinicID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Services",
-                columns: table => new
-                {
-                    ServiceID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    Duration = table.Column<int>(type: "integer", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Services", x => x.ServiceID);
                 });
 
             migrationBuilder.CreateTable(
@@ -204,10 +189,11 @@ namespace prn_dentistry.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<bool>(type: "boolean", nullable: false)
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -226,8 +212,8 @@ namespace prn_dentistry.Migrations
                 {
                     OwnerID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     ClinicID = table.Column<int>(type: "integer", nullable: false),
@@ -258,8 +244,8 @@ namespace prn_dentistry.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ClinicID = table.Column<int>(type: "integer", nullable: false),
                     DayOfWeek = table.Column<string>(type: "text", nullable: false),
-                    OpeningTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ClosingTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    OpeningTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ClosingTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     SlotDuration = table.Column<int>(type: "integer", nullable: false),
                     MaxPatientsPerSlot = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -286,7 +272,8 @@ namespace prn_dentistry.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     Specialization = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
-                    ClinicID = table.Column<int>(type: "integer", nullable: false)
+                    ClinicID = table.Column<int>(type: "integer", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -306,38 +293,25 @@ namespace prn_dentistry.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "Services",
                 columns: table => new
                 {
-                    AppointmentID = table.Column<int>(type: "integer", nullable: false)
+                    ServiceID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CustomerID = table.Column<int>(type: "integer", nullable: false),
-                    DentistID = table.Column<int>(type: "integer", nullable: false),
-                    ServiceID = table.Column<int>(type: "integer", nullable: false),
-                    AppointmentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    AppointmentTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Duration = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    ClinicID = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.AppointmentID);
+                    table.PrimaryKey("PK_Services", x => x.ServiceID);
                     table.ForeignKey(
-                        name: "FK_Appointments_Customers_CustomerID",
-                        column: x => x.CustomerID,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Dentists_DentistID",
-                        column: x => x.DentistID,
-                        principalTable: "Dentists",
-                        principalColumn: "DentistID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Services_ServiceID",
-                        column: x => x.ServiceID,
-                        principalTable: "Services",
-                        principalColumn: "ServiceID",
+                        name: "FK_Services_Clinics_ClinicID",
+                        column: x => x.ClinicID,
+                        principalTable: "Clinics",
+                        principalColumn: "ClinicID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -350,7 +324,7 @@ namespace prn_dentistry.Migrations
                     SenderID = table.Column<int>(type: "integer", nullable: false),
                     ReceiverID = table.Column<int>(type: "integer", nullable: false),
                     MessageContent = table.Column<string>(type: "text", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Timestamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -377,10 +351,10 @@ namespace prn_dentistry.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CustomerID = table.Column<int>(type: "integer", nullable: false),
                     DentistID = table.Column<int>(type: "integer", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Frequency = table.Column<string>(type: "text", nullable: false),
-                    NextAppointmentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    NextAppointmentDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     PaymentStatus = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
@@ -401,16 +375,52 @@ namespace prn_dentistry.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    AppointmentID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CustomerID = table.Column<int>(type: "integer", nullable: false),
+                    DentistID = table.Column<int>(type: "integer", nullable: false),
+                    ServiceID = table.Column<int>(type: "integer", nullable: false),
+                    AppointmentDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    AppointmentTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentID);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Customers_CustomerID",
+                        column: x => x.CustomerID,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Dentists_DentistID",
+                        column: x => x.DentistID,
+                        principalTable: "Dentists",
+                        principalColumn: "DentistID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Services_ServiceID",
+                        column: x => x.ServiceID,
+                        principalTable: "Services",
+                        principalColumn: "ServiceID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "141694b3-cf45-4c13-ab70-9c00ba7ea7c1", null, "Guest", "GUEST" },
-                    { "47c08342-7938-4c40-88cf-56d7ad225ba8", null, "ClinicOwner", "CLINICOWNER" },
-                    { "7c7334d9-508e-40cc-9de2-05913fe2e1a6", null, "Customer", "CUSTOMER" },
-                    { "838a479b-acba-44c1-b404-51ff9092b89a", null, "Admin", "ADMIN" },
-                    { "ba87a9a5-8b6e-4d2f-a957-15b536c6dac8", null, "Dentist", "DENTIST" }
+                    { "2398b982-92d7-4337-9201-d346fac7c65a", null, "Dentist", "DENTIST" },
+                    { "56782f32-ac01-4189-9caa-693625bb3d87", null, "Admin", "ADMIN" },
+                    { "65424cb7-8bb3-4076-80e4-f8cc7a1a2dc7", null, "Guest", "GUEST" },
+                    { "69e691df-0862-4736-9851-c501a89a70a7", null, "ClinicOwner", "CLINICOWNER" },
+                    { "8e1d2269-c255-4957-ab3e-554a4c0925a5", null, "Customer", "CUSTOMER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -507,6 +517,11 @@ namespace prn_dentistry.Migrations
                 table: "Dentists",
                 column: "Id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Services_ClinicID",
+                table: "Services",
+                column: "ClinicID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TreatmentPlans_CustomerID",

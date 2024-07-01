@@ -65,19 +65,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddAuthorization();
-builder.Services.AddAccountDependencyGroup();
-builder.Services.AddAppointmentDependencyGroup();
-builder.Services.AddTreatmentPlanDependencyGroup();
-builder.Services.AddServiceDependencyGroup();
-builder.Services.AddClinicScheduleDependencyGroup();
-builder.Services.AddDentistDependencyGroup();
-builder.Services.AddClinicDependencyGroup();
-builder.Services.AddClinicOwnerDependencyGroup();
-builder.Services.AddCustomerDependencyGroup();
-builder.Services.AddSearchDependencyGroup();
+//builder.Services.AddAccountDependencyGroup();
+//builder.Services.AddAppointmentDependencyGroup();
+//builder.Services.AddTreatmentPlanDependencyGroup();
+//builder.Services.AddServiceDependencyGroup();
+//builder.Services.AddClinicScheduleDependencyGroup();
+//builder.Services.AddDentistDependencyGroup();
+//builder.Services.AddClinicDependencyGroup();
+//builder.Services.AddClinicOwnerDependencyGroup();
+//builder.Services.AddCustomerDependencyGroup();
+//builder.Services.AddSearchDependencyGroup();
+
+builder.Services.AddPersistenceServices(builder.Configuration);
+
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
- 
+
 builder.Services.AddScoped<ILuceneSearcherService>(provider =>
 {
     var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");

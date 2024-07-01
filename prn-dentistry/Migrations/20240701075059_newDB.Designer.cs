@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace prn_dentistry.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240613085123_newdb")]
-    partial class newdb
+    [Migration("20240701075059_newDB")]
+    partial class newDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,10 +34,10 @@ namespace prn_dentistry.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AppointmentID"));
 
                     b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("AppointmentTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("CustomerID")
                         .HasColumnType("integer");
@@ -82,7 +82,7 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("MessageID");
 
@@ -106,9 +106,13 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("ClosingHours")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -117,7 +121,7 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("OpeningHours")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -152,11 +156,13 @@ namespace prn_dentistry.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
@@ -183,7 +189,7 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("ClosingTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("DayOfWeek")
                         .IsRequired()
@@ -193,7 +199,7 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("OpeningTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("SlotDuration")
                         .HasColumnType("integer");
@@ -218,7 +224,7 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -229,6 +235,10 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Id")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -270,6 +280,10 @@ namespace prn_dentistry.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -303,6 +317,9 @@ namespace prn_dentistry.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ServiceID"));
 
+                    b.Property<int>("ClinicID")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -318,6 +335,8 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ServiceID");
+
+                    b.HasIndex("ClinicID");
 
                     b.ToTable("Services");
                 });
@@ -337,14 +356,14 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Frequency")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("NextAppointmentDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("PaymentStatus")
                         .IsRequired()
@@ -352,7 +371,7 @@ namespace prn_dentistry.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -460,31 +479,31 @@ namespace prn_dentistry.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7c7334d9-508e-40cc-9de2-05913fe2e1a6",
+                            Id = "8e1d2269-c255-4957-ab3e-554a4c0925a5",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "141694b3-cf45-4c13-ab70-9c00ba7ea7c1",
+                            Id = "65424cb7-8bb3-4076-80e4-f8cc7a1a2dc7",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "838a479b-acba-44c1-b404-51ff9092b89a",
+                            Id = "56782f32-ac01-4189-9caa-693625bb3d87",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "47c08342-7938-4c40-88cf-56d7ad225ba8",
+                            Id = "69e691df-0862-4736-9851-c501a89a70a7",
                             Name = "ClinicOwner",
                             NormalizedName = "CLINICOWNER"
                         },
                         new
                         {
-                            Id = "ba87a9a5-8b6e-4d2f-a957-15b536c6dac8",
+                            Id = "2398b982-92d7-4337-9201-d346fac7c65a",
                             Name = "Dentist",
                             NormalizedName = "DENTIST"
                         });
@@ -703,6 +722,17 @@ namespace prn_dentistry.Migrations
                     b.Navigation("Clinic");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DentistryBusinessObjects.Service", b =>
+                {
+                    b.HasOne("DentistryBusinessObjects.Clinic", "Clinic")
+                        .WithMany()
+                        .HasForeignKey("ClinicID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Clinic");
                 });
 
             modelBuilder.Entity("DentistryBusinessObjects.TreatmentPlan", b =>
