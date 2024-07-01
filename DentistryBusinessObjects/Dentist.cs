@@ -17,6 +17,7 @@ namespace DentistryBusinessObjects
 
     [ForeignKey("Clinic")]
     public int ClinicID { get; set; }
+    public string Image { get; set; }
     public Clinic Clinic { get; set; }
     public List<Appointment> Appointments { get; set; }
     public List<TreatmentPlan> TreatmentPlans { get; set; }
