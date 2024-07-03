@@ -63,7 +63,7 @@ namespace prn_dentistry.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    Image = table.Column<string>(type: "text", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: true),
                     OpeningHours = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ClosingHours = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false)
@@ -193,7 +193,7 @@ namespace prn_dentistry.Migrations
                     Address = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
-                    Image = table.Column<string>(type: "text", nullable: false)
+                    Image = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,7 +273,7 @@ namespace prn_dentistry.Migrations
                     Specialization = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     ClinicID = table.Column<int>(type: "integer", nullable: false),
-                    Image = table.Column<string>(type: "text", nullable: false)
+                    Image = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -416,11 +416,11 @@ namespace prn_dentistry.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2398b982-92d7-4337-9201-d346fac7c65a", null, "Dentist", "DENTIST" },
-                    { "56782f32-ac01-4189-9caa-693625bb3d87", null, "Admin", "ADMIN" },
-                    { "65424cb7-8bb3-4076-80e4-f8cc7a1a2dc7", null, "Guest", "GUEST" },
-                    { "69e691df-0862-4736-9851-c501a89a70a7", null, "ClinicOwner", "CLINICOWNER" },
-                    { "8e1d2269-c255-4957-ab3e-554a4c0925a5", null, "Customer", "CUSTOMER" }
+                    { "48b6cf7c-d3ca-4a18-9ab1-d5ecedf887b6", null, "Customer", "CUSTOMER" },
+                    { "4f6c9e23-3be1-4e98-b878-1eca950f4baa", null, "Dentist", "DENTIST" },
+                    { "7a6ab909-8e15-497b-8e44-eb6ab8a407bd", null, "Guest", "GUEST" },
+                    { "a79708cb-b014-4397-b329-09bce3b91507", null, "ClinicOwner", "CLINICOWNER" },
+                    { "a98ba60b-3370-4630-8873-8b4561064fef", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

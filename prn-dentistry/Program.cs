@@ -1,16 +1,18 @@
+using System.IO;
 using System.Text;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DentistryServices;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using prn_dentistry.API.Data;
 using prn_dentistry.API.Extensions;
-using System.IO;
-using Microsoft.Extensions.FileProviders;
 using Search;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,24 +23,24 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    var jwtSecurityScheme = new OpenApiSecurityScheme
+  var jwtSecurityScheme = new OpenApiSecurityScheme
+  {
+    BearerFormat = "JWT",
+    Name = "Authorization",
+    In = ParameterLocation.Header,
+    Type = SecuritySchemeType.ApiKey,
+    Scheme = JwtBearerDefaults.AuthenticationScheme,
+    Description = "Put Bearer + your token in the box below",
+    Reference = new OpenApiReference
     {
-        BearerFormat = "JWT",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = JwtBearerDefaults.AuthenticationScheme,
-        Description = "Put Bearer + your token in the box below",
-        Reference = new OpenApiReference
-        {
-            Id = JwtBearerDefaults.AuthenticationScheme,
-            Type = ReferenceType.SecurityScheme
-        }
-    };
+      Id = JwtBearerDefaults.AuthenticationScheme,
+      Type = ReferenceType.SecurityScheme
+    }
+  };
 
-    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+  c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+  c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             jwtSecurityScheme, Array.Empty<string>()
@@ -55,27 +57,16 @@ builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DBCo
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
-        };
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
+      };
     });
 builder.Services.AddAuthorization();
-//builder.Services.AddAccountDependencyGroup();
-//builder.Services.AddAppointmentDependencyGroup();
-//builder.Services.AddTreatmentPlanDependencyGroup();
-//builder.Services.AddServiceDependencyGroup();
-//builder.Services.AddClinicScheduleDependencyGroup();
-//builder.Services.AddDentistDependencyGroup();
-//builder.Services.AddClinicDependencyGroup();
-//builder.Services.AddClinicOwnerDependencyGroup();
-//builder.Services.AddCustomerDependencyGroup();
-//builder.Services.AddSearchDependencyGroup();
-
 builder.Services.AddPersistenceServices(builder.Configuration);
 
 builder.Services.AddScoped<TokenService>();
@@ -83,33 +74,36 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ILuceneSearcherService>(provider =>
 {
-    var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
-    return new LuceneSearcherService(indexPath);
+  var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
+  return new LuceneSearcherService(indexPath);
 });
 
 
 builder.Services.AddSingleton(provider =>
 {
-    var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
-    return new LuceneIndexer(indexPath);
+  var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
+  return new LuceneIndexer(indexPath);
 });
 
 var app = builder.Build();
-
+FirebaseApp.Create(new AppOptions()
+{
+  Credential = GoogleCredential.FromFile(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"))
+});
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+  c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
 });
 // }
 
 app.UseHttpsRedirection();
 app.UseCors(opt =>
 {
-    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+  opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
 });
 app.UseAuthentication();
 app.UseAuthorization();
@@ -118,22 +112,22 @@ app.UseAuthorization();
 var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
 if (!Directory.Exists(staticFilesPath))
 {
-    Directory.CreateDirectory(staticFilesPath);
+  Directory.CreateDirectory(staticFilesPath);
 }
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(staticFilesPath),
-    RequestPath = ""
+  FileProvider = new PhysicalFileProvider(staticFilesPath),
+  RequestPath = ""
 });
-
+app.MapHub<ChatHub>("/chatHub");
 app.MapControllers();
 
 // Serve the HTML file
 app.MapGet("/", async context =>
 {
-    context.Response.ContentType = "text/html";
-    await context.Response.SendFileAsync(Path.Combine(staticFilesPath, "index.html"));
+  context.Response.ContentType = "text/html";
+  await context.Response.SendFileAsync(Path.Combine(staticFilesPath, "index.html"));
 });
 
 var scope = app.Services.CreateScope();
@@ -143,13 +137,13 @@ var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 try
 {
-    await context.Database.MigrateAsync();
-    await DBInitializer.Initialize(context, userManager);
-    await SearchIndexInitializer.Initialize(context, luceneIndexer); 
+  await context.Database.MigrateAsync();
+  await DBInitializer.Initialize(context, userManager);
+  await SearchIndexInitializer.Initialize(context, luceneIndexer);
 }
 catch (Exception ex)
 {
-    logger.LogError(ex, "A problem occurred during migration");
+  logger.LogError(ex, "A problem occurred during migration");
 }
 
 app.MigrateDatabase<DBContext>().Run();
