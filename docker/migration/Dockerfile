@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS migration-build-env
 WORKDIR /app
 
 ARG GOOGLE_APPLICATION_CREDENTIALS_JSON
-ENV GOOGLE_APPLICATION_CREDENTIALS_JSON ${GOOGLE_APPLICATION_CREDENTIALS_JSON}
+
 
 # Copy csproj and restore as distinct layers
 
