@@ -87,7 +87,7 @@ string json = @"
 }";
 FirestoreDb firestoreDb = FirestoreDb.Create("prn-project-75959", new FirestoreClientBuilder
 {
-  Credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"))
+  Credential = GoogleCredential.FromJson(json)
 }.Build());
 builder.Services.AddSingleton(firestoreDb);
 
@@ -111,9 +111,10 @@ var app = builder.Build();
  
 FirebaseApp.Create(new AppOptions()
 {
-  Credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"))
+  Credential = GoogleCredential.FromJson(json)
 });
  
+Console.WriteLine(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"));
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
