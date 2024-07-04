@@ -2,7 +2,9 @@
 using DentistryRepositories;
 using DentistryServices;
 using Firebase;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 
 namespace prn_dentistry.API.Extensions
 {
@@ -36,8 +38,7 @@ namespace prn_dentistry.API.Extensions
 
       services.AddScoped<ITreatmentPlanService, TreatmentPlanService>();
       services.AddScoped<ITreatmentPlanRepository, TreatmentPlanRepository>();
-
-      services.AddSingleton(FirestoreDb.Create("prn-project-75959"));
+   
 
       services.AddSingleton<IFirebaseStorageService>(provider =>
       {
