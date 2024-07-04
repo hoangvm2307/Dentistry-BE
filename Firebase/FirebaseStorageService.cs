@@ -27,7 +27,7 @@ namespace Firebase
     private string GetPublicUrl(string bucket, string objectName)
     {
       var serviceAccountPath = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
-      Console.WriteLine('#####################################################', serviceAccountPath);
+
       if (string.IsNullOrEmpty(serviceAccountPath) || !File.Exists(serviceAccountPath))
       {
         throw new InvalidOperationException("Service account key file not found. Ensure GOOGLE_APPLICATION_CREDENTIALS is set correctly.");
