@@ -11,7 +11,7 @@ COPY DentistryRepositories/*.csproj ./DentistryRepositories/
 COPY DentistryServices/*.csproj ./DentistryServices/
 COPY Search/*.csproj ./Search/
 COPY Firebase/*.csproj ./Firebase/
-COPY prn-dentistry/config/*.json ./prn-dentistry/config/
+COPY prn-dentistry/Config/*.json ./prn-dentistry/Config
 COPY prn-dentistry/*.csproj ./prn-dentistry/
 RUN dotnet restore --use-current-runtime
 
