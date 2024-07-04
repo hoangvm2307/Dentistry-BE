@@ -25,8 +25,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-      - name: Set up Google Cloud credentials
-        run: echo "#### MY SECRET IS ${{ secrets.DOCKERHUB_USERNAME }}"
+      - name: Create Google Cloud credentials file
+        run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > /tmp/google-credentials.json
+
+      - name: Verify Google Cloud credentials file
+        run: |
+          if [ ! -f google-credentials.json ]; then
+            echo "google-credentials.json file is missing!"
+            exit 1
+          else
+            echo "google-credentials.json file is present."
+            cat google-credentials.json
+          fi
         
       # - name: Set up environment variable for Firebase
       #   run: echo "GOOGLE_APPLICATION_CREDENTIALS_JSON=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" >> $GITHUB_ENV
@@ -46,10 +56,8 @@ jobs:
           file: ./docker/migration/Dockerfile
           push: true
           tags: markvovn/dentistry-be-migration:latest
-
-          build-args: |
-            GOOGLE_APPLICATION_CREDENTIALS_JSON=HELLO_WORLD
-
+          secrets: |
+            id=google_application_credentials,src=/tmp/google-credentials.json
 
   update_server:
       name: Updating prod environment

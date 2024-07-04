@@ -14,9 +14,11 @@ COPY DentistryRepositories/*.csproj ./DentistryRepositories/
 COPY DentistryServices/*.csproj ./DentistryServices/
 COPY Search/*.csproj ./Search/
 COPY Firebase/*.csproj ./Firebase/
-COPY prn-dentistry/Config/*.json ./prn-dentistry/Config/
+# COPY prn-dentistry/Config/*.json ./prn-dentistry/Config/
 COPY prn-dentistry/*.csproj ./prn-dentistry/
 RUN dotnet restore --use-current-runtime
+
+COPY google-credentials.json ./prn-dentistry/Config/google-credentials.json
 
 # Copy everything else and build
 COPY . ./
@@ -27,8 +29,10 @@ RUN apt-get install -y make
 ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet tool install --version 7.0.19 --global dotnet-ef
 
-RUN ls -al 
-RUN echo '################## ${GOOGLE_APPLICATION_CREDENTIALS_JSON}'
+RUN if [ ! -f ./prn-dentistry/Config/google-credentials.json ]; then echo "google-credentials.json is missing!" && exit 1; else echo "google-credentials.json is present."; fi
+
+# RUN ls -al 
+# RUN echo '################## ${GOOGLE_APPLICATION_CREDENTIALS_JSON}'
 
 RUN dotnet ef migrations bundle --force --project prn-dentistry -r linux-x64 --verbose --self-contained --output efbundle
 

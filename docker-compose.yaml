@@ -13,7 +13,16 @@ services:
       - POSTGRES_PASSWORD=posgres
       - POSTGRES_DB=dentistry_db
     healthcheck:
-      test: [ 'CMD', 'pg_isready', '-q', '-d', 'dentistry_db', '-U', 'postgres' ]
+      test:
+        [
+          'CMD',
+          'pg_isready',
+          '-q',
+          '-d',
+          'dentistry_db',
+          '-U',
+          'postgres'
+        ]
       timeout: 45s
       interval: 10s
       retries: 10
@@ -37,6 +46,8 @@ services:
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
     networks:
       - dentistry-be-network
+    secrets:
+      - google_application_credentials
 
   web:
     image: markvovn/dentistry-be-web:latest
@@ -56,3 +67,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dentistry-be-network
+
+secrets:
+  google_application_credentials:
+    file: /user/markvovn/dentistry/google-credentials.json
