@@ -2,6 +2,8 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS migration-build-env
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
+RUN ls -al
+
 COPY *.sln ./
 COPY DentistryBusinessObjects/*.csproj ./DentistryBusinessObjects/
 COPY DTOs/*.csproj ./DTOs/
@@ -9,8 +11,8 @@ COPY DentistryRepositories/*.csproj ./DentistryRepositories/
 COPY DentistryServices/*.csproj ./DentistryServices/
 COPY Search/*.csproj ./Search/
 COPY Firebase/*.csproj ./Firebase/
-COPY prn_dentistry/Config/*.json ./prn_dentistry/Config/
 
+#COPY prn_dentistry/config/*.json ./prn_dentistry/config/
 COPY prn-dentistry/*.csproj ./prn-dentistry/
 RUN dotnet restore --use-current-runtime
 
