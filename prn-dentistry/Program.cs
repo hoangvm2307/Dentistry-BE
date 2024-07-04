@@ -88,7 +88,7 @@ builder.Services.AddSingleton(provider =>
 var app = builder.Build();
 FirebaseApp.Create(new AppOptions()
 {
-  Credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"))
+ Credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"))
 });
   Console.WriteLine(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"));
 // Configure the HTTP request pipeline.
