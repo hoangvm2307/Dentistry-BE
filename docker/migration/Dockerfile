@@ -1,7 +1,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS migration-build-env
 WORKDIR /app
 
+
 ARG GOOGLE_APPLICATION_CREDENTIALS_JSON
+
 
 
 # Copy csproj and restore as distinct layers
@@ -22,7 +24,7 @@ COPY . ./
 
 RUN apt-get update
 RUN apt-get install -y make  
-
+ENV GOOGLE_APPLICATION_CREDENTIALS_JSON=$GOOGLE_APPLICATION_CREDENTIALS_JSON
 ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet tool install --version 7.0.19 --global dotnet-ef
 
