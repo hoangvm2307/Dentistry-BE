@@ -24,7 +24,7 @@ RUN apt-get install -y make
 
 ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet tool install --version 7.0.19 --global dotnet-ef
-
+RUN ls -al 
 RUN dotnet ef migrations bundle --force --project prn-dentistry -r linux-x64 --verbose --self-contained --output efbundle
 
 # Build runtime image
