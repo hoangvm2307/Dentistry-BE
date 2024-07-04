@@ -25,21 +25,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-      # - name: Set up Google Cloud credentials
-      #   run: |
-      #     echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > $HOME/google-credentials.json
-      #     echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/google-credentials.json" >> $GITHUB_ENV
-
+      - name: Set up Google Cloud credentials
+        run: echo "#### MY SECRET IS ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+        
       # - name: Set up environment variable for Firebase
       #   run: echo "GOOGLE_APPLICATION_CREDENTIALS_JSON=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" >> $GITHUB_ENV
 
-      - name: Build and push web image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./docker/web/Dockerfile
-          push: true
-          tags: markvovn/dentistry-be-web:latest
+      # - name: Build and push web image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: ./docker/web/Dockerfile
+      #     push: true
+      #     tags: markvovn/dentistry-be-web:latest
 
       - name: Build and push migration image
         uses: docker/build-push-action@v2
