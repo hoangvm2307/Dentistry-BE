@@ -45,8 +45,7 @@ jobs:
           file: ./docker/migration/Dockerfile
           push: true
           tags: markvovn/dentistry-be-migration:latest
-          build-args: |
-            "GOOGLE_APPLICATION_CREDENTIALS_JSON=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+      
 
   update_server:
       name: Updating prod environment
