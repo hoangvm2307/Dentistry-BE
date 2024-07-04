@@ -14,9 +14,9 @@ namespace DentistryServices
     private readonly IClinicRepository _clinicRepository;
     private readonly IBaseRepository<Dentist> _dentistRepository;
     private readonly IMapper _mapper;
-    private readonly FirebaseStorageService _firebaseStorageService;
+    private readonly IFirebaseStorageService _firebaseStorageService;
 
-    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper, FirebaseStorageService firebaseStorageService)
+    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper, IFirebaseStorageService firebaseStorageService)
     {
       _clinicRepository = clinicRepository;
       _dentistRepository = dentistRepository;
@@ -26,9 +26,14 @@ namespace DentistryServices
 
     public async Task<ClinicDto> AddClinicAsync(ClinicCreateDto clinicDto)
     {
-      string imageURL = await _firebaseStorageService.UploadFileAsync(clinicDto.Image.OpenReadStream(), clinicDto.Image.FileName);
+      // string imageURL = null;
+
+      // if (clinicDto.Image != null)
+      // {
+      //   imageURL = await _firebaseStorageService.UploadFileAsync(clinicDto.Image.OpenReadStream(), clinicDto.Image.FileName);
+      // }
       var clinic = _mapper.Map<Clinic>(clinicDto);
-      clinic.Image = imageURL;
+      // clinic.Image = imageURL;
 
       await _clinicRepository.AddClinicAsync(clinic);
 

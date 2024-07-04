@@ -50,7 +50,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<ClinicDto>> CreateService([FromForm]ClinicCreateDto clinicDto)
+    public async Task<ActionResult<ClinicDto>> CreateClinic([FromBody]ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
       var clinic = await _clinicService.AddClinicAsync(clinicDto);
@@ -59,7 +59,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut]
-    public async Task<ActionResult<ClinicDto>> UpdateService(int id, ClinicCreateDto clinicDto)
+    public async Task<ActionResult<ClinicDto>> UpdateClinic(int id, ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
       var clinic = new ClinicDto();

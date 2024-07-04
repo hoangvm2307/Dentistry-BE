@@ -2,14 +2,14 @@
 
 namespace Firebase
 {
-  public class FirebaseStorageService
+  public class FirebaseStorageService :IFirebaseStorageService
   {
     private readonly StorageClient _storageClient;
     private readonly string _bucketName;
 
     public FirebaseStorageService(string bucketName)
     {
-      // GoogleCredential credential = GoogleCredential.FromFile("")
+      
       _storageClient = StorageClient.Create();
       _bucketName = bucketName;
     }
@@ -26,7 +26,6 @@ namespace Firebase
     }
     private string GetPublicUrl(string bucket, string objectName)
     {
-      // Get the path to the service account key from the environment variable
       var serviceAccountPath = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
 
       if (string.IsNullOrEmpty(serviceAccountPath) || !File.Exists(serviceAccountPath))
@@ -34,7 +33,6 @@ namespace Firebase
         throw new InvalidOperationException("Service account key file not found. Ensure GOOGLE_APPLICATION_CREDENTIALS is set correctly.");
       }
 
-      // Generate the public URL
       var urlSigner = UrlSigner.FromServiceAccountPath(serviceAccountPath);
       
       var url = urlSigner.Sign(bucket, objectName, TimeSpan.FromDays(7));
