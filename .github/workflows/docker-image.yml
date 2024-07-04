@@ -48,7 +48,7 @@ jobs:
           tags: markvovn/dentistry-be-migration:latest
 
           build-args: |
-            GOOGLE_APPLICATION_CREDENTIALS_JSON=${{ secrets.DOCKERHUB_USERNAME }}
+            GOOGLE_APPLICATION_CREDENTIALS_JSON=HELLO_WORLD
 
 
   update_server:
