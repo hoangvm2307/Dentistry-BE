@@ -1,8 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS migration-build-env
 WORKDIR /app
 
+ARG GOOGLE_APPLICATION_CREDENTIALS_JSON
+ENV GOOGLE_APPLICATION_CREDENTIALS_JSON ${GOOGLE_APPLICATION_CREDENTIALS_JSON}
+
 # Copy csproj and restore as distinct layers
-RUN ls -al
 
 COPY *.sln ./
 COPY DentistryBusinessObjects/*.csproj ./DentistryBusinessObjects/
@@ -25,7 +27,7 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet tool install --version 7.0.19 --global dotnet-ef
 
 RUN ls -al 
-RUN ls -al /prn-dentistry
+RUN echo '################## $GOOGLE_APPLICATION_CREDENTIALS_JSON'
 
 RUN dotnet ef migrations bundle --force --project prn-dentistry -r linux-x64 --verbose --self-contained --output efbundle
 
