@@ -33,7 +33,7 @@ services:
     #   context: .
     #   dockerfile: ./docker/migration/Dockerfile
     environment:
-      - GOOGLE_APPLICATION_CREDENTIALS_JSON=secrets.GOOGLE_APPLICATION_CREDENTIALS
+      - GOOGLE_APPLICATION_CREDENTIALS_JSON=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
     networks:
       - dentistry-be-network
