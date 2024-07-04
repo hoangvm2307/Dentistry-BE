@@ -2,14 +2,14 @@
 
 namespace Firebase
 {
-  public class FirebaseStorageService :IFirebaseStorageService
+  public class FirebaseStorageService : IFirebaseStorageService
   {
     private readonly StorageClient _storageClient;
     private readonly string _bucketName;
 
     public FirebaseStorageService(string bucketName)
     {
-      
+
       _storageClient = StorageClient.Create();
       _bucketName = bucketName;
     }
@@ -19,8 +19,8 @@ namespace Firebase
       var contentType = "image/jpeg";
       await _storageClient.UploadObjectAsync(_bucketName, objectName, contentType, fileStream);
 
-    //   var objectUrl = GetPublicUrl(_bucketName, objectName);
-        var objectUrl = $"https://storage.googleapis.com/{_bucketName}/{objectName}";
+      //   var objectUrl = GetPublicUrl(_bucketName, objectName);
+      var objectUrl = $"https://storage.googleapis.com/{_bucketName}/{objectName}";
       return objectUrl;
 
     }
@@ -34,7 +34,7 @@ namespace Firebase
       }
 
       var urlSigner = UrlSigner.FromServiceAccountPath(serviceAccountPath);
-      
+
       var url = urlSigner.Sign(bucket, objectName, TimeSpan.FromDays(7));
 
 
