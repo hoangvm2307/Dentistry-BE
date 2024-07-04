@@ -28,6 +28,7 @@ jobs:
       - name: Create Google Cloud credentials file
         run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > /tmp/google-credentials.json
 
+
       - name: Verify Google Cloud credentials file
         run: |
           if [ ! -f google-credentials.json ]; then
@@ -38,6 +39,7 @@ jobs:
             cat google-credentials.json
           fi
         
+
       # - name: Set up environment variable for Firebase
       #   run: echo "GOOGLE_APPLICATION_CREDENTIALS_JSON=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" >> $GITHUB_ENV
 
@@ -56,8 +58,10 @@ jobs:
           file: ./docker/migration/Dockerfile
           push: true
           tags: markvovn/dentistry-be-migration:latest
+
           secrets: |
             id=google_application_credentials,src=/tmp/google-credentials.json
+
 
   update_server:
       name: Updating prod environment

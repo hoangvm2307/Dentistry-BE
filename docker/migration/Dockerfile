@@ -5,6 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS migration-build-env
 WORKDIR /app
 
 
+
 # Copy csproj and restore as distinct layers
 
 COPY *.sln ./
