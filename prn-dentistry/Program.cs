@@ -85,24 +85,12 @@ builder.Services.AddSingleton(provider =>
   return new LuceneIndexer(indexPath);
 });
 
-var googleCredentialsFile = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
-Console.WriteLine($"Google Credentials File Path: {googleCredentialsFile}");
-
-if (File.Exists(googleCredentialsFile))
-{
-  var credentialsContent = File.ReadAllText(googleCredentialsFile);
-  Console.WriteLine($"Google Credentials Content: {credentialsContent}");
-}
-else
-{
-  Console.WriteLine("Google Credentials File not found.");
-}
 
 var app = builder.Build();
 FirebaseApp.Create(new AppOptions()
 {
 
-  Credential = GoogleCredential.FromFile(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"))
+  //Credential = GoogleCredential.FromFile(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"))
 
 });
 Console.WriteLine(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"));

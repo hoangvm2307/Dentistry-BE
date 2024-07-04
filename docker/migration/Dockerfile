@@ -19,7 +19,7 @@ COPY Firebase/*.csproj ./Firebase/
 COPY prn-dentistry/*.csproj ./prn-dentistry/
 RUN dotnet restore --use-current-runtime
 
-COPY google-credentials.json ./prn-dentistry/Config/google-credentials.json
+COPY prn-dentistry/Config/google-credentials.json ./prn-dentistry/Config/google-credentials.json
 
 # Copy everything else and build
 COPY . ./

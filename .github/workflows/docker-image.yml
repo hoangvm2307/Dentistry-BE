@@ -25,18 +25,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-      - name: Create Google Cloud credentials file
-        run: echo "${{ secrets.DOCKERHUB_USERNAME }}" > /tmp/google-credentials.json
+      # - name: Create Google Cloud credentials file
+      #   run: echo "${{ secrets.DOCKERHUB_USERNAME }}" > /tmp/google-credentials.json
 
-      - name: Verify Google Cloud credentials file
-        run: |
-          if [ ! -f google-credentials.json ]; then
-            echo "google-credentials.json file is missing!"
-            exit 1
-          else
-            echo "google-credentials.json file is present."
-            cat google-credentials.json
-          fi
+      # - name: Verify Google Cloud credentials file
+      #   run: |
+      #     if [ ! -f google-credentials.json ]; then
+      #       echo "google-credentials.json file is missing!"
+      #       exit 1
+      #     else
+      #       echo "google-credentials.json file is present."
+      #       cat google-credentials.json
+      #     fi
         
       # - name: Set up environment variable for Firebase
       #   run: echo "GOOGLE_APPLICATION_CREDENTIALS_JSON=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" >> $GITHUB_ENV
