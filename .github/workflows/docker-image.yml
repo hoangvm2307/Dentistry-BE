@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Create Google Cloud credentials file
-        run: echo "${{ secrets.DOCKERHUB_USERNAME }}" | base64 -d > /tmp/google-credentials.json
+        run: echo "${{ secrets.DOCKERHUB_USERNAME }}" > /tmp/google-credentials.json
 
       - name: Verify Google Cloud credentials file
         run: |
