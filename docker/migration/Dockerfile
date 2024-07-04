@@ -7,6 +7,9 @@ COPY DentistryBusinessObjects/*.csproj ./DentistryBusinessObjects/
 COPY DTOs/*.csproj ./DTOs/
 COPY DentistryRepositories/*.csproj ./DentistryRepositories/
 COPY DentistryServices/*.csproj ./DentistryServices/
+COPY Search/*.csproj ./Search/
+COPY Firebase/*.csproj ./Firebase/
+COPY prn_dentistry/Config ./prn_dentistry/
 COPY prn-dentistry/*.csproj ./prn-dentistry/
 RUN dotnet restore --use-current-runtime
 

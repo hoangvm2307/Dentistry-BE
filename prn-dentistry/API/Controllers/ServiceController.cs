@@ -1,3 +1,4 @@
+using DentistryRepositories;
 using DentistryServices;
 using DTOs.ServiceDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,13 @@ namespace prn_dentistry.API.Controllers
       if (service == null) return NotFound();
 
       return Ok(service);
+    }
+    
+    [HttpGet("paged")]
+    public async Task<ActionResult<PaginatedList<ServiceDto>>> GetPagedClinics([FromQuery] QueryParams queryParams)
+    {
+      var pagedDentists = await _serviceService.GetPagedServicesAsync(queryParams);
+      return Ok(pagedDentists);
     }
 
     [HttpPost]

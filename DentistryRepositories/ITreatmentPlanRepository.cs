@@ -1,4 +1,5 @@
 
+using System.Linq.Expressions;
 using DentistryBusinessObjects;
 
 namespace DentistryRepositories
@@ -10,5 +11,10 @@ namespace DentistryRepositories
     Task AddTreatmentPlanAsync(TreatmentPlan appointment);
     Task UpdateTreatmentPlanAsync(TreatmentPlan appointment);
     Task DeleteTreatmentPlanAsync(int id);
+    Task<PaginatedList<TreatmentPlan>> GetPagedTreatmentPlansAsync(
+            int pageIndex,
+            int pageSize,
+            Expression<Func<TreatmentPlan, bool>> filter,
+            Func<IQueryable<TreatmentPlan>, IOrderedQueryable<TreatmentPlan>> orderBy);
   }
 }

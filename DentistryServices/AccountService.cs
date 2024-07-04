@@ -1,5 +1,3 @@
-
-
 using System.Transactions;
 using DentistryBusinessObjects;
 using DentistryRepositories;
@@ -71,6 +69,7 @@ namespace DentistryServices
             DateOfBirth = registerDto.DateOfBirth,
             Address = registerDto.Address,
             Gender = registerDto.Gender,
+            Image = registerDto.Image,
             Status = true
           };
           await _customerRepository.AddCustomerAsync(customer);
@@ -156,6 +155,7 @@ namespace DentistryServices
             Specialization = registerDto.Specialization,
             ClinicID = registerDto.ClinicID,
             Status = registerDto.Status,
+            Image = registerDto.Image,
             Id = user.Id
           };
 

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
@@ -13,9 +14,9 @@ namespace DentistryServices
     private readonly IClinicRepository _clinicRepository;
     private readonly IBaseRepository<Dentist> _dentistRepository;
     private readonly IMapper _mapper;
-    private readonly FirebaseStorageService _firebaseStorageService;
+    private readonly IFirebaseStorageService _firebaseStorageService;
 
-    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper, FirebaseStorageService firebaseStorageService)
+    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper, IFirebaseStorageService firebaseStorageService)
     {
       _clinicRepository = clinicRepository;
       _dentistRepository = dentistRepository;
@@ -25,9 +26,14 @@ namespace DentistryServices
 
     public async Task<ClinicDto> AddClinicAsync(ClinicCreateDto clinicDto)
     {
-      string imageURL = await _firebaseStorageService.UploadFileAsync(clinicDto.Image.OpenReadStream(), clinicDto.Image.FileName);
+      // string imageURL = null;
+
+      // if (clinicDto.Image != null)
+      // {
+      //   imageURL = await _firebaseStorageService.UploadFileAsync(clinicDto.Image.OpenReadStream(), clinicDto.Image.FileName);
+      // }
       var clinic = _mapper.Map<Clinic>(clinicDto);
-      clinic.Image = imageURL;
+      // clinic.Image = imageURL;
 
       await _clinicRepository.AddClinicAsync(clinic);
 
@@ -91,6 +97,56 @@ namespace DentistryServices
       _mapper.Map(clinicDto, clinic);
       await _clinicRepository.UpdateClinicAsync(clinic);
       return _mapper.Map<ClinicDto>(clinic);
+    }
+
+    public async Task<PaginatedList<ClinicDto>> GetPagedClinicsAsync(QueryParams queryParams)
+    {
+      Expression<Func<Clinic, bool>> filterExpression = null;
+      if (!string.IsNullOrEmpty(queryParams.Filter))
+      {
+        filterExpression = e => e.Name.Contains(queryParams.Filter);
+      }
+      if (!string.IsNullOrEmpty(queryParams.Search))
+      {
+        string searchLower = queryParams.Search.ToLower();
+        Expression<Func<Clinic, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
+        if (filterExpression != null)
+        {
+          filterExpression = filterExpression.AndAlso(searchExpression);
+        }
+        else
+        {
+          filterExpression = searchExpression;
+        }
+      }
+      Func<IQueryable<Clinic>, IOrderedQueryable<Clinic>> orderBy = null;
+      if (queryParams.Sort != null)
+      {
+        switch (queryParams.Sort.Key)
+        {
+          case "name":
+            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
+            break;
+          case "status":
+            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
+            break;
+          default:
+            orderBy = q => q.OrderBy(e => e.ClinicID); // Default sort by ClinicID
+            break;
+        }
+      }
+      else
+      {
+        orderBy = q => q.OrderBy(e => e.ClinicID); // Default sort by ClinicID
+      }
+
+      var pagedClinics = await _clinicRepository.GetPagedClinicsAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
+      return new PaginatedList<ClinicDto>(
+          _mapper.Map<List<ClinicDto>>(pagedClinics),
+          pagedClinics.Count,
+          pagedClinics.PageIndex,
+          queryParams.PageSize
+      );
     }
   }
 }

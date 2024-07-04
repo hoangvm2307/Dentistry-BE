@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using DentistryBusinessObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,7 @@ namespace DentistryRepositories
     public class CustomerRepository : ICustomerRepository
     {
         private readonly DBContext _context;
+    private readonly IBaseRepository<Customer> _baseRepository;
 
         public CustomerRepository(DBContext context)
         {
@@ -43,5 +45,10 @@ namespace DentistryRepositories
             _context.Entry(customer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }  
+
+        public Task<PaginatedList<Customer>> GetPagedCustomersAsync(int pageIndex, int pageSize, Expression<Func<Customer, bool>> filter, Func<IQueryable<Customer>, IOrderedQueryable<Customer>> orderBy)
+        {
+            return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
+        }
     }
 }

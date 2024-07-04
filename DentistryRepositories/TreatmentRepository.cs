@@ -1,4 +1,5 @@
 
+using System.Linq.Expressions;
 using DentistryBusinessObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace DentistryRepositories
   public class TreatmentPlanRepository : ITreatmentPlanRepository
     {
         private readonly DBContext _context;
+    private readonly IBaseRepository<TreatmentPlan> _baseRepository;
         
         public TreatmentPlanRepository(DBContext context)
         {
@@ -43,6 +45,11 @@ namespace DentistryRepositories
         {
             _context.Entry(treatmentPlan).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public Task<PaginatedList<TreatmentPlan>> GetPagedTreatmentPlansAsync(int pageIndex, int pageSize, Expression<Func<TreatmentPlan, bool>> filter, Func<IQueryable<TreatmentPlan>, IOrderedQueryable<TreatmentPlan>> orderBy)
+        {
+            return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
         }
     }
 }

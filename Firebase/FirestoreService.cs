@@ -1,8 +1,9 @@
-﻿using Google.Cloud.Firestore;
+﻿ 
+using Google.Cloud.Firestore;
 
 namespace Firebase
 {
-    public class FirestoreService
+    public class FirestoreService : IFirestoreService
     {
         private readonly FirestoreDb _firestoreDb;
 
@@ -16,5 +17,6 @@ namespace Firebase
             CollectionReference collection = _firestoreDb.Collection(collectionName);
             await collection.AddAsync(message);
         }
+      
     }
 }

@@ -109,7 +109,7 @@ namespace DentistryServices
       return _mapper.Map<DentistDto>(dentist);
     }
 
-    public async Task<PaginatedList<DentistDto>> GetPagedDentistsAsync(DentistRequestQueryParams queryParams)
+    public async Task<PaginatedList<DentistDto>> GetPagedDentistsAsync(QueryParams queryParams)
     {
       Expression<Func<Dentist, bool>> filterExpression = null;
       if (!string.IsNullOrEmpty(queryParams.Filter))
