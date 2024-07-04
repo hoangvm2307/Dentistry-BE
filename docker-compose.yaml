@@ -24,14 +24,14 @@ services:
       - dentistry-be-network
 
   migration:
-    image: markvovn/dentistry-be-migration:latest
+    # image: markvovn/dentistry-be-migration:latest
     depends_on:
       "app_db":
         condition: service_healthy
     container_name: prn-dentistry-migration
-    # build:
-    #   context: .
-    #   dockerfile: ./docker/migration/Dockerfile
+    build:
+      context: .
+      dockerfile: ./docker/migration/Dockerfile
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS_JSON=${google-credentials}
       - ConnectionStrings__ConnectionString=UserID=postgres;Password=posgres;Host=app_db;Port=5432;Database=dentistry_db;Pooling=true;
