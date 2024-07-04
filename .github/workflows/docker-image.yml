@@ -28,7 +28,7 @@ jobs:
       - name: Create Google Cloud credentials file
         env:
           GOOGLE_KEY_BASE64: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: echo "$GOOGLE_KEY_BASE64" | base64 -d > /tmp/google-credentials.json
+        run: echo "${{ secrets.DOCKERHUB_USERNAME }}" | base64 -d > /tmp/google-credentials.json
 
       - name: Verify Google Cloud credentials file
         run: |
