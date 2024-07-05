@@ -85,11 +85,11 @@ string json = @"
   ""client_x509_cert_url"": ""https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-esd11%40prn-project-75959.iam.gserviceaccount.com"",
   ""universe_domain"": ""googleapis.com""
 }";
-FirestoreDb firestoreDb = FirestoreDb.Create("prn-project-75959", new FirestoreClientBuilder
-{
-  Credential = GoogleCredential.FromJson(json)
-}.Build());
-builder.Services.AddSingleton(firestoreDb);
+// FirestoreDb firestoreDb = FirestoreDb.Create("prn-project-75959", new FirestoreClientBuilder
+// {
+//   Credential = GoogleCredential.FromJson(json)
+// }.Build());
+// builder.Services.AddSingleton(firestoreDb);
 
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -109,12 +109,11 @@ builder.Services.AddSingleton(provider =>
 
 var app = builder.Build();
  
-FirebaseApp.Create(new AppOptions()
-{
-  Credential = GoogleCredential.FromJson(json)
-});
+// FirebaseApp.Create(new AppOptions()
+// {
+//   Credential = GoogleCredential.FromJson(json)
+// });
  
-Console.WriteLine(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS_JSON"));
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
@@ -145,7 +144,7 @@ app.UseStaticFiles(new StaticFileOptions
   FileProvider = new PhysicalFileProvider(staticFilesPath),
   RequestPath = ""
 });
-app.MapHub<ChatHub>("/chatHub");
+// app.MapHub<ChatHub>("/chatHub");
 app.MapControllers();
 
 // Serve the HTML file

@@ -14,14 +14,14 @@ namespace DentistryServices
     private readonly IClinicRepository _clinicRepository;
     private readonly IBaseRepository<Dentist> _dentistRepository;
     private readonly IMapper _mapper;
-    private readonly IFirebaseStorageService _firebaseStorageService;
+    // private readonly IFirebaseStorageService _firebaseStorageService;
 
-    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper, IFirebaseStorageService firebaseStorageService)
+    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper)
     {
       _clinicRepository = clinicRepository;
       _dentistRepository = dentistRepository;
       _mapper = mapper;
-      _firebaseStorageService = firebaseStorageService;
+      // _firebaseStorageService = firebaseStorageService;
     }
 
     public async Task<ClinicDto> AddClinicAsync(ClinicCreateDto clinicDto)
