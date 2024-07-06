@@ -13,6 +13,7 @@ namespace DentistryServices
     private readonly IClinicOwnerRepository _clinicOwnerRepository;
     private readonly IBaseRepository<Dentist> _dentistRepository;
     private readonly TokenService _tokenService;
+
     public AccountService(IAccountRepository accountRepository, ICustomerRepository customerRepository,
       IClinicOwnerRepository clinicOwnerRepository, IBaseRepository<Dentist> dentistRepository, TokenService tokenService)
     {
@@ -181,6 +182,20 @@ namespace DentistryServices
         Email = user.Email,
         Token = await _tokenService.GenerateToken(user)
       };
+    }
+
+    public async Task<IdentityResult> RegisterAdmin()
+    {
+      var user = new User
+      {
+        UserName = "admin",
+        Email = "admin@gmail.com"
+      };
+
+      await _accountRepository.RegisterAsync(user, "Pa$$w0rd");
+      await _accountRepository.AssignRoleAsync(user, "Admin");
+      return IdentityResult.Success;
+
     }
   }
 }
