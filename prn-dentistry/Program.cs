@@ -136,7 +136,7 @@ var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 try
 {
-  await context.Database.MigrateAsync();
+  // await context.Database.MigrateAsync();
   await DBInitializer.Initialize(context, userManager);
   await SearchIndexInitializer.Initialize(context, luceneIndexer);
 }
@@ -145,5 +145,5 @@ catch (Exception ex)
   logger.LogError(ex, "A problem occurred during migration");
 }
 
-app.MigrateDatabase<DBContext>().Run();
+// app.MigrateDatabase<DBContext>().Run();
 app.Run();

@@ -14,7 +14,17 @@ namespace prn_dentistry.API.Controllers
     {
       _accountService = accountService;
     }
+    [HttpPost("register-admin")]
+      public async Task<IActionResult> RegisterAdmin([FromBody] RegisterAdminDto registerDto)
+    {
+      if (registerDto == null || !ModelState.IsValid) return BadRequest("Invalid registration request");
 
+      var result = await _accountService.RegisterAdmin(registerDto);
+
+      if (result.Succeeded) return Ok("User registered successfully");
+
+      return BadRequest(result.Errors);
+    }
     [HttpPost("register-customer")]
     public async Task<IActionResult> RegisterCustomer([FromBody] RegisterCustomerDto registerDto)
     {
