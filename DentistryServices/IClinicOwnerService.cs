@@ -7,7 +7,6 @@ namespace DentistryServices
   public interface IClinicOwnerService
   {
     Task<IEnumerable<ClinicOwnerDto>> GetAllClinicOwnersAsync();
-    Task<IEnumerable<ClinicOwnerDto>> GetClinicOwnersByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues);
     Task<ClinicOwnerDto> GetClinicOwnerByIdAsync(int id);
     Task<PaginatedList<ClinicOwnerDto>> GetPagedClinicOwnersAsync(QueryParams queryParams);
     Task<IEnumerable<ClinicOwnerDto>> GetClinicOwnersByClinicIdAsync(int id);

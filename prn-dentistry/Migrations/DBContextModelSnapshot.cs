@@ -139,7 +139,8 @@ namespace prn_dentistry.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OwnerID"));
 
-                    b.Property<int>("ClinicID")
+                    b.Property<int?>("ClinicID")
+                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
@@ -473,31 +474,31 @@ namespace prn_dentistry.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "48b6cf7c-d3ca-4a18-9ab1-d5ecedf887b6",
+                            Id = "b7ccd124-b97d-48d0-88d0-4bbcf527a76c",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "7a6ab909-8e15-497b-8e44-eb6ab8a407bd",
+                            Id = "46cb672a-3c55-42d6-ac82-9ba954a955fd",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "a98ba60b-3370-4630-8873-8b4561064fef",
+                            Id = "d508333d-0258-4cf3-aeaf-8ca43f853483",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a79708cb-b014-4397-b329-09bce3b91507",
+                            Id = "b5c0039a-cd32-48eb-be37-64ca62313f0e",
                             Name = "ClinicOwner",
                             NormalizedName = "CLINICOWNER"
                         },
                         new
                         {
-                            Id = "4f6c9e23-3be1-4e98-b878-1eca950f4baa",
+                            Id = "3158049d-6c1c-417b-ba68-3849b2e9d3a3",
                             Name = "Dentist",
                             NormalizedName = "DENTIST"
                         });

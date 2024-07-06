@@ -1,12 +1,14 @@
 using DentistryRepositories;
 using DentistryServices;
 using DTOs.ClinicDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace prn_dentistry.API.Controllers
 {
-    public class ClinicController : BaseApiController
+  [Authorize]
+  public class ClinicController : BaseApiController
   {
     private readonly IClinicService _clinicService;
 
@@ -16,6 +18,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin,Customer")]
     public async Task<ActionResult<IEnumerable<ClinicDto>>> GetAllClinics()
     {
       var clinics = await _clinicService.GetAllClinicsAsync();
@@ -23,12 +26,13 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}/getById")]
+    [Authorize]
     public async Task<ActionResult<ClinicDto>> GetClinicById(int id)
     {
       var clinic = await _clinicService.GetClinicByIdAsync(id);
 
-      if (clinic == null)  return NotFound();
-    
+      if (clinic == null) return NotFound();
+
       return Ok(clinic);
     }
 
@@ -37,20 +41,21 @@ namespace prn_dentistry.API.Controllers
     {
       var clinic = await _clinicService.GetClinicsByStatusAsync(statuses);
 
-      if (clinic == null)  return NotFound();
-    
+      if (clinic == null) return NotFound();
+
       return Ok(clinic);
     }
-    
+
+    [Authorize(Roles = "Admin")]
     [HttpGet("paged")]
     public async Task<ActionResult<PaginatedList<ClinicDto>>> GetPagedClinics([FromQuery] QueryParams queryParams)
     {
       var pagedDentists = await _clinicService.GetPagedClinicsAsync(queryParams);
       return Ok(pagedDentists);
     }
-
     [HttpPost]
-    public async Task<ActionResult<ClinicDto>> CreateClinic([FromBody]ClinicCreateDto clinicDto)
+    [Authorize(Roles = "ClinicOwner")]
+    public async Task<ActionResult<ClinicDto>> CreateClinic([FromBody] ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
       var clinic = await _clinicService.AddClinicAsync(clinicDto);
@@ -59,14 +64,18 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> UpdateClinic(int id, ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
       var clinic = new ClinicDto();
 
-      try {
+      try
+      {
         clinic = await _clinicService.UpdateClinicAsync(id, clinicDto);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 
@@ -74,11 +83,16 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteService(int id)
+    [Authorize(Roles = "ClinicOwner")]
+
+    public async Task<IActionResult> DeleteClinic(int id)
     {
-      try {
+      try
+      {
         await _clinicService.DeleteClinicAsync(id);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 

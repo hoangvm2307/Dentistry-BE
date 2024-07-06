@@ -39,16 +39,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinicOwners);
     }
 
-    [HttpGet("getFilter")]
-    public async Task<ActionResult<IEnumerable<ClinicOwnerDto>>> GetClinicByStatus([FromQuery] List<int> ids,[FromQuery] List<bool> statuses)
-    {
-      var clinicOwner = await _clinicOwnerService.GetClinicOwnersByClinicIdAndStatusAsync(ids, statuses);
 
-      if (clinicOwner == null)  return NotFound();
-    
-      return Ok(clinicOwner);
-    }
-    
     [HttpGet("paged")]
     public async Task<ActionResult<PaginatedList<ClinicOwnerDto>>> GetPagedClinics([FromQuery] QueryParams queryParams)
     {

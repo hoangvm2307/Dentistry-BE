@@ -3,11 +3,11 @@ using DTOs.DentistDtos;
 
 namespace DentistryServices
 {
-    public interface IDentistService
+  public interface IDentistService
   {
     Task<IEnumerable<DentistDto>> GetAllDentistsAsync();
-    Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAsync(int id);
-   Task<PaginatedList<DentistDto>> GetPagedDentistsAsync(QueryParams queryParams);
+    Task<PaginatedList<DentistDto>> GetDentistsByClinicIdAsync(int id, QueryParams queryParams);
+    Task<PaginatedList<DentistDto>> GetPagedDentistsAsync(QueryParams queryParams);
     Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues);
     Task<DentistDto> GetDentistByIdAsync(int id);
     Task<DentistDto> AddDentistAsync(DentistCreateDto dentist);

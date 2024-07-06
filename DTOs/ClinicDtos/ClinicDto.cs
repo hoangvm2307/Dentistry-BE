@@ -12,6 +12,7 @@ namespace DTOs.ClinicDtos
     public DateTime OpeningHours { get; set; }
     public DateTime ClosingHours { get; set; }
     public bool Status { get; set; }
+    public string Image { get; set;}
     public List<DentistDto> Dentists { get; set; }
   }
 }

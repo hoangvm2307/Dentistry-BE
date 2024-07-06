@@ -30,17 +30,6 @@ namespace DentistryServices
       return _mapper.Map<CustomerDto>(customer);
     }
 
-    private async Task<IEnumerable<CustomerDto>> GetCustomersByStatusAsync(List<bool> statuses)
-    {
-      var customer = await _customerRepository.GetAllCustomersAsync();
-
-      if (statuses != null){
-        customer = customer.Where(customer => statuses.Contains(customer.Status));
-      }
-      
-      return _mapper.Map<IEnumerable<CustomerDto>>(customer);
-    }
-
     public async Task<CustomerDto> CreateCustomerAsync(CustomerCreateDto customerCreateDto)
     {
       var customer = _mapper.Map<Customer>(customerCreateDto);
@@ -72,13 +61,20 @@ namespace DentistryServices
       await _customerRepository.DeleteCustomerAsync(id);
     }
 
+    public async Task<PaginatedList<CustomerDto>> GetCustomersByClinicIdAsync(int id, QueryParams queryParams)
+    {
+      Expression<Func<Customer, bool>> filterExpression = e => e.Appointments.Any(a => a.Dentist.ClinicID == id);
+      return await GetCustomersAsync(filterExpression, queryParams);
+    }
     public async Task<PaginatedList<CustomerDto>> GetPagedCustomersAsync(QueryParams queryParams)
     {
       Expression<Func<Customer, bool>> filterExpression = null;
-      if (!string.IsNullOrEmpty(queryParams.Filter))
-      {
-        filterExpression = e => e.Name.Contains(queryParams.Filter);
-      }
+      return await GetCustomersAsync(filterExpression, queryParams);
+    }
+
+    #region Private
+    private async Task<PaginatedList<CustomerDto>> GetCustomersAsync(Expression<Func<Customer, bool>> filterExpression, QueryParams queryParams)
+    {
       if (!string.IsNullOrEmpty(queryParams.Search))
       {
         string searchLower = queryParams.Search.ToLower();
@@ -121,5 +117,6 @@ namespace DentistryServices
           queryParams.PageSize
       );
     }
+    #endregion
   }
 }

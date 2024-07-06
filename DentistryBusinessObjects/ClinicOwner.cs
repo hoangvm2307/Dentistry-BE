@@ -24,7 +24,7 @@ namespace DentistryBusinessObjects
         public bool Status { get; set; }
 
         [Required(ErrorMessage = "Clinic ID is required.")]
-        public int ClinicID { get; set; }
+        public int? ClinicID { get; set; }
 
         [ForeignKey("ClinicID")]
         public Clinic Clinic { get; set; }

@@ -26,14 +26,8 @@ namespace DentistryServices
 
     public async Task<ClinicDto> AddClinicAsync(ClinicCreateDto clinicDto)
     {
-      // string imageURL = null;
-
-      // if (clinicDto.Image != null)
-      // {
-      //   imageURL = await _firebaseStorageService.UploadFileAsync(clinicDto.Image.OpenReadStream(), clinicDto.Image.FileName);
-      // }
+ 
       var clinic = _mapper.Map<Clinic>(clinicDto);
-      // clinic.Image = imageURL;
 
       await _clinicRepository.AddClinicAsync(clinic);
 

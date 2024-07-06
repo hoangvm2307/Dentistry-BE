@@ -56,21 +56,9 @@ builder.Services.AddDbContextPool<DBContext>(
 
 builder.Services.AddCors();
 builder.Services.AddControllers();
-builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DBContext>().AddDefaultTokenProviders();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-      options.TokenValidationParameters = new TokenValidationParameters
-      {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
-      };
-    });
-builder.Services.AddAuthorization();
+builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 string json = @"
 {
   ""type"": ""service_account"",
@@ -92,28 +80,15 @@ string json = @"
 // builder.Services.AddSingleton(firestoreDb);
 
 builder.Services.AddScoped<TokenService>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped<ILuceneSearcherService>(provider =>
-{
-  var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
-  return new LuceneSearcherService(indexPath);
-});
-
-
-builder.Services.AddSingleton(provider =>
-{
-  var indexPath = Path.Combine(Directory.GetCurrentDirectory(), "LuceneIndex");
-  return new LuceneIndexer(indexPath);
-});
 
 var app = builder.Build();
- 
+
 // FirebaseApp.Create(new AppOptions()
 // {
 //   Credential = GoogleCredential.FromJson(json)
 // });
- 
+
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {

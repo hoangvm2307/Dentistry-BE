@@ -1,6 +1,7 @@
 using DentistryRepositories;
 using DentistryServices;
 using DTOs.CustomerDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -22,42 +23,45 @@ namespace prn_dentistry.API.Controllers
       return Ok(customers);
     }
 
+    [HttpGet("/getCustomersByClinicId/{id}")]
+    [Authorize(Roles = "ClinicOwner")]
+    public async Task<ActionResult<PaginatedList<CustomerDto>>> GetDentistsByClinicIdAsync(int id, [FromQuery] QueryParams queryParams)
+    {
+      var customers = await _customerService.GetCustomersByClinicIdAsync(id, queryParams);
+      return Ok(customers);
+    }
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin, ClinicOwner")]
     public async Task<ActionResult<CustomerDto>> GetCustomerById(int id)
     {
       var customer = await _customerService.GetCustomerByIdAsync(id);
 
-      if (customer == null)  return NotFound();
-    
+      if (customer == null) return NotFound();
+
       return Ok(customer);
     }
-    
+
     [HttpGet("paged")]
-    public async Task<ActionResult<PaginatedList<CustomerDto>>> GetPagedClinics([FromQuery] QueryParams queryParams)
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<PaginatedList<CustomerDto>>> GetCustomers([FromQuery] QueryParams queryParams)
     {
       var pagedDentists = await _customerService.GetPagedCustomersAsync(queryParams);
       return Ok(pagedDentists);
     }
 
-    [HttpPost]
-    public async Task<ActionResult<CustomerDto>> CreateCustomer(CustomerCreateDto customerCreateDto)
-    {
-      if (!ModelState.IsValid) return BadRequest(ModelState);
-
-      var customer = await _customerService.CreateCustomerAsync(customerCreateDto);
-
-      return CreatedAtAction(nameof(GetCustomerById), new { id = customer.CustomerID }, customer);
-    }
-
     [HttpPut("{id}")]
+    [Authorize(Roles = "Customer")]
     public async Task<ActionResult<CustomerDto>> UpdateCustomer(int id, CustomerCreateDto customerUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
       var customer = new CustomerDto();
 
-      try {
+      try
+      {
         customer = await _customerService.UpdateCustomerAsync(id, customerUpdateDto);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 
@@ -65,12 +69,15 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin,Customer")]
     public async Task<IActionResult> DeleteCustomer(int id)
     {
-      try 
+      try
       {
         await _customerService.DeleteCustomerAsync(id);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 

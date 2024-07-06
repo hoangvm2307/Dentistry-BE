@@ -48,15 +48,10 @@ namespace DentistryServices
       return _mapper.Map<IEnumerable<DentistDto>>(dentists);
     }
 
-    public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAsync(int id)
+    public async Task<PaginatedList<DentistDto>> GetDentistsByClinicIdAsync(int id, QueryParams queryParams)
     {
-      var allDentists = await _dentistRepository.GetAllAsync();
-      var dentists = allDentists.Where(e => e.ClinicID == id);
-      if (dentists == null)
-      {
-        throw new NullReferenceException("Dentists object is null.");
-      }
-      return _mapper.Map<IEnumerable<DentistDto>>(dentists);
+      Expression<Func<Dentist, bool>> filterExpression = e => e.ClinicID == id;
+      return await GetDentistsAsync(filterExpression, queryParams);
     }
 
     public async Task<DentistDto> GetDentistByIdAsync(int id)
@@ -70,16 +65,22 @@ namespace DentistryServices
 
       return _mapper.Map<DentistDto>(dentist);
     }
-
+    public async Task<PaginatedList<DentistDto>> GetPagedDentistsAsync(QueryParams queryParams)
+    {
+      Expression<Func<Dentist, bool>> filterExpression = null;
+      return await GetDentistsAsync(filterExpression, queryParams);
+    }
     public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues)
     {
       var dentists = await _dentistRepository.GetAllAsync();
 
-      if (!clinicIds.IsNullOrEmpty()){
+      if (!clinicIds.IsNullOrEmpty())
+      {
         dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID));
       }
 
-      if (!statues.IsNullOrEmpty()){
+      if (!statues.IsNullOrEmpty())
+      {
         dentists = dentists.Where(dentist => statues.Contains(dentist.Status));
       }
 
@@ -109,26 +110,22 @@ namespace DentistryServices
       return _mapper.Map<DentistDto>(dentist);
     }
 
-    public async Task<PaginatedList<DentistDto>> GetPagedDentistsAsync(QueryParams queryParams)
+    private async Task<PaginatedList<DentistDto>> GetDentistsAsync(Expression<Func<Dentist, bool>> filterExpression, QueryParams queryParams)
     {
-      Expression<Func<Dentist, bool>> filterExpression = null;
       if (!string.IsNullOrEmpty(queryParams.Filter))
       {
-        filterExpression = e => e.Clinic.Name.Contains(queryParams.Filter);
+        Expression<Func<Dentist, bool>> filterByNameExpression = e => e.Clinic.Name.Contains(queryParams.Filter);
+        filterExpression = filterExpression != null ? filterExpression.AndAlso(filterByNameExpression) : filterByNameExpression;
       }
+
       if (!string.IsNullOrEmpty(queryParams.Search))
       {
         string searchLower = queryParams.Search.ToLower();
         Expression<Func<Dentist, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
-        if (filterExpression != null)
-        {
-          filterExpression = filterExpression.AndAlso(searchExpression);
-        }
-        else
-        {
-          filterExpression = searchExpression;
-        }
+
+        filterExpression = filterExpression != null ? filterExpression.AndAlso(searchExpression) : searchExpression;
       }
+
       Func<IQueryable<Dentist>, IOrderedQueryable<Dentist>> orderBy = null;
       if (queryParams.Sort != null)
       {

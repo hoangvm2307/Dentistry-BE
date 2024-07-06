@@ -182,7 +182,5 @@ namespace DentistryServices
         Token = await _tokenService.GenerateToken(user)
       };
     }
-
-
   }
 }

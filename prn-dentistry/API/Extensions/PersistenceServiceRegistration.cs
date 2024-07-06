@@ -8,7 +8,7 @@ using Google.Cloud.Firestore.V1;
 
 namespace prn_dentistry.API.Extensions
 {
-  public static class ServiceRegistration
+  public static class PersistenceServiceRegistration
   {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {

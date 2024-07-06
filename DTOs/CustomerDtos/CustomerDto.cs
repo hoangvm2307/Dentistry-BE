@@ -5,7 +5,7 @@ namespace DTOs.CustomerDtos
 {
   public class CustomerDto
   {
-    
+
     public int CustomerID { get; set; }
     public string Name { get; set; }
     public string PhoneNumber { get; set; }
@@ -14,7 +14,7 @@ namespace DTOs.CustomerDtos
     public string Address { get; set; }
     public string Gender { get; set; }
     public bool Status { get; set; }
-
+    public string Image { get; set; }
     public List<AppointmentDto> Appointments { get; set; }
     public List<TreatmentPlanDto> TreatmentPlans { get; set; }
   }
