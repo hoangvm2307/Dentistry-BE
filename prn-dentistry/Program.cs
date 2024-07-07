@@ -58,17 +58,17 @@ builder.Services.AddCors(options =>
 {
   options.AddPolicy("AllowLocalhost3000",
       builder => builder
+          .WithOrigins("http://localhost:3000"))
           .AllowAnyHeader()
           .AllowAnyMethod()
-          .AllowCredentials()
-          .WithOrigins("http://localhost:3000"));
+          .AllowCredentials();
 
   options.AddPolicy("AllowProductionDomain",
-      builder => builder
+      builder => builder.WithOrigins("https://dentistry.api.markvoit.id.vn"))
           .AllowAnyHeader()
           .AllowAnyMethod()
           .AllowCredentials()
-          .WithOrigins("https://dentistry.api.markvoit.id.vn"));
+          ;
 });
 
 builder.Services.AddControllers();
@@ -99,20 +99,20 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
+// {
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-  app.UseSwagger();
-  app.UseSwaggerUI(c =>
-  {
-    c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-  });
+  c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+});
 
-  app.UseCors("AllowLocalhost3000");
-}
-else
-{
-  app.UseCors("AllowProductionDomain");
-}
+app.UseCors("AllowLocalhost3000");
+// }
+// else
+// {
+// app.UseCors("AllowProductionDomain");
+// }
 
 
 
