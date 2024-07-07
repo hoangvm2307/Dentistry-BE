@@ -6,8 +6,8 @@ namespace DTOs.SearchDtos
 {
     public class SearchResultDto
     {
-        public IEnumerable<ClinicDto> Clinics { get; set; }
-        public IEnumerable<DentistDto> Dentists { get; set;}
-        public IEnumerable<ServiceDto> Services { get; set;}
+        public List<ClinicDto> Clinics { get; set; }
+        public List<DentistDto> Dentists { get; set;}
+        public List<ServiceDto> Services { get; set;}
     }
 }

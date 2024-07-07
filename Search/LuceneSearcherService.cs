@@ -94,7 +94,7 @@ namespace Search
                     Address = doc.Get("Address"),
                     PhoneNumber = doc.Get("PhoneNumber"),
                     Email = doc.Get("Email"),
-                    Dentists = GetDentistsForClinic(searcher, clinicIdString, seenDentistIds)
+                    // Dentists = GetDentistsForClinic(searcher, clinicIdString, seenDentistIds)
                 };
 
                 clinics.Add(clinicDto);

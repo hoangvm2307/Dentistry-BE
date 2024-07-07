@@ -30,7 +30,7 @@ namespace DentistryRepositories
         await _context.SaveChangesAsync();
       }
     }
-
+    
     public async Task<PagedList<Clinic>> GetAllClinicsAsync(QueryableParam queryParams)
     {
       var query = _context.Clinics
