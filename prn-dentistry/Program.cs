@@ -97,6 +97,8 @@ var app = builder.Build();
 // });
 
 // Configure the HTTP request pipeline.
+app.UseHttpsRedirection();
+
 if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
@@ -112,7 +114,7 @@ else
   app.UseCors("AllowProductionDomain");
 }
 
-app.UseHttpsRedirection();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
