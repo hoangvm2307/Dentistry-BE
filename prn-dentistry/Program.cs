@@ -54,7 +54,16 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContextPool<DBContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"), b => b.MigrationsAssembly("prn-dentistry")));
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+    {
+      options.AddPolicy("AllowLocalhost3000",
+          builder => builder
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials()
+              .WithOrigins("http://localhost:3000"));
+    });
+
 builder.Services.AddControllers();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
