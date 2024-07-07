@@ -115,7 +115,7 @@ app.UseSwaggerUI(c =>
 //   opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://dentistry.api.markvoit.id.vn");
 // });
 
-app.UseCors("all");
+app.UseCors("AllowLocalhost3000");
 
 app.UseHttpsRedirection();
 
