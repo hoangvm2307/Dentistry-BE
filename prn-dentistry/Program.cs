@@ -19,6 +19,17 @@ using prn_dentistry.API.Extensions;
 using Search;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("AllowLocalhost3000",
+      builder => builder
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowCredentials()
+          .WithOrigins("http://localhost:3000"));
+});
+
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 
@@ -54,22 +65,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContextPool<DBContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"), b => b.MigrationsAssembly("prn-dentistry")));
 
-builder.Services.AddCors(options =>
-{
-  options.AddPolicy("AllowLocalhost3000",
-      builder => builder
-          .AllowAnyHeader()
-          .AllowAnyMethod()
-          .AllowCredentials()
-          .WithOrigins("http://localhost:3000"));
 
-  options.AddPolicy("AllowProductionDomain",
-      builder => builder
-          .AllowAnyHeader()
-          .AllowAnyMethod()
-          .AllowCredentials()
-          .WithOrigins("https://dentistry.api.markvoit.id.vn"));
-});
 
 builder.Services.AddControllers();
 builder.Services.AddIdentityServices(builder.Configuration);
@@ -106,22 +102,22 @@ var app = builder.Build();
 // });
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
+// {
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-  app.UseSwagger();
-  app.UseSwaggerUI(c =>
-  {
-    c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-  });
+  c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+});
+// app.UseHttpsRedirection();
+app.UseCors("AllowLocalhost3000");
+// }
+// else
+// {
+//   app.UseCors("AllowProductionDomain");
+// }
 
-  app.UseCors("AllowLocalhost3000");
-}
-else
-{
-  app.UseCors("AllowProductionDomain");
-}
 
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
