@@ -1,10 +1,11 @@
+using DentistryRepositories.Extensions;
 using DTOs.AppointmentDtos;
 
 namespace DentistryServices
 {
   public interface IAppointmentService
   {
-    Task<IEnumerable<AppointmentDto>> GetAllAppointmentsAsync();
+    Task<PagedList<AppointmentDto>> GetAllAppointmentsAsync(QueryableParam queryParams);
     Task<AppointmentDto> GetAppointmentByIdAsync(int id);
     Task<AppointmentDto> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto);
     Task<AppointmentDto> UpdateAppointmentAsync(int id, AppointmentUpdateDto appointmentUpdateDto);

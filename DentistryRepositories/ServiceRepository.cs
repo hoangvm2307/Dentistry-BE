@@ -1,23 +1,30 @@
 using System.Linq.Expressions;
 using DentistryBusinessObjects;
+using DentistryRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
- 
+
 
 namespace DentistryRepositories
 {
   public class ServiceRepository : IServiceRepository
   {
     private readonly DBContext _context;
-    private readonly IBaseRepository<Service> _baseRepository;
 
     public ServiceRepository(DBContext context)
     {
       _context = context;
     }
 
-    public async Task<IEnumerable<Service>> GetAllServicesAsync()
+    public async Task<PagedList<Service>> GetAllServicesAsync(QueryableParam queryParams)
     {
-      return await _context.Services.ToListAsync();
+      var query = _context.Services
+          .Sort(queryParams.OrderBy)
+          .Search(queryParams.SearchTerm)
+          .Filter(queryParams.ClinicID)
+          .Include(d => d.Clinic)
+          .AsQueryable();
+
+      return await PagedList<Service>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
     }
 
     public async Task<Service> GetServiceByIdAsync(int id)
@@ -47,9 +54,5 @@ namespace DentistryRepositories
       }
     }
 
-    public Task<PaginatedList<Service>> GetPagedServicesAsync(int pageIndex, int pageSize, Expression<Func<Service, bool>> filter, Func<IQueryable<Service>, IOrderedQueryable<Service>> orderBy)
-    {
-        return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
-    }
   }
 }

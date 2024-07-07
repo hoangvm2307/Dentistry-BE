@@ -1,19 +1,15 @@
 using System.Linq.Expressions;
 using DentistryBusinessObjects;
+using DentistryRepositories.Extensions;
 
 namespace DentistryRepositories
 {
   public interface ICustomerRepository
   {
-    Task<IEnumerable<Customer>> GetAllCustomersAsync();
+    Task<PagedList<Customer>> GetAllCustomersAsync(QueryableParam queryParams);
     Task<Customer> GetCustomerByIdAsync(int id);
     Task AddCustomerAsync(Customer customer);
     Task UpdateCustomerAsync(Customer customer);
     Task DeleteCustomerAsync(int id);
-    Task<PaginatedList<Customer>> GetPagedCustomersAsync(
-            int pageIndex,
-            int pageSize,
-            Expression<Func<Customer, bool>> filter,
-            Func<IQueryable<Customer>, IOrderedQueryable<Customer>> orderBy);
   }
 }

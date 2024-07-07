@@ -1,4 +1,5 @@
-using DentistryRepositories;
+using System.Text.Json;
+using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.CustomerDtos;
 using Microsoft.AspNetCore.Authorization;
@@ -17,19 +18,13 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CustomerDto>>> GetAllCustomers()
+    public async Task<ActionResult<PagedList<CustomerDto>>> GetAllCustomers([FromQuery] QueryableParam queryParams)
     {
-      var customers = await _customerService.GetAllCustomersAsync();
+      var customers = await _customerService.GetAllCustomersAsync(queryParams);
+      Response.Headers.Add("Pagination", JsonSerializer.Serialize(customers.MetaData));
       return Ok(customers);
     }
 
-    [HttpGet("/getCustomersByClinicId/{id}")]
-    [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<PaginatedList<CustomerDto>>> GetDentistsByClinicIdAsync(int id, [FromQuery] QueryParams queryParams)
-    {
-      var customers = await _customerService.GetCustomersByClinicIdAsync(id, queryParams);
-      return Ok(customers);
-    }
     [HttpGet("{id}")]
     [Authorize(Roles = "Admin, ClinicOwner")]
     public async Task<ActionResult<CustomerDto>> GetCustomerById(int id)
@@ -39,14 +34,6 @@ namespace prn_dentistry.API.Controllers
       if (customer == null) return NotFound();
 
       return Ok(customer);
-    }
-
-    [HttpGet("paged")]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<PaginatedList<CustomerDto>>> GetCustomers([FromQuery] QueryParams queryParams)
-    {
-      var pagedDentists = await _customerService.GetPagedCustomersAsync(queryParams);
-      return Ok(pagedDentists);
     }
 
     [HttpPut("{id}")]

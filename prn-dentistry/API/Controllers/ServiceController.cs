@@ -1,4 +1,6 @@
+using System.Text.Json;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ServiceDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +18,10 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetAllServices()
+    public async Task<ActionResult<PagedList<ServiceDto>>> GetAllServices([FromQuery] QueryableParam queryParams)
     {
-      var services = await _serviceService.GetAllServicesAsync();
+      var services = await _serviceService.GetAllServicesAsync(queryParams);
+      Response.Headers.Add("Pagination", JsonSerializer.Serialize(services.MetaData));
       return Ok(services);
     }
 
@@ -31,13 +34,7 @@ namespace prn_dentistry.API.Controllers
 
       return Ok(service);
     }
-    
-    [HttpGet("paged")]
-    public async Task<ActionResult<PaginatedList<ServiceDto>>> GetPagedClinics([FromQuery] QueryParams queryParams)
-    {
-      var pagedDentists = await _serviceService.GetPagedServicesAsync(queryParams);
-      return Ok(pagedDentists);
-    }
+
 
     [HttpPost]
     public async Task<ActionResult<ServiceDto>> CreateService(ServiceCreateDto serviceCreateDto)

@@ -2,13 +2,14 @@ using System.Linq.Expressions;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DTOs.ClinicOwnerDtos;
 using Microsoft.IdentityModel.Tokens;
 
 
 namespace DentistryServices
 {
-    public class ClinicOwnerService : IClinicOwnerService
+  public class ClinicOwnerService : IClinicOwnerService
   {
     private readonly IClinicOwnerRepository _clinicOwnerRepository;
     private readonly IMapper _mapper;
@@ -19,10 +20,10 @@ namespace DentistryServices
       _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ClinicOwnerDto>> GetAllClinicOwnersAsync()
+    public async Task<PagedList<ClinicOwnerDto>> GetAllClinicOwnersAsync(QueryableParam queryParams)
     {
-      var clinicOwners = await _clinicOwnerRepository.GetAllClinicOwnersAsync();
-      return _mapper.Map<IEnumerable<ClinicOwnerDto>>(clinicOwners);
+      var clinicOwners = await _clinicOwnerRepository.GetAllClinicOwnersAsync(queryParams);
+      return _mapper.Map<PagedList<ClinicOwnerDto>>(clinicOwners);
     }
 
     public async Task<ClinicOwnerDto> GetClinicOwnerByIdAsync(int id)
@@ -33,13 +34,14 @@ namespace DentistryServices
 
     public async Task<IEnumerable<ClinicOwnerDto>> GetClinicOwnersByClinicIdAsync(int id)
     {
-      var allClinicOwners = await _clinicOwnerRepository.GetAllClinicOwnersAsync();
-      var clinicOwners = allClinicOwners.Where(e => e.ClinicID == id);
-      if(clinicOwners == null)
-      {
-        throw new NullReferenceException("Clinic Owner object is null.");
-      }
-      return _mapper.Map<IEnumerable<ClinicOwnerDto>>(clinicOwners);
+      // var allClinicOwners = await _clinicOwnerRepository.GetAllClinicOwnersAsync();
+      // var clinicOwners = allClinicOwners.Where(e => e.ClinicID == id);
+      // if(clinicOwners == null)
+      // {
+      //   throw new NullReferenceException("Clinic Owner object is null.");
+      // }
+      // return _mapper.Map<IEnumerable<ClinicOwnerDto>>(clinicOwners);
+      return null;
     }
 
 
@@ -74,54 +76,54 @@ namespace DentistryServices
       await _clinicOwnerRepository.DeleteClinicOwnerAsync(id);
     }
 
-    public async Task<PaginatedList<ClinicOwnerDto>> GetPagedClinicOwnersAsync(QueryParams queryParams)
-    {
-      Expression<Func<ClinicOwner, bool>> filterExpression = null;
-      if (!string.IsNullOrEmpty(queryParams.Filter))
-      {
-        filterExpression = e => e.Name.Contains(queryParams.Filter);
-      }
-      if (!string.IsNullOrEmpty(queryParams.Search))
-      {
-        string searchLower = queryParams.Search.ToLower();
-        Expression<Func<ClinicOwner, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
-        if (filterExpression != null)
-        {
-          filterExpression = filterExpression.AndAlso(searchExpression);
-        }
-        else
-        {
-          filterExpression = searchExpression;
-        }
-      }
-      Func<IQueryable<ClinicOwner>, IOrderedQueryable<ClinicOwner>> orderBy = null;
-      if (queryParams.Sort != null)
-      {
-        switch (queryParams.Sort.Key)
-        {
-          case "name":
-            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
-            break;
-          case "status":
-            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
-            break;
-          default:
-            orderBy = q => q.OrderBy(e => e.OwnerID); // Default sort by ClinicID
-            break;
-        }
-      }
-      else
-      {
-        orderBy = q => q.OrderBy(e => e.OwnerID); // Default sort by ClinicID
-      }
+    // public async Task<PaginatedList<ClinicOwnerDto>> GetPagedClinicOwnersAsync(QueryParams queryParams)
+    // {
+    //   Expression<Func<ClinicOwner, bool>> filterExpression = null;
+    //   // if (!string.IsNullOrEmpty(queryParams.Filter))
+    //   // {
+    //   //   filterExpression = e => e.Name.Contains(queryParams.Filter);
+    //   // }
+    //   if (!string.IsNullOrEmpty(queryParams.Search))
+    //   {
+    //     string searchLower = queryParams.Search.ToLower();
+    //     Expression<Func<ClinicOwner, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
+    //     if (filterExpression != null)
+    //     {
+    //       filterExpression = filterExpression.AndAlso(searchExpression);
+    //     }
+    //     else
+    //     {
+    //       filterExpression = searchExpression;
+    //     }
+    //   }
+    //   Func<IQueryable<ClinicOwner>, IOrderedQueryable<ClinicOwner>> orderBy = null;
+    //   if (queryParams.Sort != null)
+    //   {
+    //     // switch (queryParams.Sort.Key)
+    //     // {
+    //     //   case "name":
+    //     //     orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
+    //     //     break;
+    //     //   case "status":
+    //     //     orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
+    //     //     break;
+    //     //   default:
+    //     //     orderBy = q => q.OrderBy(e => e.OwnerID); // Default sort by ClinicID
+    //     //     break;
+    //     // }
+    //   }
+    //   else
+    //   {
+    //     orderBy = q => q.OrderBy(e => e.OwnerID); // Default sort by ClinicID
+    //   }
 
-      var pagedClinics = await _clinicOwnerRepository.GetPagedClinicOwnersAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
-      return new PaginatedList<ClinicOwnerDto>(
-          _mapper.Map<List<ClinicOwnerDto>>(pagedClinics),
-          pagedClinics.Count,
-          pagedClinics.PageIndex,
-          queryParams.PageSize
-      );
-    }
+    //   var pagedClinics = await _clinicOwnerRepository.GetPagedClinicOwnersAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
+    //   return new PaginatedList<ClinicOwnerDto>(
+    //       _mapper.Map<List<ClinicOwnerDto>>(pagedClinics),
+    //       pagedClinics.Count,
+    //       pagedClinics.PageIndex,
+    //       queryParams.PageSize
+    //   );
+    // }
   }
 }

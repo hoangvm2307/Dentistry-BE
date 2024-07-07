@@ -1,4 +1,6 @@
+using System.Text.Json;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.DentistDtos;
 using Microsoft.AspNetCore.Authorization;
@@ -18,25 +20,10 @@ namespace prn_dentistry.API.Controllers
 
     [HttpGet]
     [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<IEnumerable<DentistDto>>> GetAllDentists([FromQuery] Dictionary<string, int> param)
+    public async Task<ActionResult<PagedList<DentistDto>>> GetPagedDentists([FromQuery] QueryableParam queryParams)
     {
-      var dentists = await _dentistService.GetAllDentistsAsync();
-
-      return Ok(dentists);
-    }
-    [HttpGet("paged")]
-    [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<PaginatedList<DentistDto>>> GetPagedDentists([FromQuery] QueryParams queryParams)
-    {
-      var pagedDentists = await _dentistService.GetPagedDentistsAsync(queryParams);
-      return Ok(pagedDentists);
-    }
-
-    [HttpGet("/getDentistByClinicId/{id}")]
-    [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<PaginatedList<DentistDto>>> GetDentistsByClinicIdAsync(int id, [FromQuery] QueryParams queryParams)
-    {
-      var dentists = await _dentistService.GetDentistsByClinicIdAsync(id, queryParams);
+      var dentists = await _dentistService.GetAllDentistsAsync(queryParams);
+      Response.Headers.Add("Pagination", JsonSerializer.Serialize(dentists.MetaData));
       return Ok(dentists);
     }
 
@@ -45,16 +32,6 @@ namespace prn_dentistry.API.Controllers
     public async Task<ActionResult<DentistDto>> GetDentistById(int id)
     {
       var dentist = await _dentistService.GetDentistByIdAsync(id);
-
-      if (dentist == null) return NotFound();
-
-      return Ok(dentist);
-    }
-
-    [HttpGet("getFilter")]
-    public async Task<ActionResult<IEnumerable<DentistDto>>> GetDentistsByClinicIdAndStatusAsync([FromQuery] List<int> ids, [FromQuery] List<bool> statuses)
-    {
-      var dentist = await _dentistService.GetDentistsByClinicIdAndStatusAsync(ids, statuses);
 
       if (dentist == null) return NotFound();
 

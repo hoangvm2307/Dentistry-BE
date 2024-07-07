@@ -20,5 +20,7 @@ namespace DTOs.ServiceDtos
     [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value.")]
 
     public decimal Price { get; set; }
+
+    public int ClinicID { get; set; }
   }
 }

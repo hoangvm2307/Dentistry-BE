@@ -1,29 +1,29 @@
 using System.Linq.Expressions;
 using DentistryBusinessObjects;
+using DentistryRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace DentistryRepositories
 {
-    public class ClinicRepository : BaseRepository<Clinic>, IClinicRepository
+  public class ClinicRepository : IClinicRepository
   {
     private readonly DBContext _context;
-    private readonly IBaseRepository<Clinic> _baseRepository;
 
-    public ClinicRepository(DBContext context) : base(context)
+    public ClinicRepository(DBContext context)
     {
       _context = context;
     }
 
     public async Task AddClinicAsync(Clinic clinic)
     {
-        await _context.Clinics.AddAsync(clinic);
-        await _context.SaveChangesAsync();
+      await _context.Clinics.AddAsync(clinic);
+      await _context.SaveChangesAsync();
     }
 
     public async Task DeleteClinicAsync(int id)
     {
-        var clinic = await _context.Clinics.FindAsync(id);
+      var clinic = await _context.Clinics.FindAsync(id);
       if (clinic != null)
       {
         _context.Clinics.Remove(clinic);
@@ -31,19 +31,20 @@ namespace DentistryRepositories
       }
     }
 
-    public async Task<IEnumerable<Clinic>> GetAllClinicsAsync()
+    public async Task<PagedList<Clinic>> GetAllClinicsAsync(QueryableParam queryParams)
     {
-        return await _context.Clinics.ToListAsync();
+      var query = _context.Clinics
+        .Sort(queryParams.OrderBy)
+        .Search(queryParams.SearchTerm)
+        .AsQueryable();
+
+      return await PagedList<Clinic>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
+
     }
 
     public async Task<Clinic> GetClinicByIdAsync(int id)
     {
-        return await _context.Clinics.FindAsync(id);
-    }
-
-    public Task<PaginatedList<Clinic>> GetPagedClinicsAsync(int pageIndex, int pageSize, Expression<Func<Clinic, bool>> filter, Func<IQueryable<Clinic>, IOrderedQueryable<Clinic>> orderBy)
-    {
-        return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
+      return await _context.Clinics.FindAsync(id);
     }
 
     public async Task UpdateClinicAsync(Clinic clinic)
@@ -51,5 +52,5 @@ namespace DentistryRepositories
       _context.Entry(clinic).State = EntityState.Modified;
       await _context.SaveChangesAsync();
     }
-    }
+  }
 }

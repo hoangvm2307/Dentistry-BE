@@ -1,3 +1,5 @@
+using System.Text.Json;
+using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.TreatmentPlanDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +17,10 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TreatmentPlanDto>>> GetAllTreatmentPlans()
+    public async Task<ActionResult<IEnumerable<TreatmentPlanDto>>> GetAllTreatmentPlans([FromQuery] QueryableParam queryParams)
     {
-      var treatmentPlans = await _treatmentPlanService.GetAllTreatmentPlansAsync();
+      var treatmentPlans = await _treatmentPlanService.GetAllTreatmentPlansAsync(queryParams);
+      Response.Headers.Add("Pagination", JsonSerializer.Serialize(treatmentPlans.MetaData));
       return Ok(treatmentPlans);
     }
 
@@ -60,7 +63,7 @@ namespace prn_dentistry.API.Controllers
     {
       var success = await _treatmentPlanService.DeleteTreatmentPlanAsync(id);
 
-      if (!success) return NotFound();   
+      if (!success) return NotFound();
 
       return NoContent();
     }

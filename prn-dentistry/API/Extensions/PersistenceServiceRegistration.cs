@@ -31,7 +31,7 @@ namespace prn_dentistry.API.Extensions
       services.AddScoped<ICustomerRepository, CustomerRepository>();
 
       services.AddScoped<IDentistService, DentistService>();
-      services.AddScoped<IBaseRepository<Dentist>, DentistRepository>();
+      services.AddScoped<IDentistRepository, DentistRepository>();
 
       services.AddScoped<IServiceService, ServiceService>();
       services.AddScoped<IServiceRepository, ServiceRepository>();

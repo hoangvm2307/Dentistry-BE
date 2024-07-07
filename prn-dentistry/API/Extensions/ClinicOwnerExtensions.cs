@@ -1,3 +1,4 @@
+using DentistryBusinessObjects;
 using DentistryRepositories;
 using DentistryServices;
 
@@ -12,5 +13,7 @@ namespace prn_dentistry.API.Extensions
 
       return services;
     }
+
+    
   }
 }

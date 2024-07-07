@@ -1,5 +1,6 @@
 using AutoMapper;
 using DentistryBusinessObjects;
+using DentistryRepositories.Extensions;
 using DTOs.ClinicDtos;
 
 
@@ -11,6 +12,7 @@ namespace prn_dentistry.API.Profiles
     {
       CreateMap<Clinic, ClinicDto>();
       CreateMap<ClinicCreateDto, Clinic>();
+      CreateMap(typeof(PagedList<>), typeof(PagedList<>)).ConvertUsing(typeof(ProfileHelpers.PagedListConverter<,>));
     }
   }
 }

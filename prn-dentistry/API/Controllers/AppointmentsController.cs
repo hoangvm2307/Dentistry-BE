@@ -1,3 +1,5 @@
+using System.Text.Json;
+using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.AppointmentDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +17,10 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAllAppointments()
+    public async Task<ActionResult<PagedList<AppointmentDto>>> GetAllAppointments(QueryableParam queryParams)
     {
-      var appointments = await _appointmentService.GetAllAppointmentsAsync();
-
+      var appointments = await _appointmentService.GetAllAppointmentsAsync(queryParams);
+      Response.Headers.Add("Pagination", JsonSerializer.Serialize(appointments.MetaData));
       return Ok(appointments);
     }
 

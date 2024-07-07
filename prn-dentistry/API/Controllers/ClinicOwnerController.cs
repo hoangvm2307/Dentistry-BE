@@ -1,4 +1,6 @@
+using System.Text.Json;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ClinicOwnerDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +18,10 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ClinicOwnerDto>>> GetAllClinicOwners()
+    public async Task<ActionResult<PagedList<ClinicOwnerDto>>> GetAllClinicOwners([FromQuery] QueryableParam queryParams)
     {
-      var clinicOwners = await _clinicOwnerService.GetAllClinicOwnersAsync();
+      var clinicOwners = await _clinicOwnerService.GetAllClinicOwnersAsync(queryParams);
+      Response.Headers.Add("Pagination", JsonSerializer.Serialize(clinicOwners.MetaData));
       return Ok(clinicOwners);
     }
 
@@ -27,24 +30,9 @@ namespace prn_dentistry.API.Controllers
     {
       var clinicOwner = await _clinicOwnerService.GetClinicOwnerByIdAsync(id);
 
-      if (clinicOwner == null)  return NotFound();
-    
+      if (clinicOwner == null) return NotFound();
+
       return Ok(clinicOwner);
-    }
-
-    [HttpGet("/getByClinicId/{id}")]
-    public async Task<ActionResult<IEnumerable<ClinicOwnerDto>>> GetDentistsByClinicIdAsync(int id)
-    {
-      var clinicOwners = await _clinicOwnerService.GetClinicOwnersByClinicIdAsync(id);
-      return Ok(clinicOwners);
-    }
-
-
-    [HttpGet("paged")]
-    public async Task<ActionResult<PaginatedList<ClinicOwnerDto>>> GetPagedClinics([FromQuery] QueryParams queryParams)
-    {
-      var pagedDentists = await _clinicOwnerService.GetPagedClinicOwnersAsync(queryParams);
-      return Ok(pagedDentists);
     }
 
     [HttpPost]
@@ -63,9 +51,12 @@ namespace prn_dentistry.API.Controllers
       if (!ModelState.IsValid) return BadRequest(ModelState);
       var clinicOwner = new ClinicOwnerDto();
 
-      try {
+      try
+      {
         clinicOwner = await _clinicOwnerService.UpdateClinicOwnerAsync(id, clinicOwnerUpdateDto);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 
@@ -75,10 +66,12 @@ namespace prn_dentistry.API.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteClinicOwner(int id)
     {
-      try 
+      try
       {
         await _clinicOwnerService.DeleteClinicOwnerAsync(id);
-      } catch {
+      }
+      catch
+      {
         return NotFound();
       }
 

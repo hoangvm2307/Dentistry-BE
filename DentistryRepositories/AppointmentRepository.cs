@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using DentistryBusinessObjects;
+using DentistryRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -8,18 +9,22 @@ namespace DentistryRepositories
   public class AppointmentRepository : IAppointmentRepository
   {
     private readonly DBContext _context;
-    private readonly IBaseRepository<Appointment> _baseRepository;
     public AppointmentRepository(DBContext context)
     {
       _context = context;
     }
-    public async Task<IEnumerable<Appointment>> GetAllAppointmentsAsync()
+    public async Task<PagedList<Appointment>> GetAllAppointmentsAsync(QueryableParam queryParams)
     {
-      return await _context.Appointments
+      var query = _context.Appointments
+      .Sort(queryParams.OrderBy)
+      .Search(queryParams.SearchTerm)
+      .Filter(queryParams.ClinicID)
       .Include(a => a.Customer)
       .Include(a => a.Dentist)
       .Include(a => a.Service)
-      .ToListAsync();
+      .AsQueryable();
+
+      return await PagedList<Appointment>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
     }
     public async Task<Appointment> GetAppointmentByIdAsync(int id)
     {
@@ -54,9 +59,5 @@ namespace DentistryRepositories
       await _context.SaveChangesAsync();
     }
 
-    public Task<PaginatedList<Appointment>> GetPagedAppointmentsAsync(int pageIndex, int pageSize, Expression<Func<Appointment, bool>> filter, Func<IQueryable<Appointment>, IOrderedQueryable<Appointment>> orderBy)
-    {
-        return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
-    }
   }
 }

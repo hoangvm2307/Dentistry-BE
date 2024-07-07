@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DTOs.ClinicDtos;
 using Firebase;
 using Microsoft.IdentityModel.Tokens;
@@ -12,11 +13,11 @@ namespace DentistryServices
   public class ClinicService : IClinicService
   {
     private readonly IClinicRepository _clinicRepository;
-    private readonly IBaseRepository<Dentist> _dentistRepository;
+    private readonly IDentistRepository _dentistRepository;
     private readonly IMapper _mapper;
     // private readonly IFirebaseStorageService _firebaseStorageService;
 
-    public ClinicService(IClinicRepository clinicRepository, IBaseRepository<Dentist> dentistRepository, IMapper mapper)
+    public ClinicService(IClinicRepository clinicRepository, IDentistRepository dentistRepository, IMapper mapper)
     {
       _clinicRepository = clinicRepository;
       _dentistRepository = dentistRepository;
@@ -26,7 +27,7 @@ namespace DentistryServices
 
     public async Task<ClinicDto> AddClinicAsync(ClinicCreateDto clinicDto)
     {
- 
+
       var clinic = _mapper.Map<Clinic>(clinicDto);
 
       await _clinicRepository.AddClinicAsync(clinic);
@@ -45,14 +46,14 @@ namespace DentistryServices
       await _clinicRepository.DeleteClinicAsync(id);
     }
 
-    public async Task<IEnumerable<ClinicDto>> GetAllClinicsAsync()
+    public async Task<PagedList<ClinicDto>> GetAllClinicsAsync(QueryableParam queryParams)
     {
-      var clinics = await _clinicRepository.GetAllClinicsAsync();
+      var clinics = await _clinicRepository.GetAllClinicsAsync(queryParams);
       if (clinics == null)
       {
         throw new NullReferenceException("Clinics object is null.");
       }
-      return _mapper.Map<IEnumerable<ClinicDto>>(clinics);
+      return _mapper.Map<PagedList<ClinicDto>>(clinics);
     }
 
     public async Task<ClinicDto> GetClinicByIdAsync(int id)
@@ -62,22 +63,10 @@ namespace DentistryServices
       {
         throw new NullReferenceException("Clinics object is null.");
       }
-      var list = await _dentistRepository.GetAllAsync();
-      clinic.Dentists = list?.Where(e => e.ClinicID == clinic.ClinicID).ToList();
+      // var list = await _dentistRepository.GetAllAsync();
+      // clinic.Dentists = list?.Where(e => e.ClinicID == clinic.ClinicID).ToList();
 
       return _mapper.Map<ClinicDto>(clinic);
-    }
-
-    public async Task<IEnumerable<ClinicDto>> GetClinicsByStatusAsync(List<bool> statues)
-    {
-      var clinics = await _clinicRepository.GetAllClinicsAsync();
-
-      if (!statues.IsNullOrEmpty())
-      {
-        clinics = clinics.Where(clinic => statues.Contains(clinic.Status));
-      }
-
-      return _mapper.Map<IEnumerable<ClinicDto>>(clinics);
     }
 
     public async Task<ClinicDto> UpdateClinicAsync(int id, ClinicCreateDto clinicDto)
@@ -93,54 +82,6 @@ namespace DentistryServices
       return _mapper.Map<ClinicDto>(clinic);
     }
 
-    public async Task<PaginatedList<ClinicDto>> GetPagedClinicsAsync(QueryParams queryParams)
-    {
-      Expression<Func<Clinic, bool>> filterExpression = null;
-      if (!string.IsNullOrEmpty(queryParams.Filter))
-      {
-        filterExpression = e => e.Name.Contains(queryParams.Filter);
-      }
-      if (!string.IsNullOrEmpty(queryParams.Search))
-      {
-        string searchLower = queryParams.Search.ToLower();
-        Expression<Func<Clinic, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
-        if (filterExpression != null)
-        {
-          filterExpression = filterExpression.AndAlso(searchExpression);
-        }
-        else
-        {
-          filterExpression = searchExpression;
-        }
-      }
-      Func<IQueryable<Clinic>, IOrderedQueryable<Clinic>> orderBy = null;
-      if (queryParams.Sort != null)
-      {
-        switch (queryParams.Sort.Key)
-        {
-          case "name":
-            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
-            break;
-          case "status":
-            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
-            break;
-          default:
-            orderBy = q => q.OrderBy(e => e.ClinicID); // Default sort by ClinicID
-            break;
-        }
-      }
-      else
-      {
-        orderBy = q => q.OrderBy(e => e.ClinicID); // Default sort by ClinicID
-      }
 
-      var pagedClinics = await _clinicRepository.GetPagedClinicsAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
-      return new PaginatedList<ClinicDto>(
-          _mapper.Map<List<ClinicDto>>(pagedClinics),
-          pagedClinics.Count,
-          pagedClinics.PageIndex,
-          queryParams.PageSize
-      );
-    }
   }
 }

@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DTOs.AppointmentDtos;
 
 namespace DentistryServices
@@ -16,10 +17,10 @@ namespace DentistryServices
       _appointmentRepository = appointmentRepository;
       _mapper = mapper;
     }
-    public async Task<IEnumerable<AppointmentDto>> GetAllAppointmentsAsync()
+    public async Task<PagedList<AppointmentDto>> GetAllAppointmentsAsync(QueryableParam queryParams)
     {
-      var appointments = await _appointmentRepository.GetAllAppointmentsAsync();
-      return _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
+      var appointments = await _appointmentRepository.GetAllAppointmentsAsync(queryParams);
+      return _mapper.Map<PagedList<AppointmentDto>>(appointments);
     }
 
     public async Task<AppointmentDto> GetAppointmentByIdAsync(int id)

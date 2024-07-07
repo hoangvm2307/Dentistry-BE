@@ -1,20 +1,18 @@
-using System.Linq.Expressions;
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DTOs.DentistDtos;
-using Microsoft.IdentityModel.Tokens;
-
 
 namespace DentistryServices
 {
   public class DentistService : IDentistService
   {
-    private readonly IBaseRepository<Dentist> _dentistRepository;
+    private readonly IDentistRepository _dentistRepository;
     private readonly IClinicRepository _clinicRepository;
     private readonly IMapper _mapper;
 
-    public DentistService(IBaseRepository<Dentist> dentistRepository, IMapper mapper)
+    public DentistService(IDentistRepository dentistRepository, IMapper mapper)
     {
       _dentistRepository = dentistRepository;
       _mapper = mapper;
@@ -23,40 +21,34 @@ namespace DentistryServices
     public async Task<DentistDto> AddDentistAsync(DentistCreateDto dentistDto)
     {
       var dentist = _mapper.Map<Dentist>(dentistDto);
-      await _dentistRepository.AddAsync(dentist);
+      await _dentistRepository.AddDentistAsync(dentist);
       return _mapper.Map<DentistDto>(dentist);
     }
 
     public async Task DeleteDentistAsync(int id)
     {
-      var dentist = await _dentistRepository.GetByIdAsync(id);
+      var dentist = await _dentistRepository.GetDentistByIdAsync(id);
       if (dentist == null)
       {
         throw new NullReferenceException("Dentist object is null.");
       }
 
-      await _dentistRepository.DeleteAsync(id);
+      await _dentistRepository.DeleteDentistAsync(id);
     }
 
-    public async Task<IEnumerable<DentistDto>> GetAllDentistsAsync()
+    public async Task<PagedList<DentistDto>> GetAllDentistsAsync(QueryableParam queryParams)
     {
-      var dentists = await _dentistRepository.GetAllAsync();
+      var dentists = await _dentistRepository.GetAllAsync(queryParams);
       if (dentists == null)
       {
         throw new NullReferenceException("Dentists object is null.");
       }
-      return _mapper.Map<IEnumerable<DentistDto>>(dentists);
-    }
-
-    public async Task<PaginatedList<DentistDto>> GetDentistsByClinicIdAsync(int id, QueryParams queryParams)
-    {
-      Expression<Func<Dentist, bool>> filterExpression = e => e.ClinicID == id;
-      return await GetDentistsAsync(filterExpression, queryParams);
+      return _mapper.Map<PagedList<DentistDto>>(dentists);
     }
 
     public async Task<DentistDto> GetDentistByIdAsync(int id)
     {
-      var dentist = await _dentistRepository.GetByIdAsync(id);
+      var dentist = await _dentistRepository.GetDentistByIdAsync(id);
       if (dentist == null)
       {
         throw new NullReferenceException("Dentists object is null.");
@@ -65,95 +57,20 @@ namespace DentistryServices
 
       return _mapper.Map<DentistDto>(dentist);
     }
-    public async Task<PaginatedList<DentistDto>> GetPagedDentistsAsync(QueryParams queryParams)
-    {
-      Expression<Func<Dentist, bool>> filterExpression = null;
-      return await GetDentistsAsync(filterExpression, queryParams);
-    }
-    public async Task<IEnumerable<DentistDto>> GetDentistsByClinicIdAndStatusAsync(List<int> clinicIds, List<bool> statues)
-    {
-      var dentists = await _dentistRepository.GetAllAsync();
-
-      if (!clinicIds.IsNullOrEmpty())
-      {
-        dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID));
-      }
-
-      if (!statues.IsNullOrEmpty())
-      {
-        dentists = dentists.Where(dentist => statues.Contains(dentist.Status));
-      }
-
-      if (!clinicIds.IsNullOrEmpty() && !statues.IsNullOrEmpty())
-      {
-        dentists = dentists.Where(dentist => clinicIds.Contains(dentist.ClinicID) && statues.Contains(dentist.Status));
-      }
-
-      foreach (Dentist dentist in dentists)
-      {
-        dentist.Clinic = await _clinicRepository.GetClinicByIdAsync(dentist.ClinicID);
-      }
-
-      return _mapper.Map<IEnumerable<DentistDto>>(dentists);
-    }
 
     public async Task<DentistDto> UpdateDentistAsync(int id, DentistCreateDto dentistDto)
     {
-      var dentist = await _dentistRepository.GetByIdAsync(id);
+      var dentist = await _dentistRepository.GetDentistByIdAsync(id);
       if (dentist == null)
       {
         throw new NullReferenceException("Dentist object is null.");
       }
 
       _mapper.Map(dentistDto, dentist);
-      await _dentistRepository.UpdateAsync(dentist);
+      await _dentistRepository.UpdateDentistAsync(dentist);
       return _mapper.Map<DentistDto>(dentist);
     }
 
-    private async Task<PaginatedList<DentistDto>> GetDentistsAsync(Expression<Func<Dentist, bool>> filterExpression, QueryParams queryParams)
-    {
-      if (!string.IsNullOrEmpty(queryParams.Filter))
-      {
-        Expression<Func<Dentist, bool>> filterByNameExpression = e => e.Clinic.Name.Contains(queryParams.Filter);
-        filterExpression = filterExpression != null ? filterExpression.AndAlso(filterByNameExpression) : filterByNameExpression;
-      }
 
-      if (!string.IsNullOrEmpty(queryParams.Search))
-      {
-        string searchLower = queryParams.Search.ToLower();
-        Expression<Func<Dentist, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
-
-        filterExpression = filterExpression != null ? filterExpression.AndAlso(searchExpression) : searchExpression;
-      }
-
-      Func<IQueryable<Dentist>, IOrderedQueryable<Dentist>> orderBy = null;
-      if (queryParams.Sort != null)
-      {
-        switch (queryParams.Sort.Key)
-        {
-          case "name":
-            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
-            break;
-          case "status":
-            orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
-            break;
-          default:
-            orderBy = q => q.OrderBy(e => e.DentistID); // Default sort by DentistID
-            break;
-        }
-      }
-      else
-      {
-        orderBy = q => q.OrderBy(e => e.DentistID); // Default sort by DentistID
-      }
-
-      var pagedDentists = await _dentistRepository.GetPagedAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
-      return new PaginatedList<DentistDto>(
-          _mapper.Map<List<DentistDto>>(pagedDentists),
-          pagedDentists.Count,
-          pagedDentists.PageIndex,
-          queryParams.PageSize
-      );
-    }
   }
 }
