@@ -12,6 +12,7 @@ namespace prn_dentistry.API.Extensions
   {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
+      services.AddCors();
       services.AddScoped<IAccountService, AccountService>();
       services.AddScoped<IAccountRepository, AccountRepository>();
 
