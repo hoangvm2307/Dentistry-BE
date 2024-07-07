@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace prn_dentistry.API.Controllers
 {
-  [Authorize]
+   
   public class ClinicController : BaseApiController
   {
     private readonly IClinicService _clinicService;
