@@ -38,7 +38,8 @@ namespace prn_dentistry.API.Extensions
 
       services.AddScoped<ITreatmentPlanService, TreatmentPlanService>();
       services.AddScoped<ITreatmentPlanRepository, TreatmentPlanRepository>();
-   
+
+      services.AddScoped<ISearchService, SearchService>();
 
       // services.AddSingleton<IFirebaseStorageService>(provider =>
       // {

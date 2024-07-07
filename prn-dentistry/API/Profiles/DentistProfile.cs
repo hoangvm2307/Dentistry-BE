@@ -12,7 +12,7 @@ namespace prn_dentistry.API.Profiles
     {
       CreateMap<Dentist, DentistDto>()
         .ForMember(dest => dest.ClinicID, opt => opt.MapFrom(src => src.Clinic.ClinicID))
-        .ForMember(dest => dest.ClinicName, opt => opt.MapFrom(src => src.Clinic.Name));
+        .ForMember(dest => dest.Clinic, opt => opt.MapFrom(src => src.Clinic));
       CreateMap<DentistCreateDto, Dentist>();
       CreateMap(typeof(PagedList<>), typeof(PagedList<>)).ConvertUsing(typeof(ProfileHelpers.PagedListConverter<,>));
     }
