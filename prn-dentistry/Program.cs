@@ -19,6 +19,17 @@ using prn_dentistry.API.Extensions;
 using Search;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("AllowLocalhost3000",
+      builder => builder
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowCredentials()
+          .WithOrigins("http://localhost:3000"));
+});
+
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 
