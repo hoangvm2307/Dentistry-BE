@@ -54,23 +54,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContextPool<DBContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"), b => b.MigrationsAssembly("prn-dentistry")));
 
-builder.Services.AddCors(options =>
-{
-  options.AddPolicy("AllowLocalhost3000",
-      builder => builder
-          .AllowAnyHeader()
-          .AllowAnyMethod()
-          .AllowCredentials()
-          .WithOrigins("http://localhost:3000"));
-
-  options.AddPolicy("AllowProductionDomain",
-      builder => builder
-          .AllowAnyHeader()
-          .AllowAnyMethod()
-          .AllowCredentials()
-          .WithOrigins("https://dentistry.api.markvoit.id.vn"));
-});
-
+builder.Services.AddCors();
 builder.Services.AddControllers();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddPersistenceServices(builder.Configuration);
@@ -106,23 +90,20 @@ var app = builder.Build();
 // });
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
+// {
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-  app.UseSwagger();
-  app.UseSwaggerUI(c =>
-  {
-    c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-  });
-
-  app.UseCors("AllowLocalhost3000");
-}
-else
-{
-  app.UseCors("AllowProductionDomain");
-}
+  c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+});
+// }
 
 app.UseHttpsRedirection();
-
+app.UseCors(opt =>
+{
+  opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
