@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
           .AllowAnyHeader()
           .AllowAnyMethod()
           .AllowCredentials()
-          .WithOrigins("http://localhost:3000"));
+          .WithOrigins("http://localhost:3000", "https://dentistry-frontend-app.vercel.app"));
 });
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
