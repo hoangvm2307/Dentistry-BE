@@ -1,6 +1,7 @@
 using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
+using DentistryRepositories.Extensions;
 using DTOs.ClinicScheduleDtos;
 
 
@@ -17,10 +18,10 @@ namespace DentistryServices
       _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ClinicScheduleDto>> GetAllClinicSchedulesAsync()
+    public async Task<PagedList<ClinicScheduleDto>> GetAllClinicSchedulesAsync(ClinicScheduleParams queryParams)
     {
-      var clinicSchedules = await _clinicScheduleRepository.GetAllClinicSchedulesAsync();
-      return _mapper.Map<IEnumerable<ClinicScheduleDto>>(clinicSchedules);
+      var clinicSchedules = await _clinicScheduleRepository.GetAllClinicSchedulesAsync(queryParams);
+      return _mapper.Map<PagedList<ClinicScheduleDto>>(clinicSchedules);
     }
 
     public async Task<ClinicScheduleDto> GetClinicScheduleByIdAsync(int id)

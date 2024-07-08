@@ -6,7 +6,8 @@ namespace DentistryRepositories
 {
   public interface IDentistRepository
   {
-    Task<PagedList<Dentist>> GetAllAsync(QueryableParam queryParams);
+    Task<PagedList<Dentist>> GetAllAsync(DentistQueryParams queryParams);
+    Task<PagedList<Dentist>> GetAllAsync(SearchParams searchParams);
     Task<Dentist> GetDentistByIdAsync(int id);
     Task AddDentistAsync(Dentist dentist);
     Task UpdateDentistAsync(Dentist dentist);

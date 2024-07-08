@@ -6,7 +6,7 @@ namespace DentistryRepositories
 {
   public interface ICustomerRepository
   {
-    Task<PagedList<Customer>> GetAllCustomersAsync(QueryableParam queryParams);
+    Task<PagedList<Customer>> GetAllCustomersAsync(CustomerQueryParam queryParams);
     Task<Customer> GetCustomerByIdAsync(int id);
     Task AddCustomerAsync(Customer customer);
     Task UpdateCustomerAsync(Customer customer);

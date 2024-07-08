@@ -18,7 +18,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<PagedList<ServiceDto>>> GetAllServices([FromQuery] QueryableParam queryParams)
+    public async Task<ActionResult<PagedList<ServiceDto>>> GetAllServices([FromQuery] ServiceQueryParams queryParams)
     {
       var services = await _serviceService.GetAllServicesAsync(queryParams);
       Response.Headers.Add("Pagination", JsonSerializer.Serialize(services.MetaData));

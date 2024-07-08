@@ -13,12 +13,15 @@ namespace DentistryRepositories
     {
       _context = context;
     }
-    public async Task<PagedList<Appointment>> GetAllAppointmentsAsync(QueryableParam queryParams)
+    public async Task<PagedList<Appointment>> GetAllAppointmentsAsync(AppointmentQueryParams queryParams)
     {
       var query = _context.Appointments
       .Sort(queryParams.OrderBy)
       .Search(queryParams.SearchTerm)
-      .Filter(queryParams.ClinicID)
+      .FilterByClinic(queryParams.ClinicID)
+      .FilterByCustomer(queryParams.CustomerID)
+      .FilterByDentist(queryParams.DentistID)
+      .FilterByStatus(queryParams.Status)
       .Include(a => a.Customer)
       .Include(a => a.Dentist)
       .Include(a => a.Service)
@@ -53,8 +56,6 @@ namespace DentistryRepositories
 
     public async Task UpdateAppointmentAsync(Appointment appointment)
     {
-      // _context.Appointments.Update(appointment);
-      // await _context.SaveChangesAsync();
       _context.Entry(appointment).State = EntityState.Modified;
       await _context.SaveChangesAsync();
     }

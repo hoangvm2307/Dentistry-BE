@@ -5,6 +5,6 @@ namespace DentistryServices
 {
   public interface ISearchService
   {
-    Task<SearchResultDto> SearchAsync(QueryableParam queryParams);
+    Task<SearchResultDto> SearchAsync(SearchParams queryParams);
   }
 }

@@ -24,12 +24,11 @@ namespace DentistryServices
       _clinicRepository = clinicRepository;
 
     }
-    public async Task<SearchResultDto> SearchAsync(QueryableParam queryParams)
+    public async Task<SearchResultDto> SearchAsync(SearchParams searchParams)
     {
-
-      var clinics = await _clinicRepository.GetAllClinicsAsync(queryParams);
-      var dentists = await _dentistRepository.GetAllAsync(queryParams);
-      var services = await _serviceRepository.GetAllServicesAsync(queryParams);
+      var clinics = await _clinicRepository.GetAllClinicsAsync(searchParams);
+      var dentists = await _dentistRepository.GetAllAsync(searchParams);
+      var services = await _serviceRepository.GetAllServicesAsync(searchParams);
 
       var clinicDtos = _mapper.Map<List<ClinicDto>>(clinics);
       var dentistDtos = _mapper.Map<List<DentistDto>>(dentists);

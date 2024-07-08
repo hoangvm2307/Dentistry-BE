@@ -31,7 +31,7 @@ namespace DentistryRepositories
       }
     }
 
-    public async Task<PagedList<Customer>> GetAllCustomersAsync(QueryableParam queryParams)
+    public async Task<PagedList<Customer>> GetAllCustomersAsync(CustomerQueryParam queryParams)
     {
       var query = _context.Customers
           .Sort(queryParams.OrderBy)

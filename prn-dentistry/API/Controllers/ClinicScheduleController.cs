@@ -1,3 +1,4 @@
+using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ClinicScheduleDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,9 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> GetAllClinicSchedules()
+    public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> GetAllClinicSchedules([FromQuery] ClinicScheduleParams queryParams)
     {
-      var clinicSchedules = await _clinicScheduleService.GetAllClinicSchedulesAsync();
+      var clinicSchedules = await _clinicScheduleService.GetAllClinicSchedulesAsync(queryParams);
       return Ok(clinicSchedules);
     }
 

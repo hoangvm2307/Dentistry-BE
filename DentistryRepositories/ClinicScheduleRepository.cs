@@ -1,4 +1,5 @@
 using DentistryBusinessObjects;
+using DentistryRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -13,9 +14,15 @@ namespace DentistryRepositories
       _context = context;
     }
 
-    public async Task<IEnumerable<ClinicSchedule>> GetAllClinicSchedulesAsync()
+    public async Task<IEnumerable<ClinicSchedule>> GetAllClinicSchedulesAsync(ClinicScheduleParams queryParams)
     {
-      return await _context.ClinicSchedules.ToListAsync();
+      var query = _context.ClinicSchedules
+        .Sort(queryParams.OrderBy)
+        .Search(queryParams.SearchTerm)
+        .FilterByClinicId(queryParams.ClinicID)
+        .AsQueryable();
+
+      return await PagedList<ClinicSchedule>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
     }
 
     public async Task<ClinicSchedule> GetClinicScheduleByIdAsync(int id)

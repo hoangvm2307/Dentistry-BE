@@ -25,7 +25,7 @@ namespace prn_dentistry.API.Controllers
     // }
 
     [HttpGet]
-    public async Task<ActionResult<SearchResultDto>> Search([FromQuery]QueryableParam queryParams)
+    public async Task<ActionResult<SearchResultDto>> Search([FromQuery]SearchParams queryParams)
     {
       var result = await _searchService.SearchAsync(queryParams);
       return Ok(result);

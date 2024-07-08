@@ -6,15 +6,10 @@ namespace DentistryRepositories
 {
   public interface IClinicOwnerRepository
   {
-    Task<PagedList<ClinicOwner>> GetAllClinicOwnersAsync(QueryableParam queryParams);
+    Task<PagedList<ClinicOwner>> GetAllClinicOwnersAsync(ClinicOwnerQueryParams queryParams);
     Task<ClinicOwner> GetClinicOwnerByIdAsync(int id);
     Task AddClinicOwnerAsync(ClinicOwner clinicOwner);
     Task UpdateClinicOwnerAsync(ClinicOwner clinicOwner);
     Task DeleteClinicOwnerAsync(int id);
-    Task<PaginatedList<ClinicOwner>> GetPagedClinicOwnersAsync(
-            int pageIndex,
-            int pageSize,
-            Expression<Func<ClinicOwner, bool>> filter,
-            Func<IQueryable<ClinicOwner>, IOrderedQueryable<ClinicOwner>> orderBy);
   }
 }

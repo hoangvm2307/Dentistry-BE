@@ -17,7 +17,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TreatmentPlanDto>>> GetAllTreatmentPlans([FromQuery] QueryableParam queryParams)
+    public async Task<ActionResult<IEnumerable<TreatmentPlanDto>>> GetAllTreatmentPlans([FromQuery] TreatmentQueryParams queryParams)
     {
       var treatmentPlans = await _treatmentPlanService.GetAllTreatmentPlansAsync(queryParams);
       Response.Headers.Add("Pagination", JsonSerializer.Serialize(treatmentPlans.MetaData));

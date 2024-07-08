@@ -14,6 +14,7 @@ namespace prn_dentistry.API.Controllers
     {
       _accountService = accountService;
     }
+    
     [HttpPost("register-admin")]
     public async Task<IActionResult> RegisterAdmin()
     {

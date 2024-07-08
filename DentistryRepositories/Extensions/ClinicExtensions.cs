@@ -23,11 +23,9 @@ namespace DentistryRepositories.Extensions
 
       return query.Where(p => p.Name.ToLower().Contains(lowerCaseSearchTerm));
     }
-    public static IQueryable<Clinic> Filter(this IQueryable<Clinic> query, string clinicId)
+    public static IQueryable<Clinic> FilterByStatus(this IQueryable<Clinic> query, bool status)
     {
-      if (string.IsNullOrEmpty(clinicId)) return query;
-
-      return query.Where(c => c.ClinicID == int.Parse(clinicId));
+      return query.Where(c => c.Status == status);
     }
   }
 }

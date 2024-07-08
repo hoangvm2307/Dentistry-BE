@@ -29,12 +29,12 @@ namespace prn_dentistry.API.Extensions
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:TokenKey"]))
         };
         });
-      // services.AddAuthorization(options =>
-      // {
-      //   options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-      //   options.AddPolicy("RequireClinicOwnerRole", policy => policy.RequireRole("ClinicOwner"));
-      //   options.AddPolicy("RequireDentistRole", policy => policy.RequireRole("Dentist"));
-      // });
+      services.AddAuthorization(options =>
+      {
+        options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+        options.AddPolicy("RequireClinicOwnerRole", policy => policy.RequireRole("ClinicOwner"));
+        options.AddPolicy("RequireDentistRole", policy => policy.RequireRole("Dentist"));
+      });
       return services;
     }
   }

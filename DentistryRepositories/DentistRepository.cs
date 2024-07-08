@@ -28,7 +28,7 @@ namespace DentistryRepositories
       }
     }
 
-    public async Task<PagedList<Dentist>> GetAllAsync(QueryableParam queryParams)
+    public async Task<PagedList<Dentist>> GetAllAsync(DentistQueryParams queryParams)
     {
       var query = _context.Dentists
         .Sort(queryParams.OrderBy)
@@ -40,6 +40,16 @@ namespace DentistryRepositories
       return await PagedList<Dentist>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
     }
 
+    public async Task<PagedList<Dentist>> GetAllAsync(SearchParams searchParams)
+    {
+      var query = _context.Dentists
+        .Sort(searchParams.OrderBy)
+        .Search(searchParams.SearchTerm)
+        .Include(d => d.Clinic)
+        .AsQueryable();
+
+      return await PagedList<Dentist>.ToPagedList(query, searchParams.PageNumber, searchParams.PageSize);
+    }
 
     public async Task<Dentist> GetDentistByIdAsync(int id)
     {

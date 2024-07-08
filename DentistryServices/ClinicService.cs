@@ -46,7 +46,7 @@ namespace DentistryServices
       await _clinicRepository.DeleteClinicAsync(id);
     }
 
-    public async Task<PagedList<ClinicDto>> GetAllClinicsAsync(QueryableParam queryParams)
+    public async Task<PagedList<ClinicDto>> GetAllClinicsAsync(ClinicQueryParams queryParams)
     {
       var clinics = await _clinicRepository.GetAllClinicsAsync(queryParams);
       if (clinics == null)

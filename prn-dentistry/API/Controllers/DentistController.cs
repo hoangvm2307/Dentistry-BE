@@ -20,7 +20,7 @@ namespace prn_dentistry.API.Controllers
 
     [HttpGet]
     [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<PagedList<DentistDto>>> GetPagedDentists([FromQuery] QueryableParam queryParams)
+    public async Task<ActionResult<PagedList<DentistDto>>> GetPagedDentists([FromQuery] DentistQueryParams queryParams)
     {
       var dentists = await _dentistService.GetAllDentistsAsync(queryParams);
       Response.Headers.Add("Pagination", JsonSerializer.Serialize(dentists.MetaData));

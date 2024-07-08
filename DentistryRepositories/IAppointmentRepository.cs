@@ -6,7 +6,7 @@ namespace DentistryRepositories
 {
   public interface IAppointmentRepository
   {
-    Task<PagedList<Appointment>> GetAllAppointmentsAsync(QueryableParam queryParams);
+    Task<PagedList<Appointment>> GetAllAppointmentsAsync(AppointmentQueryParams queryParams);
     Task<Appointment> GetAppointmentByIdAsync(int id);
     Task AddAppointmentAsync(Appointment appointment);
     Task UpdateAppointmentAsync(Appointment appointment);

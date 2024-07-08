@@ -5,7 +5,7 @@ namespace DentistryServices
 {
   public interface IDentistService
   {
-    Task<PagedList<DentistDto>> GetAllDentistsAsync(QueryableParam queryParams);
+    Task<PagedList<DentistDto>> GetAllDentistsAsync(DentistQueryParams queryParams);
     Task<DentistDto> GetDentistByIdAsync(int id);
     Task<DentistDto> AddDentistAsync(DentistCreateDto dentist);
     Task<DentistDto> UpdateDentistAsync(int id, DentistCreateDto dentist);

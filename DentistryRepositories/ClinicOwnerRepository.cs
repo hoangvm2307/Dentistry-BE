@@ -16,12 +16,13 @@ namespace DentistryRepositories
       _context = context;
     }
 
-    public async Task<PagedList<ClinicOwner>> GetAllClinicOwnersAsync(QueryableParam queryParams)
+    public async Task<PagedList<ClinicOwner>> GetAllClinicOwnersAsync(ClinicOwnerQueryParams queryParams)
     {
       var query = _context.ClinicOwners
       .Sort(queryParams.OrderBy)
       .Search(queryParams.SearchTerm)
-      .Filter(queryParams.ClinicID)
+      .FilterByClinic(queryParams.ClinicId)
+      .FilterByStatus(queryParams.Status)
       .Include(e => e.Clinic)
       .AsQueryable();
 
@@ -57,10 +58,6 @@ namespace DentistryRepositories
       }
     }
 
-    public Task<PaginatedList<ClinicOwner>> GetPagedClinicOwnersAsync(int pageIndex, int pageSize, Expression<Func<ClinicOwner, bool>> filter, Func<IQueryable<ClinicOwner>, IOrderedQueryable<ClinicOwner>> orderBy)
-    {
-      return _baseRepository.GetPagedAsync(pageIndex, pageSize, filter, orderBy);
-    }
 
   }
 }

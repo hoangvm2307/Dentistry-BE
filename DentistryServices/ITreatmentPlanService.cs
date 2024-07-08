@@ -5,7 +5,7 @@ namespace DentistryServices
 {
   public interface ITreatmentPlanService
   {
-    Task<PagedList<TreatmentPlanDto>> GetAllTreatmentPlansAsync(QueryableParam queryParams);
+    Task<PagedList<TreatmentPlanDto>> GetAllTreatmentPlansAsync(TreatmentQueryParams queryParams);
     Task<TreatmentPlanDto> GetTreatmentPlanByIdAsync(int id);
     Task<TreatmentPlanDto> CreateTreatmentPlanAsync(TreatmentPlanCreateDto appointmentCreateDto);
     Task<TreatmentPlanDto> UpdateTreatmentAsync(int id, TreatmentPlanUpdateDto appointmentUpdateDto);

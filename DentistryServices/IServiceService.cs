@@ -7,7 +7,7 @@ namespace DentistryServices
 {
   public interface IServiceService
   {
-    Task<PagedList<ServiceDto>> GetAllServicesAsync(QueryableParam queryParams);
+    Task<PagedList<ServiceDto>> GetAllServicesAsync(ServiceQueryParams queryParams);
     Task<ServiceDto> GetServiceByIdAsync(int id);
     Task<ServiceDto> CreateServiceAsync(ServiceCreateDto serviceCreateDto);
     Task<ServiceDto> UpdateServiceAsync(int id, ServiceUpdateDto serviceUpdateDto);

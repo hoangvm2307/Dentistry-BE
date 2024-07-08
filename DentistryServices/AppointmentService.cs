@@ -17,7 +17,7 @@ namespace DentistryServices
       _appointmentRepository = appointmentRepository;
       _mapper = mapper;
     }
-    public async Task<PagedList<AppointmentDto>> GetAllAppointmentsAsync(QueryableParam queryParams)
+    public async Task<PagedList<AppointmentDto>> GetAllAppointmentsAsync(AppointmentQueryParams queryParams)
     {
       var appointments = await _appointmentRepository.GetAllAppointmentsAsync(queryParams);
       return _mapper.Map<PagedList<AppointmentDto>>(appointments);

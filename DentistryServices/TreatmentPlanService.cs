@@ -34,7 +34,7 @@ namespace DentistryServices
       return true;
     }
 
-    public async Task<PagedList<TreatmentPlanDto>> GetAllTreatmentPlansAsync(QueryableParam queryParams)
+    public async Task<PagedList<TreatmentPlanDto>> GetAllTreatmentPlansAsync(TreatmentQueryParams queryParams)
     {
       var treatmentPlans = await _treatmentPlanRepository.GetAllTreatmentPlansAsync(queryParams);
       return _mapper.Map<PagedList<TreatmentPlanDto>>(treatmentPlans);

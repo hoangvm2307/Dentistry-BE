@@ -28,18 +28,30 @@ namespace DentistryRepositories
       {
         _context.Clinics.Remove(clinic);
         await _context.SaveChangesAsync();
+        
       }
     }
-    
-    public async Task<PagedList<Clinic>> GetAllClinicsAsync(QueryableParam queryParams)
+
+    public async Task<PagedList<Clinic>> GetAllClinicsAsync(ClinicQueryParams queryParams)
     {
       var query = _context.Clinics
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
+        .FilterByStatus(queryParams.Status)
         .AsQueryable();
 
       return await PagedList<Clinic>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
 
+    }
+
+    public async Task<PagedList<Clinic>> GetAllClinicsAsync(SearchParams searchParams)
+    {
+      var query = _context.Clinics
+         .Sort(searchParams.OrderBy)
+         .Search(searchParams.SearchTerm)
+         .AsQueryable();
+
+      return await PagedList<Clinic>.ToPagedList(query, searchParams.PageNumber, searchParams.PageSize);
     }
 
     public async Task<Clinic> GetClinicByIdAsync(int id)

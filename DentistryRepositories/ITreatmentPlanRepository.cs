@@ -7,7 +7,7 @@ namespace DentistryRepositories
 {
   public interface ITreatmentPlanRepository
   {
-    Task<PagedList<TreatmentPlan>> GetAllTreatmentPlansAsync(QueryableParam queryParams);
+    Task<PagedList<TreatmentPlan>> GetAllTreatmentPlansAsync(TreatmentQueryParams queryParams);
     Task<TreatmentPlan> GetTreatmentPlanByIdAsync(int id);
     Task AddTreatmentPlanAsync(TreatmentPlan appointment);
     Task UpdateTreatmentPlanAsync(TreatmentPlan appointment);
