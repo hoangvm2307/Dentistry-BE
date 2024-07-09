@@ -40,7 +40,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost]
-    [Authorize(Roles = "ClinicOwner")]
+    // [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> CreateClinic([FromBody] ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -50,7 +50,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut]
-    [Authorize(Roles = "ClinicOwner")]
+    // [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> UpdateClinic(int id, ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -69,7 +69,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "ClinicOwner")]
+    // [Authorize(Roles = "ClinicOwner")]
 
     public async Task<IActionResult> DeleteClinic(int id)
     {

@@ -26,7 +26,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "Admin, ClinicOwner")]
+    // [Authorize(Roles = "Admin, ClinicOwner")]
     public async Task<ActionResult<CustomerDto>> GetCustomerById(int id)
     {
       var customer = await _customerService.GetCustomerByIdAsync(id);
@@ -37,7 +37,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Customer")]
+    // [Authorize(Roles = "Customer")]
     public async Task<ActionResult<CustomerDto>> UpdateCustomer(int id, CustomerCreateDto customerUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -56,7 +56,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin,Customer")]
+    // [Authorize(Roles = "Admin,Customer")]
     public async Task<IActionResult> DeleteCustomer(int id)
     {
       try

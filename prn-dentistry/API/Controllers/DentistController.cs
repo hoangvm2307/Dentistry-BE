@@ -19,7 +19,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet]
-    [Authorize(Roles = "ClinicOwner")]
+    // [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<PagedList<DentistDto>>> GetPagedDentists([FromQuery] DentistQueryParams queryParams)
     {
       var dentists = await _dentistService.GetAllDentistsAsync(queryParams);
@@ -28,7 +28,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("/getById/{id}")]
-    [Authorize(Roles = "ClinicOwner,Customer,Dentist")]
+    // [Authorize(Roles = "ClinicOwner,Customer,Dentist")]
     public async Task<ActionResult<DentistDto>> GetDentistById(int id)
     {
       var dentist = await _dentistService.GetDentistByIdAsync(id);
@@ -39,7 +39,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost]
-    [Authorize(Roles = "ClinicOwner")]
+    // [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<DentistDto>> CreateDentist(DentistCreateDto dentistDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -49,7 +49,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut]
-    [Authorize(Roles = "ClinicOwner")]
+    // [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<DentistDto>> UpdateDentist(int id, DentistCreateDto dentistDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -68,7 +68,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "ClinicOwner,Admin")]
+    // [Authorize(Roles = "ClinicOwner,Admin")]
     public async Task<IActionResult> DeleteDentist(int id)
     {
       try
