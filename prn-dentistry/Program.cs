@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
           .AllowAnyHeader()
           .AllowAnyMethod()
           .AllowCredentials()
-          .WithExposedHeaders("Pagination")
+          .WithExposedHeaders(["Pagination", "Access-Control-Expose-Headers"])
           .WithOrigins("http://localhost:3000", "https://dentistry-frontend-app.vercel.app"));
 });
 
