@@ -25,7 +25,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinicOwners);
     }
 
-    [HttpGet("getById/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<ClinicOwnerDto>> GetClinicOwner(int id)
     {
       var clinicOwner = await _clinicOwnerService.GetClinicOwnerByIdAsync(id);
