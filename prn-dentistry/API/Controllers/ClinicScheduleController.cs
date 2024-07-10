@@ -2,7 +2,7 @@ using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ClinicScheduleDtos;
 using Microsoft.AspNetCore.Mvc;
- 
+
 
 namespace prn_dentistry.API.Controllers
 {
@@ -26,9 +26,9 @@ namespace prn_dentistry.API.Controllers
     public async Task<ActionResult<ClinicScheduleDto>> GetClinicSchedule(int id)
     {
       var clinicSchedule = await _clinicScheduleService.GetClinicScheduleByIdAsync(id);
-      
+
       if (clinicSchedule == null) return NotFound();
-      
+
       return Ok(clinicSchedule);
     }
 
@@ -42,6 +42,21 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetClinicSchedule), new { id = clinicSchedule.ScheduleID }, clinicSchedule);
     }
 
+    [HttpPost("batch")]
+    public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> BatchCreateServices(BatchClinicScheduleCreateDto batchServiceCreateDto)
+    {
+      if (!ModelState.IsValid) return BadRequest(ModelState);
+
+      var createdServices = new List<ClinicScheduleDto>();
+
+      foreach (var clinicScheduleCreateDto in batchServiceCreateDto.ClinicSchedules)
+      {
+        var service = await _clinicScheduleService.CreateClinicScheduleAsync(clinicScheduleCreateDto);
+        createdServices.Add(service);
+      }
+
+      return Ok(createdServices);
+    }
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateClinicSchedule(int id, ClinicScheduleUpdateDto clinicScheduleUpdateDto)
     {
@@ -50,7 +65,7 @@ namespace prn_dentistry.API.Controllers
       var updatedClinicSchedule = await _clinicScheduleService.UpdateClinicScheduleAsync(id, clinicScheduleUpdateDto);
 
       if (updatedClinicSchedule == null) return NotFound();
-      
+
       return NoContent();
     }
 
@@ -60,7 +75,7 @@ namespace prn_dentistry.API.Controllers
       var result = await _clinicScheduleService.DeleteClinicScheduleAsync(id);
 
       if (!result) return NotFound();
-     
+
       return NoContent();
     }
   }
