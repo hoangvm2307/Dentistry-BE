@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using DentistryBusinessObjects;
 using DentistryRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -60,5 +59,26 @@ namespace DentistryRepositories
       await _context.SaveChangesAsync();
     }
 
+    public async Task<bool> IsScheduleAvailable(int clinicId, DateTime appointmentDate, DateTime appointmentTime, int slotDuration)
+    {
+      var clinicSchedule = await _context.ClinicSchedules
+             .Where(cs => cs.ClinicID == clinicId && cs.DayOfWeek.ToLower().Trim().Equals(appointmentDate.DayOfWeek.ToString().ToLower().Trim()))
+             .FirstOrDefaultAsync();
+      if (clinicSchedule == null)
+      {
+        throw new Exception("No schedule found for the clinic on the given date.");
+      }
+
+      var appointmentEndTime = appointmentTime.AddMinutes(slotDuration);
+      
+      var overlappingAppointments = await _context.Appointments
+          .Where(a => a.Dentist.ClinicID == clinicId &&
+                      a.AppointmentDate == appointmentDate &&
+                      ((a.AppointmentTime >= appointmentTime && a.AppointmentTime < appointmentEndTime) ||
+                       (a.AppointmentTime.AddMinutes(slotDuration) > appointmentTime && a.AppointmentTime.AddMinutes(slotDuration) <= appointmentEndTime)))
+          .ToListAsync();
+
+      return overlappingAppointments.Count < clinicSchedule.MaxPatientsPerSlot;
+    }
   }
 }

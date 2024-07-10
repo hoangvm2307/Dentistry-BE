@@ -59,6 +59,8 @@ namespace DentistryRepositories
       return await _context.Clinics.FindAsync(id);
     }
 
+ 
+
     public async Task UpdateClinicAsync(Clinic clinic)
     {
       _context.Entry(clinic).State = EntityState.Modified;

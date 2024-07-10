@@ -17,5 +17,7 @@ namespace DentistryBusinessObjects
     public DateTime ClosingTime { get; set; }
     public int SlotDuration { get; set; }
     public int MaxPatientsPerSlot { get; set; }
+    public List<Appointment> Appointments { get; set; }
+
   }
 }

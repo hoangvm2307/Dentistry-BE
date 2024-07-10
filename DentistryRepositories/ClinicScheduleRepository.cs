@@ -16,12 +16,16 @@ namespace DentistryRepositories
 
     public async Task<IEnumerable<ClinicSchedule>> GetAllClinicSchedulesAsync(ClinicScheduleParams queryParams)
     {
+
       var query = _context.ClinicSchedules
+        .Include(cs => cs.Clinic)
+        .ViewType(queryParams.ViewType)
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
         .FilterByClinicId(queryParams.ClinicID)
         .AsQueryable();
-
+ 
+     
       return await PagedList<ClinicSchedule>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
     }
 
@@ -50,6 +54,26 @@ namespace DentistryRepositories
         _context.ClinicSchedules.Remove(clinicSchedule);
         await _context.SaveChangesAsync();
       }
+    }
+
+    public async Task<bool> IsClinicScheduleAvailable(int clinicId, DateTime appointmentDate, DateTime appointmentTime)
+    {
+      var clinicSchedule = await _context.ClinicSchedules
+               .FirstOrDefaultAsync(cs => cs.ClinicID == clinicId && cs.DayOfWeek.ToLower().Trim().Equals(appointmentDate.DayOfWeek.ToString().ToLower().Trim()));
+
+      if (clinicSchedule == null)
+        throw new Exception("Clinic schedule not found");
+
+      var startTime = appointmentDate.Date.Add(appointmentTime.TimeOfDay);
+      var endTime = startTime.AddMinutes(clinicSchedule.SlotDuration);
+
+      var appointmentsCount = await _context.Appointments
+          .CountAsync(a => a.Dentist.ClinicID == clinicId &&
+                           a.AppointmentDate == appointmentDate.Date &&
+                           a.AppointmentTime >= startTime &&
+                           a.AppointmentTime < endTime);
+
+      return appointmentsCount < clinicSchedule.MaxPatientsPerSlot;
     }
   }
 }

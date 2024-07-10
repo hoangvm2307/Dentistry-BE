@@ -34,10 +34,18 @@ namespace DentistryServices
 
     public async Task<AppointmentDto> CreateAppointmentAsync(AppointmentCreateDto appointmentCreateDto)
     {
-      var appointment = _mapper.Map<Appointment>(appointmentCreateDto);
-      await _appointmentRepository.AddAppointmentAsync(appointment);
+      if (await _appointmentRepository.IsScheduleAvailable(appointmentCreateDto.ClinicID,
+        appointmentCreateDto.AppointmentDate, appointmentCreateDto.AppointmentTime, 45))
+      {
+        var appointment = _mapper.Map<Appointment>(appointmentCreateDto);
+        await _appointmentRepository.AddAppointmentAsync(appointment);
 
-      return _mapper.Map<AppointmentDto>(appointment);
+        return _mapper.Map<AppointmentDto>(appointment);
+      }
+      else
+      {
+        throw new Exception("The schedule is not available for the selected time slot.");
+      }
     }
 
     public async Task<AppointmentDto> UpdateAppointmentAsync(int id, AppointmentUpdateDto appointmentUpdateDto)
@@ -62,54 +70,6 @@ namespace DentistryServices
       return true;
     }
 
-    // public async Task<PaginatedList<AppointmentDto>> GetPagedAppointmentsAsync(QueryParams queryParams)
-    // {
-    //   Expression<Func<Appointment, bool>> filterExpression = null;
-    //   if (!string.IsNullOrEmpty(queryParams.Filter))
-    //   {
-    //     filterExpression = e => e.Name.Contains(queryParams.Filter);
-    //   }
-    //   if (!string.IsNullOrEmpty(queryParams.Search))
-    //   {
-    //     string searchLower = queryParams.Search.ToLower();
-    //     Expression<Func<Appointment, bool>> searchExpression = e => e.Name.ToLower().Contains(searchLower);
-    //     if (filterExpression != null)
-    //     {
-    //       filterExpression = filterExpression.AndAlso(searchExpression);
-    //     }
-    //     else
-    //     {
-    //       filterExpression = searchExpression;
-    //     }
-    //   }
-    //   Func<IQueryable<Appointment>, IOrderedQueryable<Appointment>> orderBy = null;
-    //   if (queryParams.Sort != null)
-    //   {
-    //     switch (queryParams.Sort.Key)
-    //     {
-    //       case "name":
-    //         orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Name) : q.OrderBy(e => e.Name);
-    //         break;
-    //       case "status":
-    //         orderBy = q => queryParams.Sort.Value == 1 ? q.OrderByDescending(e => e.Status) : q.OrderBy(e => e.Status);
-    //         break;
-    //       default:
-    //         orderBy = q => q.OrderBy(e => e.AppointmentID); // Default sort by AppointmentID
-    //         break;
-    //     }
-    //   }
-    //   else
-    //   {
-    //     orderBy = q => q.OrderBy(e => e.AppointmentID); // Default sort by AppointmentID
-    //   }
 
-    //   var pagedAppointments = await _AppointmentRepository.GetPagedAppointmentsAsync(queryParams.PageIndex, queryParams.PageSize, filterExpression, orderBy);
-    //   return new PaginatedList<AppointmentDto>(
-    //       _mapper.Map<List<AppointmentDto>>(pagedAppointments),
-    //       pagedAppointments.Count,
-    //       pagedAppointments.PageIndex,
-    //       queryParams.PageSize
-    //   );
-    // }
   }
 }

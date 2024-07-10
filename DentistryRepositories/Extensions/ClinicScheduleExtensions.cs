@@ -29,5 +29,21 @@ namespace DentistryRepositories.Extensions
 
       return query.Where(c => c.ClinicID == int.Parse(clinicId));
     }
+    public static IQueryable<ClinicSchedule> ViewType(this IQueryable<ClinicSchedule> query, string viewType)
+    {
+      if (string.IsNullOrEmpty(viewType)) return query;
+
+      switch (viewType)
+      {
+        case "available":
+          return query.Where(cs => cs.Appointments.Count() < cs.MaxPatientsPerSlot);
+
+        case "unavailable":
+          return query.Where(cs => cs.Appointments.Count() >= cs.MaxPatientsPerSlot);
+
+        default: return query;
+      }
+
+    }
   }
 }

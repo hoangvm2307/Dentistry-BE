@@ -19,7 +19,9 @@ namespace DentistryBusinessObjects
     [ForeignKey("Service")]
     public int ServiceID { get; set; }
     public Service Service { get; set; }
-
+    [ForeignKey("ClinicSchedule")]
+    public int ClinicScheduleID { get; set; }
+    public ClinicSchedule ClinicSchedule { get; set; }
     public DateTime AppointmentDate { get; set; }
     public DateTime AppointmentTime { get; set; }
     public string Status { get; set; }
