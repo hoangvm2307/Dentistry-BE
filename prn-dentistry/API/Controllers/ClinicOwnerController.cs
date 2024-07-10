@@ -46,19 +46,11 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ClinicOwnerDto>> UpdateClinicOwner(int id, ClinicOwnerCreateDto clinicOwnerUpdateDto)
+    public async Task<ActionResult<ClinicOwnerDto>> UpdateClinicOwner(int id, ClinicOwnerUpdateDto clinicOwnerUpdateDto)
     {
-      if (!ModelState.IsValid) return BadRequest(ModelState);
-      var clinicOwner = new ClinicOwnerDto();
-
-      try
-      {
-        clinicOwner = await _clinicOwnerService.UpdateClinicOwnerAsync(id, clinicOwnerUpdateDto);
-      }
-      catch
-      {
-        return NotFound();
-      }
+       if (!ModelState.IsValid) return BadRequest(ModelState);
+      var clinicOwner = await _clinicOwnerService.UpdateClinicOwnerAsync(id, clinicOwnerUpdateDto);
+      if (clinicOwner == null) return NotFound();
 
       return CreatedAtAction(nameof(GetClinicOwner), new { id = clinicOwner.OwnerID }, clinicOwner);
     }

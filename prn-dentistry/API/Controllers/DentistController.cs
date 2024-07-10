@@ -27,7 +27,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(dentists);
     }
 
-    [HttpGet("/getById/{id}")]
+    [HttpGet("{id}")]
     // [Authorize(Roles = "ClinicOwner,Customer,Dentist")]
     public async Task<ActionResult<DentistDto>> GetDentistById(int id)
     {
@@ -50,19 +50,11 @@ namespace prn_dentistry.API.Controllers
 
     [HttpPut]
     // [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<DentistDto>> UpdateDentist(int id, DentistCreateDto dentistDto)
+    public async Task<ActionResult<DentistDto>> UpdateDentist(int id, DentistUpdateDto dentistDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
-      var dentist = new DentistDto();
-
-      try
-      {
-        dentist = await _dentistService.UpdateDentistAsync(id, dentistDto);
-      }
-      catch
-      {
-        return NotFound();
-      }
+      var dentist = await _dentistService.UpdateDentistAsync(id, dentistDto);
+      if (dentist == null) return NotFound();
 
       return CreatedAtAction(nameof(GetDentistById), new { id = dentist.DentistId }, dentist);
     }

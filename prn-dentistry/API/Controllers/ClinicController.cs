@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace prn_dentistry.API.Controllers
 {
-   
+
   public class ClinicController : BaseApiController
   {
     private readonly IClinicService _clinicService;
@@ -28,7 +28,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinics);
     }
 
-    [HttpGet("{id}/getById")]
+    [HttpGet("{id}")]
     // [Authorize]
     public async Task<ActionResult<ClinicDto>> GetClinicById(int id)
     {
@@ -51,19 +51,11 @@ namespace prn_dentistry.API.Controllers
 
     [HttpPut]
     // [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<ClinicDto>> UpdateClinic(int id, ClinicCreateDto clinicDto)
+    public async Task<ActionResult<ClinicDto>> UpdateClinic(int id, ClinicUpdateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
-      var clinic = new ClinicDto();
-
-      try
-      {
-        clinic = await _clinicService.UpdateClinicAsync(id, clinicDto);
-      }
-      catch
-      {
-        return NotFound();
-      }
+      var clinic = await _clinicService.UpdateClinicAsync(id, clinicDto);
+      if (clinic == null) return NotFound();
 
       return CreatedAtAction(nameof(GetClinicById), new { id = clinic.ClinicID }, clinic);
     }

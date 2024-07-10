@@ -14,6 +14,8 @@ namespace prn_dentistry.API.Profiles
         .ForMember(dest => dest.ClinicID, opt => opt.MapFrom(src => src.Clinic.ClinicID))
         .ForMember(dest => dest.ClinicName, opt => opt.MapFrom(src => src.Clinic.Name));
       CreateMap<ClinicOwnerCreateDto, ClinicOwner>();
+      CreateMap<ClinicOwnerUpdateDto, ClinicOwner>();
+
       CreateMap(typeof(PagedList<>), typeof(PagedList<>)).ConvertUsing(typeof(ProfileHelpers.PagedListConverter<,>));
     }
   }

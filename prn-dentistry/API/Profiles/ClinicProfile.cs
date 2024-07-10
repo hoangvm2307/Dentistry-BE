@@ -12,6 +12,8 @@ namespace prn_dentistry.API.Profiles
     {
       CreateMap<Clinic, ClinicDto>();
       CreateMap<ClinicCreateDto, Clinic>();
+      CreateMap<ClinicUpdateDto, Clinic>();
+
       CreateMap(typeof(PagedList<>), typeof(PagedList<>)).ConvertUsing(typeof(ProfileHelpers.PagedListConverter<,>));
     }
   }

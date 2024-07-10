@@ -38,19 +38,12 @@ namespace prn_dentistry.API.Controllers
 
     [HttpPut("{id}")]
     // [Authorize(Roles = "Customer")]
-    public async Task<ActionResult<CustomerDto>> UpdateCustomer(int id, CustomerCreateDto customerUpdateDto)
+    public async Task<ActionResult<CustomerDto>> UpdateCustomer(int id, CustomerUpdateDto customerUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
-      var customer = new CustomerDto();
+      var customer = await _customerService.UpdateCustomerAsync(id, customerUpdateDto);
+      if (customer == null) return NotFound();
 
-      try
-      {
-        customer = await _customerService.UpdateCustomerAsync(id, customerUpdateDto);
-      }
-      catch
-      {
-        return NotFound();
-      }
 
       return CreatedAtAction(nameof(GetCustomerById), new { id = customer.CustomerID }, customer);
     }
