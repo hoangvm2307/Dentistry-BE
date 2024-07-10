@@ -29,7 +29,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}/getById")]
-    [Authorize]
+    // [Authorize]
     public async Task<ActionResult<ClinicDto>> GetClinicById(int id)
     {
       var clinic = await _clinicService.GetClinicByIdAsync(id);
