@@ -38,7 +38,7 @@ namespace DentistryServices
       return _mapper.Map<CustomerDto>(customer);
     }
 
-    public async Task<CustomerDto> UpdateCustomerAsync(int id, CustomerCreateDto customerUpdateDto)
+    public async Task<CustomerDto> UpdateCustomerAsync(int id, CustomerUpdateDto customerUpdateDto)
     {
       var customer = await _customerRepository.GetCustomerByIdAsync(id);
       if (customer == null)

@@ -53,12 +53,11 @@ namespace DentistryServices
       {
         throw new NullReferenceException("Dentists object is null.");
       }
-      dentist.Clinic = await _clinicRepository.GetClinicByIdAsync(dentist.ClinicID);
 
       return _mapper.Map<DentistDto>(dentist);
     }
 
-    public async Task<DentistDto> UpdateDentistAsync(int id, DentistCreateDto dentistDto)
+    public async Task<DentistDto> UpdateDentistAsync(int id, DentistUpdateDto dentistDto)
     {
       var dentist = await _dentistRepository.GetDentistByIdAsync(id);
       if (dentist == null)

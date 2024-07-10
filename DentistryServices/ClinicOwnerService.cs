@@ -3,6 +3,7 @@ using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DentistryRepositories.Extensions;
+using DTOs.ClinicDtos;
 using DTOs.ClinicOwnerDtos;
 using Microsoft.IdentityModel.Tokens;
 
@@ -39,7 +40,7 @@ namespace DentistryServices
       return _mapper.Map<ClinicOwnerDto>(clinicOwner);
     }
 
-    public async Task<ClinicOwnerDto> UpdateClinicOwnerAsync(int id, ClinicOwnerCreateDto clinicOwnerUpdateDto)
+    public async Task<ClinicOwnerDto> UpdateClinicOwnerAsync(int id, ClinicOwnerUpdateDto clinicOwnerUpdateDto)
     {
       var clinicOwner = await _clinicOwnerRepository.GetClinicOwnerByIdAsync(id);
       if (clinicOwner == null)

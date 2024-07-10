@@ -69,7 +69,7 @@ namespace DentistryServices
       return _mapper.Map<ClinicDto>(clinic);
     }
 
-    public async Task<ClinicDto> UpdateClinicAsync(int id, ClinicCreateDto clinicDto)
+    public async Task<ClinicDto> UpdateClinicAsync(int id, ClinicUpdateDto clinicDto)
     {
       var clinic = await _clinicRepository.GetClinicByIdAsync(id);
       if (clinic == null)
