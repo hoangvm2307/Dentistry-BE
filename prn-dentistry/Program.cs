@@ -141,14 +141,14 @@ app.MapGet("/", async context =>
  
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DBContext>();
-var luceneIndexer = scope.ServiceProvider.GetRequiredService<LuceneIndexer>();
+// var luceneIndexer = scope.ServiceProvider.GetRequiredService<LuceneIndexer>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 try
 {
   // await context.Database.MigrateAsync();
   await DBInitializer.Initialize(context, userManager);
-  await SearchIndexInitializer.Initialize(context, luceneIndexer);
+  // await SearchIndexInitializer.Initialize(context, luceneIndexer);
 }
 catch (Exception ex)
 {
