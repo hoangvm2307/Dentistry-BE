@@ -1,4 +1,5 @@
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using DentistryBusinessObjects;
@@ -61,6 +62,8 @@ builder.Services.AddSwaggerGen(c =>
             jwtSecurityScheme, Array.Empty<string>()
         }
     });
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 builder.Services.AddDbContextPool<DBContext>(

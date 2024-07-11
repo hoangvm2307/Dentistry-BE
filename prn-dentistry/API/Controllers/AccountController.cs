@@ -14,7 +14,7 @@ namespace prn_dentistry.API.Controllers
     {
       _accountService = accountService;
     }
-    
+
     [HttpPost("register-admin")]
     public async Task<IActionResult> RegisterAdmin()
     {
@@ -56,6 +56,21 @@ namespace prn_dentistry.API.Controllers
       var result = await _accountService.RegisterDentistAsync(registerDto);
 
       if (result.Succeeded) return Ok("User registered successfully");
+
+      return BadRequest(result.Errors);
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPasswordDirect([FromBody] ResetPasswordDto resetPasswordDto)
+    {
+      if (resetPasswordDto == null || !ModelState.IsValid) return BadRequest("Invalid request");
+
+      var token = await _accountService.GeneratePasswordResetTokenAsync(resetPasswordDto.Username);
+      if (token == null) return BadRequest("User not found");
+
+      var result = await _accountService.ResetPasswordAsync(resetPasswordDto.Username, token, resetPasswordDto.NewPassword);
+
+      if (result.Succeeded) return Ok("Password reset successfully");
 
       return BadRequest(result.Errors);
     }

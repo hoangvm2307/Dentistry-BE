@@ -1,7 +1,9 @@
+using System.Net;
 using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ClinicScheduleDtos;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 
 namespace prn_dentistry.API.Controllers
@@ -15,7 +17,20 @@ namespace prn_dentistry.API.Controllers
       _clinicScheduleService = clinicScheduleService;
     }
 
+    /// <summary>
+    /// Get all clinic schedules
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /ClinicSchedules
+    ///     PARAMS:
+    ///         Date: 2024/07/11
+    ///         ViewType: available/unavailable
+    ///         OrderBy: clinicAsc
+    /// </remarks>
     [HttpGet]
+    [SwaggerOperation(Summary = "Get all clinic schedules", Description = "Retrieve all clinic schedules with optional query parameters.")]
     public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> GetAllClinicSchedules([FromQuery] ClinicScheduleParams queryParams)
     {
       var clinicSchedules = await _clinicScheduleService.GetAllClinicSchedulesAsync(queryParams);
