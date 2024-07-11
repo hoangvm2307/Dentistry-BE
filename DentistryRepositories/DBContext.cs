@@ -16,7 +16,7 @@ namespace DentistryRepositories
     public DbSet<Dentist> Dentists { get; set; }
     public DbSet<Service> Services { get; set; }
     public DbSet<TreatmentPlan> TreatmentPlans { get; set; }
-
+    public DbSet<ChatMessage> ChatMessages { get; set; }
     public DBContext(DbContextOptions<DBContext> options)
           : base(options)
     {
@@ -70,6 +70,9 @@ namespace DentistryRepositories
       builder.Entity<TreatmentPlan>()
           .Property(tp => tp.PlanID)
           .ValueGeneratedOnAdd();
+      builder.Entity<ChatMessage>()
+          .Property(c => c.MessageID)
+          .ValueGeneratedOnAdd();
 
       // Clinic -> Dentists (One to Many)
       builder.Entity<Clinic>()
@@ -118,17 +121,17 @@ namespace DentistryRepositories
           .WithOne(tp => tp.Dentist)
           .HasForeignKey(tp => tp.DentistID);
 
-      // Customer -> ChatMessages (One to Many)
-      builder.Entity<Customer>()
-          .HasMany(c => c.ChatMessages)
-          .WithOne(cm => cm.Sender)
-          .HasForeignKey(cm => cm.SenderID);
+      builder.Entity<ChatMessage>()
+                     .HasOne(cm => cm.Sender)
+                     .WithMany()
+                     .HasForeignKey(cm => cm.SenderID)
+                     .OnDelete(DeleteBehavior.Restrict);
 
-      // Dentist -> ChatMessages (One to Many)
-      builder.Entity<Dentist>()
-          .HasMany(d => d.ChatMessages)
-          .WithOne(cm => cm.Receiver)
-          .HasForeignKey(cm => cm.ReceiverID);
+      builder.Entity<ChatMessage>()
+          .HasOne(cm => cm.Receiver)
+          .WithMany()
+          .HasForeignKey(cm => cm.ReceiverID)
+          .OnDelete(DeleteBehavior.Restrict);
 
       builder.Entity<Dentist>()
           .HasOne(u => u.User)

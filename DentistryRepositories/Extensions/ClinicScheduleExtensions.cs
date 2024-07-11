@@ -45,12 +45,22 @@ namespace DentistryRepositories.Extensions
       }
     }
 
-    public static IQueryable<ClinicSchedule> FilterByDate(this IQueryable<ClinicSchedule> query, DateTime date)
+    public static IQueryable<ClinicSchedule> FilterByDate(this IQueryable<ClinicSchedule> query, DateTime date, string viewType)
     {
-      if (date == null) return query;
-
-      return query.Where(c => c.Appointments
-                              .Count(a => a.AppointmentDate.Date == date.Date) < c.MaxPatientsPerSlot);
+      switch (viewType)
+      {
+        case "all":
+          return query;
+        case "available":
+          return query
+         .Where(c => c.DayOfWeek.Equals(date.DayOfWeek.ToString()) && c.Appointments
+           .Count(a => a.AppointmentDate.Date == date.Date) < c.MaxPatientsPerSlot);
+        case "unavailable":
+          return query
+          .Where(c => c.DayOfWeek.Equals(date.DayOfWeek.ToString()) && c.Appointments
+            .Count(a => a.AppointmentDate.Date == date.Date) >= c.MaxPatientsPerSlot);
+        default: return query;
+      }
     }
   }
 }

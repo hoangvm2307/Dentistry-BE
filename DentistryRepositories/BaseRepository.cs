@@ -47,33 +47,6 @@ namespace DentistryRepositories
       return await query.SingleOrDefaultAsync(e => EF.Property<int>(e, "Id") == (int)id);
     }
 
-    public async Task<PaginatedList<T>> GetPagedAsync(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<T, bool>> filter = null,
-        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-        params Expression<Func<T, object>>[] includeProperties)
-    {
-      IQueryable<T> query = _dbSet;
-
-      if (filter != null)
-      {
-        query = query.Where(filter);
-      }
-
-      if (includeProperties != null)
-      {
-        query = IncludeProperties(query, includeProperties);
-      }
-
-      if (orderBy != null)
-      {
-        query = orderBy(query);
-      }
-
-      return await PaginatedList<T>.CreateAsync(query, pageIndex, pageSize);
-    }
-
     public async Task UpdateAsync(T entity)
     {
       _context.Entry(entity).State = EntityState.Modified;

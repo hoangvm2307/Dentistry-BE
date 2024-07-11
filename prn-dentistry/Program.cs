@@ -1,14 +1,8 @@
-using System.IO;
+
 using System.Reflection;
-using System.Text;
-using System.Text.Json;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DentistryServices;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +23,7 @@ builder.Services.AddCors(options =>
           .AllowAnyMethod()
           .AllowCredentials()
           .WithExposedHeaders("Pagination")
-          .WithOrigins("http://localhost:3000", "https://dentistry-frontend-app.vercel.app"));
+          .WithOrigins("http://localhost:3000", "https://dentistry-frontend-app.vercel.app", "http://localhost:8080"));
 });
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -115,10 +109,11 @@ app.UseSwaggerUI(c =>
 // }
 
 app.UseHttpsRedirection();
-app.UseCors(opt =>
-{
-  opt.AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("Pagination").AllowCredentials().WithOrigins("http://localhost:3000");
-});
+// app.UseCors(opt =>
+// {
+//   opt.AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("Pagination").AllowCredentials().WithOrigins("http://localhost:3000");
+// });
+app.UseCors("AllowLocalhost3000");
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -134,7 +129,7 @@ app.UseStaticFiles(new StaticFileOptions
   FileProvider = new PhysicalFileProvider(staticFilesPath),
   RequestPath = ""
 });
-// app.MapHub<ChatHub>("/chatHub");
+app.MapHub<ChatHub>("/chatHub");
 app.MapControllers();
 
 // Serve the HTML file
@@ -143,7 +138,7 @@ app.MapGet("/", async context =>
   context.Response.ContentType = "text/html";
   await context.Response.SendFileAsync(Path.Combine(staticFilesPath, "index.html"));
 });
-
+ 
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DBContext>();
 var luceneIndexer = scope.ServiceProvider.GetRequiredService<LuceneIndexer>();

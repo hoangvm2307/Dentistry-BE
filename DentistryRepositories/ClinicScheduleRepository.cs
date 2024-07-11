@@ -21,7 +21,7 @@ namespace DentistryRepositories
         .ViewType(queryParams.ViewType)
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
-        .FilterByDate(queryParams.Date)
+        .FilterByDate(queryParams.Date, queryParams.ViewType)
         .FilterByClinicId(queryParams.ClinicID)
         .AsQueryable();
 

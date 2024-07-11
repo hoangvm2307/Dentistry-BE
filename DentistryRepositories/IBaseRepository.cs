@@ -8,12 +8,7 @@ namespace DentistryRepositories
     Task DeleteAsync(object id);
     Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);
     Task<T> GetByIdAsync(object id, params Expression<Func<T, object>>[] includeProperties);
-    Task<PaginatedList<T>> GetPagedAsync(
-        int pageIndex,
-        int pageSize,
-        Expression<Func<T, bool>> filter = null,
-        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-        params Expression<Func<T, object>>[] includeProperties);
+    
     Task UpdateAsync(T entity);
   }
 }

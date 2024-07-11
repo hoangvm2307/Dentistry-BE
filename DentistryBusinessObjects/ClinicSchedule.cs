@@ -5,13 +5,12 @@ namespace DentistryBusinessObjects
 {
   public class ClinicSchedule : BaseEntity
   {
-    [Key]
+  [Key]
     public int ScheduleID { get; set; }
 
     [ForeignKey("Clinic")]
     public int ClinicID { get; set; }
     public Clinic Clinic { get; set; }
-
     public string DayOfWeek { get; set; }
     public DateTime OpeningTime { get; set; }
     public DateTime ClosingTime { get; set; }

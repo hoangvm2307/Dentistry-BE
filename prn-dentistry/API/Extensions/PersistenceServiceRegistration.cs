@@ -41,14 +41,15 @@ namespace prn_dentistry.API.Extensions
 
       services.AddScoped<ISearchService, SearchService>();
 
+      services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+      services.AddScoped<IChatMessageService, ChatMessageService>();
       // services.AddSingleton<IFirebaseStorageService>(provider =>
       // {
       //   var bucketName = "prn-project-75959.appspot.com";
       //   return new FirebaseStorageService(bucketName);
       // });
-      // services.AddSignalR();
+      services.AddSignalR();
       // services.AddSingleton<IFirestoreService, FirestoreService>();
-      // services.AddTransient<IChatService, ChatService>();
       return services;
     }
   }

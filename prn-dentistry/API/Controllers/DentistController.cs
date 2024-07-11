@@ -19,15 +19,17 @@ namespace prn_dentistry.API.Controllers
     }
 
     /// <summary>
-    /// Get all clinic schedules
+    /// Get all dentists
     /// </summary>
     /// <remarks>
     /// Sample request:
     ///
-    ///     GET /ClinicSchedules
+    ///     GET /Dentists
     ///     PARAMS:
     ///         ClinicID: 1 (filter by clinic id)
     ///         OrderBy: clinicAsc
+    /// </remarks>
+
     [HttpGet]
     // [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<PagedList<DentistDto>>> GetPagedDentists([FromQuery] DentistQueryParams queryParams)
