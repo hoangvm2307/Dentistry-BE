@@ -13,23 +13,32 @@ namespace DentistryServices
     private readonly IClinicOwnerRepository _clinicOwnerRepository;
     private readonly IDentistRepository _dentistRepository;
     private readonly TokenService _tokenService;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
 
     public AccountService(IAccountRepository accountRepository, ICustomerRepository customerRepository,
-      IClinicOwnerRepository clinicOwnerRepository, IDentistRepository dentistRepository, TokenService tokenService)
+      IClinicOwnerRepository clinicOwnerRepository, IDentistRepository dentistRepository, TokenService tokenService,
+      UserManager<User> userManager, SignInManager<User> signInManager)
     {
       _dentistRepository = dentistRepository;
       _customerRepository = customerRepository;
       _clinicOwnerRepository = clinicOwnerRepository;
       _accountRepository = accountRepository;
       _tokenService = tokenService;
+      _userManager = userManager;
+      _signInManager = signInManager;
     }
     public async Task<UserDto> LoginAsync(LoginDto loginDto)
     {
-      var signInResult = await _accountRepository.LoginAsync(loginDto.Username, loginDto.Password);
+      // var signInResult = await _accountRepository.LoginAsync(loginDto.Username, loginDto.Password);
+
+      var signInResult = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, false);
 
       if (signInResult.Succeeded)
       {
-        var user = await _accountRepository.GetUserByUsernameAsync(loginDto.Username);
+        // var user = await _accountRepository.GetUserByUsernameAsync(loginDto.Username);
+        var user = await _userManager.FindByNameAsync(loginDto.Username);
+
 
         return new UserDto
         {
@@ -53,7 +62,9 @@ namespace DentistryServices
             Email = registerDto.Email
           };
 
-          var userCreationResult = await _accountRepository.RegisterAsync(user, registerDto.Password);
+          // var userCreationResult = await _accountRepository.RegisterAsync(user, registerDto.Password);
+          var userCreationResult = await _userManager.CreateAsync(user, registerDto.Password);
+
           if (!userCreationResult.Succeeded)
           {
             return userCreationResult;
@@ -175,7 +186,9 @@ namespace DentistryServices
 
     public async Task<UserDto> GetCurrentUser(string username)
     {
-      var user = await _accountRepository.GetUserByUsernameAsync(username);
+      // var user = await _accountRepository.GetUserByUsernameAsync(username);
+      var user = await _userManager.FindByNameAsync(username);
+
 
       return new UserDto
       {
@@ -196,6 +209,27 @@ namespace DentistryServices
       await _accountRepository.AssignRoleAsync(user, "Admin");
       return IdentityResult.Success;
 
+    }
+
+    public async Task<string> GeneratePasswordResetTokenAsync(string username)
+    {
+      var user = await _userManager.FindByNameAsync(username);
+      if (user == null)
+      {
+        // Handle user not found case
+        return null;
+      }
+      return await _userManager.GeneratePasswordResetTokenAsync(user);
+    }
+
+    public async Task<IdentityResult> ResetPasswordAsync(string username, string token, string newPassword)
+    {
+      var user = await _userManager.FindByNameAsync(username);
+      if (user == null)
+      {
+        return IdentityResult.Failed(new IdentityError { Description = "User not found" });
+      }
+      return await _userManager.ResetPasswordAsync(user, token, newPassword);
     }
   }
 }

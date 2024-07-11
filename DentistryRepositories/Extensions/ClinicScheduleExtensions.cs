@@ -9,7 +9,7 @@ namespace DentistryRepositories.Extensions
       if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(p => p.ClinicID);
       query = orderBy switch
       {
-        "nameAsc" => query.OrderBy(c => c.ClinicID),
+        "clinicAsc" => query.OrderBy(c => c.ClinicID),
         _ => query.OrderByDescending(c => c.ClinicID),
       };
       return query;
@@ -43,7 +43,14 @@ namespace DentistryRepositories.Extensions
 
         default: return query;
       }
+    }
 
+    public static IQueryable<ClinicSchedule> FilterByDate(this IQueryable<ClinicSchedule> query, DateTime date)
+    {
+      if (date == null) return query;
+
+      return query.Where(c => c.Appointments
+                              .Count(a => a.AppointmentDate.Date == date.Date) < c.MaxPatientsPerSlot);
     }
   }
 }

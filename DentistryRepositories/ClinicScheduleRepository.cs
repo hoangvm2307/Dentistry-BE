@@ -2,7 +2,6 @@ using DentistryBusinessObjects;
 using DentistryRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace DentistryRepositories
 {
   public class ClinicScheduleRepository : IClinicScheduleRepository
@@ -22,9 +21,14 @@ namespace DentistryRepositories
         .ViewType(queryParams.ViewType)
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
+        .FilterByDate(queryParams.Date)
         .FilterByClinicId(queryParams.ClinicID)
         .AsQueryable();
- 
+
+      var appointments = _context.Appointments.ToList();
+      foreach(var a in appointments){
+        Console.WriteLine($"===={a.AppointmentDate:yyyy-MM-dd}====");
+      }
      
       return await PagedList<ClinicSchedule>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
     }
