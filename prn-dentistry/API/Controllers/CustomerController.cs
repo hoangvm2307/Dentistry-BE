@@ -17,6 +17,17 @@ namespace prn_dentistry.API.Controllers
       _customerService = customerService;
     }
 
+    /// <summary>
+    /// Get all customers
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /Customers
+    ///     PARAMS:
+    ///         ClinicId: 1
+    ///         OrderBy: nameAsc/_(nameDesc)
+    /// </remarks>
     [HttpGet]
     public async Task<ActionResult<PagedList<CustomerDto>>> GetAllCustomers([FromQuery] CustomerQueryParam queryParams)
     {

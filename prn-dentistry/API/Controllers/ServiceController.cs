@@ -17,6 +17,16 @@ namespace prn_dentistry.API.Controllers
       _serviceService = serviceService;
     }
 
+    /// <summary>
+    /// Get all clinic schedules
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /ClinicSchedules
+    ///     PARAMS:
+    ///         ClinicID: 1 (filter by clinic id)
+    ///         OrderBy: clinicAsc
     [HttpGet]
     public async Task<ActionResult<PagedList<ServiceDto>>> GetAllServices([FromQuery] ServiceQueryParams queryParams)
     {

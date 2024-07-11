@@ -19,6 +19,17 @@ namespace prn_dentistry.API.Controllers
       _clinicService = clinicService;
     }
 
+    /// <summary>
+    /// Get all customers
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /Customers
+    ///     PARAMS:
+    ///         Status: active/unactive
+    ///         OrderBy: nameAsc/_(nameDesc)
+    /// </remarks>
     [HttpGet]
     // [Authorize(Roles = "Admin,Customer")]
     public async Task<ActionResult<PagedList<ClinicDto>>> GetAllClinics([FromQuery] ClinicQueryParams queryParams)

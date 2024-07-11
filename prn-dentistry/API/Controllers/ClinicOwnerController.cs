@@ -16,7 +16,18 @@ namespace prn_dentistry.API.Controllers
     {
       _clinicOwnerService = clinicOwnerService;
     }
-
+    /// <summary>
+    /// Get all customers
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /Customers
+    ///     PARAMS:
+    ///         Status: active/unactive
+    ///         ClinicId: 1 (filter by clinic id)
+    ///         OrderBy: nameAsc/_(nameDesc)
+    /// </remarks>
     [HttpGet]
     public async Task<ActionResult<PagedList<ClinicOwnerDto>>> GetAllClinicOwners([FromQuery] ClinicOwnerQueryParams queryParams)
     {

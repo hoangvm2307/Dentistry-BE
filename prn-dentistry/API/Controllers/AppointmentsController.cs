@@ -15,7 +15,22 @@ namespace prn_dentistry.API.Controllers
     {
       _appointmentService = appointmentService;
     }
+    
+    /// <summary>
+    /// Get all appointments
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /Appointments
+    ///     PARAMS:
+    ///         ClinicID: 1 (filter by clinic id)
+    ///         DentistID: 1 (filter by dentist id)
+    ///         CustomerID: 1 (filter by customer id)
+    ///         OrderBy: dateAsc/_(dateDesc)/
+    ///         Status: fulfilled/pending
 
+    /// </remarks>
     [HttpGet]
     public async Task<ActionResult<PagedList<AppointmentDto>>> GetAllAppointments([FromQuery]AppointmentQueryParams queryParams)
     {

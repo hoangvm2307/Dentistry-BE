@@ -1,5 +1,3 @@
-
-using System.Linq.Expressions;
 using DentistryBusinessObjects;
 using DentistryRepositories.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +34,9 @@ namespace DentistryRepositories
       var query = _context.TreatmentPlans
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
-        .Filter(queryParams.ClinicID)
+        .FilterByClinic(queryParams.ClinicID)
+        .FilterByCustomer(queryParams.CustomerID)
+        .FilterByDentist(queryParams.DentistID)
         .AsQueryable();
 
       return await PagedList<TreatmentPlan>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
@@ -52,7 +52,5 @@ namespace DentistryRepositories
       _context.Entry(treatmentPlan).State = EntityState.Modified;
       await _context.SaveChangesAsync();
     }
-
-
   }
 }

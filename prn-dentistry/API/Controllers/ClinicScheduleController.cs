@@ -4,8 +4,6 @@ using DentistryServices;
 using DTOs.ClinicScheduleDtos;
 using Microsoft.AspNetCore.Mvc;
  
-
-
 namespace prn_dentistry.API.Controllers
 {
   public class ClinicScheduleController : BaseApiController

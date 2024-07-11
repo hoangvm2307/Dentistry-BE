@@ -16,6 +16,18 @@ namespace prn_dentistry.API.Controllers
       _treatmentPlanService = treatmentPlanService;
     }
 
+    /// <summary>
+    /// Get all clinic schedules
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /ClinicSchedules
+    ///     PARAMS:
+    ///         ClinicID: 1(filter by clinic id)
+    ///         DentistID: 1 (filter by dentist id)
+    ///         CustomerID: 1(filter by customer id)
+    ///         OrderBy: clinicAsc
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TreatmentPlanDto>>> GetAllTreatmentPlans([FromQuery] TreatmentQueryParams queryParams)
     {
