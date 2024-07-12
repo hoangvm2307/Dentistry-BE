@@ -1,5 +1,6 @@
 using DentistryBusinessObjects;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DentistryRepositories
 {
@@ -7,16 +8,32 @@ namespace DentistryRepositories
   {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly DBContext _context;
 
-    public AccountRepository(UserManager<User> userManager, SignInManager<User> signInManager)
+    public AccountRepository(UserManager<User> userManager, SignInManager<User> signInManager, DBContext context)
     {
       _userManager = userManager;
       _signInManager = signInManager;
+      _context = context;
     }
 
     public async Task AssignRoleAsync(User user, string role)
     {
       await _userManager.AddToRoleAsync(user, role);
+    }
+
+    public async Task<int> GetSpecificUserID(User user)
+    {
+      var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == user.Id);
+      if (customer != null) return customer.CustomerID;
+
+      var dentist = await _context.Dentists.FirstOrDefaultAsync(d => d.Id == user.Id);
+      if (dentist != null) return dentist.DentistID;
+
+      var clinicOwner = await _context.ClinicOwners.FirstOrDefaultAsync(co => co.Id == user.Id);
+      if (clinicOwner != null) return clinicOwner.OwnerID;
+
+      return 0;
     }
 
     public async Task<User> GetUserByUsernameAsync(string username)

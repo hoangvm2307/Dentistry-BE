@@ -30,20 +30,16 @@ namespace DentistryServices
     }
     public async Task<UserDto> LoginAsync(LoginDto loginDto)
     {
-      // var signInResult = await _accountRepository.LoginAsync(loginDto.Username, loginDto.Password);
-
       var signInResult = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, false);
 
       if (signInResult.Succeeded)
       {
-        // var user = await _accountRepository.GetUserByUsernameAsync(loginDto.Username);
         var user = await _userManager.FindByNameAsync(loginDto.Username);
-
-
+        var specificUserId = await _accountRepository.GetSpecificUserID(user);
         return new UserDto
         {
           Email = user.Email,
-          Token = await _tokenService.GenerateToken(user)
+          Token = await _tokenService.GenerateToken(user, specificUserId)
         };
       }
 
@@ -85,7 +81,6 @@ namespace DentistryServices
             Status = true
           };
           await _customerRepository.AddCustomerAsync(customer);
-
           transaction.Complete();
 
           return IdentityResult.Success;
@@ -188,12 +183,12 @@ namespace DentistryServices
     {
       // var user = await _accountRepository.GetUserByUsernameAsync(username);
       var user = await _userManager.FindByNameAsync(username);
-
+      var specificUserId = await _accountRepository.GetSpecificUserID(user);
 
       return new UserDto
       {
         Email = user.Email,
-        Token = await _tokenService.GenerateToken(user)
+        Token = await _tokenService.GenerateToken(user, specificUserId)
       };
     }
 

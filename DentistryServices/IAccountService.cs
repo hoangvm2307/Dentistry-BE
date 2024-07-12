@@ -13,4 +13,4 @@ namespace DentistryServices
     Task<string> GeneratePasswordResetTokenAsync(string email);
     Task<IdentityResult> ResetPasswordAsync(string email, string token, string newPassword);
   }
-}
+} 

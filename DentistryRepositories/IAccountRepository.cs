@@ -9,5 +9,6 @@ namespace DentistryRepositories
     Task<Microsoft.AspNetCore.Identity.SignInResult> LoginAsync(string username, string password);
     Task<User> GetUserByUsernameAsync(string username);
     Task AssignRoleAsync(User user, string role);
+    Task<int> GetSpecificUserID(User user);
   }
 }
