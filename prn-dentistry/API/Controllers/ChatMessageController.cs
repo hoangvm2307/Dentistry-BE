@@ -15,11 +15,16 @@ namespace prn_dentistry.API.Controllers
       _chatContext = chatContext;
     }
 
-    [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetMessagesByUserId(string userId)
+    [HttpGet("sender/{senderId}/receiver/{receiverId}")]
+    public async Task<IActionResult> GetMessagesByUserId(string senderId, string receiverId)
     {
-      var messages = await _chatMessageService.GetMessagesByUserId(userId);
+      var messages = await _chatMessageService.GetMessagesByUserId(senderId, receiverId);
       return Ok(messages);
+    }
+    [HttpGet("receivers/{senderId}/role/{role}")]
+    public async Task<IActionResult> GetReceivers(string senderId, string role){
+      var receivers = await _chatMessageService.GetReceivers(senderId, role);
+      return Ok(receivers);
     }
     [HttpPost]
     public async Task<IActionResult> SendMessage([FromBody] ChatMessageDto messageDTO)
@@ -29,7 +34,7 @@ namespace prn_dentistry.API.Controllers
 
       var message = await _chatMessageService.SendMessage(messageDTO);
       _chatContext.Clients.All.SendAsync("ReceiveMessage", message);
-      return CreatedAtAction(nameof(GetMessagesByUserId), new { userId = message.SenderID }, message);
+      return Ok(message);
     }
   }
 }
