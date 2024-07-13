@@ -19,9 +19,7 @@ namespace DTOs.TreatmentPlanDtos
         [CustomDateRange(ErrorMessage = "Start Date cannot be in the past.")]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "End Date is required.")]
-        [DataType(DataType.Date)]
-        [DateGreaterThan("StartDate", ErrorMessage = "End Date must be greater than Start Date.")]
+  
         public DateTime? EndDate { get; set; }
 
         [MaxLength(50, ErrorMessage = "Frequency cannot exceed 50 characters.")]
