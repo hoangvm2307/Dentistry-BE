@@ -32,6 +32,8 @@ namespace DentistryRepositories
     public async Task<PagedList<TreatmentPlan>> GetAllTreatmentPlansAsync(TreatmentQueryParams queryParams)
     {
       var query = _context.TreatmentPlans
+        .Include(c => c.Customer)
+        .Include(c => c.Dentist)
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
         .FilterByClinic(queryParams.ClinicID)
