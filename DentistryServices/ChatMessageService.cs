@@ -16,10 +16,15 @@ namespace DentistryServices
       _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ChatMessageDto>> GetMessagesByUserId(string userId)
+    public async Task<IEnumerable<ChatMessageDto>> GetMessagesByUserId(string senderId, string receiverId)
     {
-      var messages = await _chatMessageRepository.GetMessagesByUserId(userId);
+      var messages = await _chatMessageRepository.GetMessagesByUserId(senderId, receiverId);
       return _mapper.Map<IEnumerable<ChatMessageDto>>(messages);
+    }
+
+    public Task<IEnumerable<ReceiverDto>> GetReceivers(string id, string role)
+    {
+      return _chatMessageRepository.GetReceivers(id, role);
     }
 
     public async Task<ChatMessageDto> SendMessage(ChatMessageDto messageDTO)
