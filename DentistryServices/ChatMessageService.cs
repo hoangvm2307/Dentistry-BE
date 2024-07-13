@@ -22,9 +22,9 @@ namespace DentistryServices
       return _mapper.Map<IEnumerable<ChatMessageDto>>(messages);
     }
 
-    public Task<IEnumerable<ReceiverDto>> GetReceivers(string id, string role)
+    public Task<IEnumerable<ReceiverDto>> GetReceivers(string id)
     {
-      return _chatMessageRepository.GetReceivers(id, role);
+      return _chatMessageRepository.GetReceivers(id);
     }
 
     public async Task<ChatMessageDto> SendMessage(ChatMessageDto messageDTO)

@@ -44,7 +44,7 @@ namespace DentistryRepositories
               .ToListAsync();
     }
 
-    public async Task<IEnumerable<ReceiverDto>> GetReceivers(string id, string role)
+    public async Task<IEnumerable<ReceiverDto>> GetReceivers(string id)
     {
       var messages = await _context.ChatMessages
         .Include(c => c.Sender)

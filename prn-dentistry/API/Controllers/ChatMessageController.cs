@@ -21,9 +21,9 @@ namespace prn_dentistry.API.Controllers
       var messages = await _chatMessageService.GetMessagesByUserId(senderId, receiverId);
       return Ok(messages);
     }
-    [HttpGet("receivers/{senderId}/role/{role}")]
-    public async Task<IActionResult> GetReceivers(string senderId, string role){
-      var receivers = await _chatMessageService.GetReceivers(senderId, role);
+    [HttpGet("receivers/{senderId}")]
+    public async Task<IActionResult> GetReceivers(string senderId){
+      var receivers = await _chatMessageService.GetReceivers(senderId);
       return Ok(receivers);
     }
     [HttpPost]

@@ -22,14 +22,14 @@ namespace DTOs.TreatmentPlanDtos
         [Required(ErrorMessage = "End Date is required.")]
         [DataType(DataType.Date)]
         [DateGreaterThan("StartDate", ErrorMessage = "End Date must be greater than Start Date.")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [MaxLength(50, ErrorMessage = "Frequency cannot exceed 50 characters.")]
-        public string Frequency { get; set; }
+        public string Description { get; set; }
 
         [DataType(DataType.Date)]
         [DateGreaterThan("StartDate", AllowEqualDates = true, ErrorMessage = "Next Appointment Date must be on or after Start Date.")]
-        public DateTime NextAppointmentDate { get; set; }
+        public DateTime? NextAppointmentDate { get; set; }
 
         [MaxLength(50, ErrorMessage = "Status cannot exceed 50 characters.")]
         public string Status { get; set; }
