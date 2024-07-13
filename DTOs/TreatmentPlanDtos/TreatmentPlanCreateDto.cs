@@ -25,7 +25,7 @@ namespace DTOs.TreatmentPlanDtos
         [MaxLength(50, ErrorMessage = "Frequency cannot exceed 50 characters.")]
         public string Description { get; set; }
 
-        [DataType(DataType.Date)]
+   
         [DateGreaterThan("StartDate", AllowEqualDates = true, ErrorMessage = "Next Appointment Date must be on or after Start Date.")]
         public DateTime? NextAppointmentDate { get; set; }
 
