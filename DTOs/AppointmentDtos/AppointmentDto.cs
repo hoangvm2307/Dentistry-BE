@@ -8,7 +8,9 @@ namespace DTOs.AppointmentDtos
     public int ClinicScheduleID { get; set; }
     public string CustomerName { get; set; }
     public string Address { get; set; }
-    public string PhoneNumber { get; set; }
+    public string ClinicPhoneNumber { get; set; }
+    public string DentistPhoneNumber { get; set; }
+    public decimal Price { get; set; }
     public int DentistID { get; set; }
     public string DentistName { get; set; }
     public int ServiceID { get; set; }

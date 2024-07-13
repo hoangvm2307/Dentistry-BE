@@ -23,6 +23,7 @@ namespace DentistryRepositories
       .FilterByStatus(queryParams.Status)
       .Include(a => a.Customer)
       .Include(a => a.Dentist)
+      .ThenInclude(d => d.Clinic)
       .Include(a => a.Service)
       .AsQueryable();
 
@@ -70,7 +71,7 @@ namespace DentistryRepositories
       }
 
       var appointmentEndTime = appointmentTime.AddMinutes(slotDuration);
-      
+
       var overlappingAppointments = await _context.Appointments
           .Where(a => a.Dentist.ClinicID == clinicId &&
                       a.AppointmentDate == appointmentDate &&
