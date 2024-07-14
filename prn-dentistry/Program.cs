@@ -80,7 +80,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowLocalhost3000");
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapHub<ChatHub>("/chatHub");
+app.MapHub<ChatHub>("https://dentistry.api.markvoit.id.vn/api/chatHub");
 app.MapControllers();
 
 var scope = app.Services.CreateScope();
