@@ -7,6 +7,7 @@ namespace DTOs.AppointmentDtos
     public int CustomerID { get; set; }
     public int ClinicScheduleID { get; set; }
     public int ClinicID { get; set; }
+    public string ClinicName { get; set; }
     public string CustomerName { get; set; }
     public string Address { get; set; }
     public string ClinicPhoneNumber { get; set; }

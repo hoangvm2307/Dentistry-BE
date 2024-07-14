@@ -34,10 +34,11 @@ namespace DentistryRepositories
     public async Task<PagedList<Customer>> GetAllCustomersAsync(CustomerQueryParam queryParams)
     {
       var query = _context.Customers
-          .Sort(queryParams.OrderBy)
-          .Search(queryParams.SearchTerm)
-          .Filter(queryParams.ClinicID)
-          .AsQueryable();
+      .Include(c => c.User)
+      .Sort(queryParams.OrderBy)
+      .Search(queryParams.SearchTerm)
+      .Filter(queryParams.ClinicID)
+      .AsQueryable();
 
       return await PagedList<Customer>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
 

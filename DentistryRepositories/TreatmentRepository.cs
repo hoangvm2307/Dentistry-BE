@@ -34,6 +34,7 @@ namespace DentistryRepositories
       var query = _context.TreatmentPlans
         .Include(c => c.Customer)
         .Include(c => c.Dentist)
+        .ThenInclude(c => c.Clinic)
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
         .FilterByClinic(queryParams.ClinicID)

@@ -16,27 +16,26 @@ namespace DTOs.AccountDtos
     [Required(ErrorMessage = "Password is required.")]
     [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long.")]
     public string Password { get; set; }
-
-    [Required(ErrorMessage = "Name is required.")]
+ 
     [StringLength(100, ErrorMessage = "Name can't be longer than 100 characters.")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    [Required(ErrorMessage = "Phone number is required.")]
+ 
     [Phone(ErrorMessage = "Invalid Phone Number.")]
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
 
-    [Required(ErrorMessage = "Date of birth is required.")]
-    public DateTime DateOfBirth { get; set; }
+   
+    public DateTime? DateOfBirth { get; set; }
 
-    [Required(ErrorMessage = "Address is required.")]
+ 
     [StringLength(200, ErrorMessage = "Address can't be longer than 200 characters.")]
-    public string Address { get; set; }
+    public string? Address { get; set; }
 
-    [Required(ErrorMessage = "Gender is required.")]
+ 
     [StringLength(10, ErrorMessage = "Gender can't be longer than 10 characters.")]
-    public string Gender { get; set; }
-    public string Image { get; set; }
+    public string? Gender { get; set; }
+    public string? Image { get; set; }
 
-    public bool Status { get; set; }
+    public bool? Status { get; set; }
   }
 }

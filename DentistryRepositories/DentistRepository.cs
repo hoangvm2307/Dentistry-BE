@@ -31,6 +31,7 @@ namespace DentistryRepositories
     public async Task<PagedList<Dentist>> GetAllAsync(DentistQueryParams queryParams)
     {
       var query = _context.Dentists
+        .Include(d => d.User)
         .Sort(queryParams.OrderBy)
         .Search(queryParams.SearchTerm)
         .Filter(queryParams.ClinicID)
