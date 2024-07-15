@@ -21,6 +21,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all customers
+    /// Role: Admin, Customer
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -39,8 +40,12 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinics);
     }
 
+    /// <summary>
+    /// Get a clinic by id
+    /// Role: ClinicOwner, Admin, Customer
+    /// </summary>
     [HttpGet("{id}")]
-    [Authorize(Roles = "Admin,Customer, ClinicOwner")]
+    [Authorize(Roles = "Admin, Customer, ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> GetClinicById(int id)
     {
       var clinic = await _clinicService.GetClinicByIdAsync(id);
@@ -50,6 +55,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinic);
     }
 
+    /// <summary>
+    /// Create a clinic
+    /// Role: ClinicOwner, Admin
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Admin,ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> CreateClinic([FromBody] ClinicCreateDto clinicDto)
@@ -60,6 +69,10 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetClinicById), new { id = clinic.ClinicID }, clinic);
     }
 
+    /// <summary>
+    /// Update a clinic
+    /// Role: ClinicOwner, Admin
+    /// </summary>
     [HttpPut]
     [Authorize(Roles = "Admin,ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> UpdateClinic(int id, ClinicUpdateDto clinicDto)
@@ -71,6 +84,10 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetClinicById), new { id = clinic.ClinicID }, clinic);
     }
 
+    /// <summary>
+    /// Delete a clinic
+    /// Role: ClinicOwner, Admin
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin,ClinicOwner")]
 

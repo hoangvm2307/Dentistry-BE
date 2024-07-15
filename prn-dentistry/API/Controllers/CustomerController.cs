@@ -19,6 +19,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all customers
+    /// Role: Admin, ClinicOwner
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -37,6 +38,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(customers);
     }
 
+    /// <summary>
+    /// Get a customer by id
+    /// Role: Admin, ClinicOwner, Customer
+    /// </summary>
     [HttpGet("{id}")]
     [Authorize(Roles = "Admin, ClinicOwner,Customer")]
     public async Task<ActionResult<CustomerDto>> GetCustomerById(int id)
@@ -48,6 +53,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(customer);
     }
 
+    /// <summary>
+    /// Update a customer
+    /// Role: Customer, Admin, ClinicOwner
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "Customer,Admin,ClinicOwner")]
     public async Task<ActionResult<CustomerDto>> UpdateCustomer(int id, CustomerUpdateDto customerUpdateDto)
@@ -60,6 +69,10 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetCustomerById), new { id = customer.CustomerID }, customer);
     }
 
+    /// <summary>
+    /// Delete a customer
+    /// Role: Admin, Customer, ClinicOwner
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin,Customer,ClinicOwner")]
     public async Task<IActionResult> DeleteCustomer(int id)

@@ -20,6 +20,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all dentists
+    /// Role: ClinicOwner, Admin
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -39,6 +40,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(dentists);
     }
 
+    /// <summary>
+    /// Get a dentist by id
+    /// Role: ClinicOwner, Dentist, Admin
+    /// </summary>
     [HttpGet("{id}")]
     [Authorize(Roles = "ClinicOwner,Dentist,Admin")]
     public async Task<ActionResult<DentistDto>> GetDentistById(int id)
@@ -60,6 +65,10 @@ namespace prn_dentistry.API.Controllers
     //   return CreatedAtAction(nameof(GetDentistById), new { id = dentist.DentistId }, dentist);
     // }
 
+    /// <summary>
+    /// Update a dentist
+    /// Role: ClinicOwner, Admin, Dentist
+    /// </summary>
     [HttpPut]
     [Authorize(Roles = "ClinicOwner,Admin,Dentist")]
     public async Task<ActionResult<DentistDto>> UpdateDentist(int id, DentistUpdateDto dentistDto)
@@ -71,6 +80,10 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetDentistById), new { id = dentist.DentistId }, dentist);
     }
 
+    /// <summary>
+    /// Delete a dentist
+    /// Role: ClinicOwner, Admin, Dentist
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "ClinicOwner,Admin,Dentist")]
     public async Task<IActionResult> DeleteDentist(int id)

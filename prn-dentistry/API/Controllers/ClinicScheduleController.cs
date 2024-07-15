@@ -18,6 +18,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all clinic schedules
+    /// Role: Dentist, ClinicOwner
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -36,6 +37,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinicSchedules);
     }
 
+    /// <summary>
+    /// Get a clinic schedule by id
+    /// Role: Dentist, ClinicOwner
+    /// </summary>
     [HttpGet("{id}")]
     [Authorize(Roles = "Dentist,ClinicOwner")]
     public async Task<ActionResult<ClinicScheduleDto>> GetClinicSchedule(int id)
@@ -47,6 +52,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinicSchedule);
     }
 
+    /// <summary>
+    /// Create a clinic schedule 
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ClinicScheduleDto>> CreateClinicSchedule(ClinicScheduleCreateDto clinicScheduleCreateDto)
@@ -58,6 +67,10 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetClinicSchedule), new { id = clinicSchedule.ScheduleID }, clinicSchedule);
     }
 
+    /// <summary>
+    /// Batch create clinic schedules
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpPost("batch")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> BatchCreateServices(BatchClinicScheduleCreateDto batchServiceCreateDto)
@@ -74,6 +87,11 @@ namespace prn_dentistry.API.Controllers
 
       return Ok(createdServices);
     }
+
+    /// <summary>
+    /// Update a clinic schedule 
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> UpdateClinicSchedule(int id, ClinicScheduleUpdateDto clinicScheduleUpdateDto)
@@ -87,6 +105,10 @@ namespace prn_dentistry.API.Controllers
       return NoContent();
     }
 
+    /// <summary>
+    /// Delete a clinic schedule 
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> DeleteClinicSchedule(int id)

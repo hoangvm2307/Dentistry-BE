@@ -19,6 +19,7 @@ namespace prn_dentistry.API.Controllers
     }
     /// <summary>
     /// Get all customers
+    /// Role: Admin
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -38,6 +39,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinicOwners);
     }
 
+    /// <summary>
+    /// Get a clinic owner by id
+    /// Role: ClinicOwner, Admin
+    /// </summary>
     [HttpGet("{id}")]
     [Authorize(Roles = "ClinicOwner,Admin")]
     public async Task<ActionResult<ClinicOwnerDto>> GetClinicOwner(int id)
@@ -60,6 +65,10 @@ namespace prn_dentistry.API.Controllers
     //   return CreatedAtAction(nameof(GetClinicOwner), new { id = clinicOwner.OwnerID }, clinicOwner);
     // }
 
+    /// <summary>
+    /// Update a clinic owner
+    /// Role: Admin, ClinicOwner
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin, ClinicOwner")]
     public async Task<ActionResult<ClinicOwnerDto>> UpdateClinicOwner(int id, ClinicOwnerUpdateDto clinicOwnerUpdateDto)
@@ -71,6 +80,10 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetClinicOwner), new { id = clinicOwner.OwnerID }, clinicOwner);
     }
 
+    /// <summary>
+    /// Delete a clinic owner
+    /// Role: Admin
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteClinicOwner(int id)

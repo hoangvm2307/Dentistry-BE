@@ -19,6 +19,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all clinic schedules
+    /// Role: Dentist, ClinicOwner
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -29,6 +30,7 @@ namespace prn_dentistry.API.Controllers
     ///         DentistID: 1 (filter by dentist id)
     ///         CustomerID: 1(filter by customer id)
     ///         OrderBy: clinicAsc
+    /// </remarks>
     [HttpGet]
     [Authorize(Roles = "Dentist,ClinicOwner")]
     public async Task<ActionResult<IEnumerable<TreatmentPlanDto>>> GetAllTreatmentPlans([FromQuery] TreatmentQueryParams queryParams)
@@ -37,7 +39,10 @@ namespace prn_dentistry.API.Controllers
       Response.Headers.Add("Pagination", JsonSerializer.Serialize(treatmentPlans.MetaData));
       return Ok(treatmentPlans);
     }
-
+    /// <summary>
+    /// Get a treatment plan by id
+    /// Role: Dentist, ClinicOwner
+    /// </summary>
     [HttpGet("{id}")]
     [Authorize(Roles = "Dentist,ClinicOwner")]
     public async Task<ActionResult<TreatmentPlanDto>> GetTreatmentPlan(int id)
@@ -49,7 +54,10 @@ namespace prn_dentistry.API.Controllers
 
       return Ok(treatmentPlan);
     }
-
+    /// <summary>
+    /// Create a treatment plan
+    /// Role: Dentist 
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Dentist")]
     public async Task<ActionResult<TreatmentPlanDto>> CreateTreatmentPlan(TreatmentPlanCreateDto treatmentPlanCreateDto)
@@ -60,7 +68,10 @@ namespace prn_dentistry.API.Controllers
 
       return CreatedAtAction(nameof(GetTreatmentPlan), new { id = treatmentPlan.PlanID }, treatmentPlan);
     }
-
+    /// <summary>
+    /// Update a treatment plan
+    /// Role: Dentist 
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "Dentist")]
     public async Task<IActionResult> UpdateTreatmentPlan(int id, TreatmentPlanUpdateDto treatmentPlanUpdateDto)
@@ -74,7 +85,10 @@ namespace prn_dentistry.API.Controllers
 
       return NoContent();
     }
-
+    /// <summary>
+    /// Delete a treatment plan
+    /// Role: Dentist 
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "Dentist")]
     public async Task<IActionResult> DeleteTreatmentPlan(int id)

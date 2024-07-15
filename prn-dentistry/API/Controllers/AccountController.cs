@@ -35,7 +35,10 @@ namespace prn_dentistry.API.Controllers
 
       return BadRequest(result.Errors);
     }
-
+    /// <summary>
+    /// Register a new clinic owner 
+    /// Role: Admin, ClinicOwner
+    /// </summary>
     [HttpPost("register-clinicowner")]
     [Authorize(Roles = "Admin,ClinicOwner")]
     public async Task<IActionResult> RegisterClinicOwner([FromBody] RegisterClinicOwnerDto registerDto)
@@ -48,7 +51,10 @@ namespace prn_dentistry.API.Controllers
 
       return BadRequest(result.Errors);
     }
-
+    /// <summary>
+    /// Register a new dentist 
+    /// Role: Admin, Dentist
+    /// </summary>
     [HttpPost("register-dentist")]
     [Authorize(Roles = "Admin,Dentist")]
     public async Task<IActionResult> RegisterDentist([FromBody] RegisterDentistDto registerDto)

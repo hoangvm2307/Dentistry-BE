@@ -19,6 +19,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all appointments
+    /// Role: Customer, Dentist, ClinicOwner
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -30,7 +31,6 @@ namespace prn_dentistry.API.Controllers
     ///         CustomerID: 1 (filter by customer id)
     ///         OrderBy: dateAsc/_(dateDesc)/
     ///         Status: fulfilled/pending
-
     /// </remarks>
     [HttpGet]
     [Authorize(Roles = "Customer,Dentist,ClinicOwner")]
@@ -41,6 +41,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(appointments);
     }
 
+    /// <summary>
+    /// Get an appointment by id
+    /// Role: Customer, Dentist, ClinicOwner
+    /// </summary>
     [HttpGet("{id}")]
     [Authorize(Roles = "Customer,Dentist,ClinicOwner")]
     public async Task<ActionResult<AppointmentDto>> GetAppointment(int id)
@@ -51,7 +55,10 @@ namespace prn_dentistry.API.Controllers
 
       return Ok(appointment);
     }
-
+    /// <summary>
+    /// Create a new appointment
+    /// Role: Customer, ClinicOwner
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Customer, ClinicOwner")]
     public async Task<ActionResult<AppointmentDto>> CreateAppointment(AppointmentCreateDto appointmentCreateDto)
@@ -63,6 +70,10 @@ namespace prn_dentistry.API.Controllers
       return CreatedAtAction(nameof(GetAppointment), new { id = appointment.AppointmentID }, appointment);
     }
 
+    /// <summary>
+    /// Update an appointment
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> UpdateAppointment(int id, AppointmentUpdateDto appointmentUpdateDto)
@@ -76,6 +87,10 @@ namespace prn_dentistry.API.Controllers
       return NoContent();
     }
 
+    /// <summary>
+    /// Delete an appointment
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> DeleteAppointment(int id)

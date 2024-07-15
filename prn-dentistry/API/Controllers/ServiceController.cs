@@ -20,6 +20,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all clinic schedules
+    /// Role: ClinicOwner
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -28,6 +29,7 @@ namespace prn_dentistry.API.Controllers
     ///     PARAMS:
     ///         ClinicID: 1 (filter by clinic id)
     ///         OrderBy: clinicAsc
+    /// </remarks>
     [HttpGet]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<PagedList<ServiceDto>>> GetAllServices([FromQuery] ServiceQueryParams queryParams)
@@ -37,6 +39,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(services);
     }
 
+    /// <summary>
+    /// Get a service by id
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpGet("{id}")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ServiceDto>> GetService(int id)
@@ -48,7 +54,10 @@ namespace prn_dentistry.API.Controllers
       return Ok(service);
     }
 
-
+    /// <summary>
+    /// Create a service
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ServiceDto>> CreateService(ServiceCreateDto serviceCreateDto)
@@ -59,7 +68,10 @@ namespace prn_dentistry.API.Controllers
 
       return CreatedAtAction(nameof(GetService), new { id = service.ServiceID }, service);
     }
-
+    /// <summary>
+    /// Batch create services
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpPost("batch")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<IEnumerable<ServiceDto>>> BatchCreateServices(BatchServiceCreateDto batchServiceCreateDto)
@@ -76,6 +88,10 @@ namespace prn_dentistry.API.Controllers
 
       return Ok(createdServices);
     }
+    /// <summary>
+    /// Update a service
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> UpdateService(int id, ServiceUpdateDto serviceUpdateDto)
@@ -89,6 +105,10 @@ namespace prn_dentistry.API.Controllers
       return NoContent();
     }
 
+    /// <summary>
+    ///Delete a service
+    /// Role: ClinicOwner
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> DeleteService(int id)
