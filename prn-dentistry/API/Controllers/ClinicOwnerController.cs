@@ -3,6 +3,7 @@ using DentistryRepositories;
 using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ClinicOwnerDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -29,6 +30,7 @@ namespace prn_dentistry.API.Controllers
     ///         OrderBy: nameAsc/_(nameDesc)
     /// </remarks>
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<PagedList<ClinicOwnerDto>>> GetAllClinicOwners([FromQuery] ClinicOwnerQueryParams queryParams)
     {
       var clinicOwners = await _clinicOwnerService.GetAllClinicOwnersAsync(queryParams);
@@ -37,6 +39,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "ClinicOwner,Admin")]
     public async Task<ActionResult<ClinicOwnerDto>> GetClinicOwner(int id)
     {
       var clinicOwner = await _clinicOwnerService.GetClinicOwnerByIdAsync(id);
@@ -46,20 +49,22 @@ namespace prn_dentistry.API.Controllers
       return Ok(clinicOwner);
     }
 
-    [HttpPost]
-    public async Task<ActionResult<ClinicOwnerDto>> CreateClinicOwner(ClinicOwnerCreateDto clinicOwnerCreateDto)
-    {
-      if (!ModelState.IsValid) return BadRequest(ModelState);
+    // [HttpPost]
+    // [Authorize(Roles = "Admin")]
+    // public async Task<ActionResult<ClinicOwnerDto>> CreateClinicOwner(ClinicOwnerCreateDto clinicOwnerCreateDto)
+    // {
+    //   if (!ModelState.IsValid) return BadRequest(ModelState);
 
-      var clinicOwner = await _clinicOwnerService.CreateClinicOwnerAsync(clinicOwnerCreateDto);
+    //   var clinicOwner = await _clinicOwnerService.CreateClinicOwnerAsync(clinicOwnerCreateDto);
 
-      return CreatedAtAction(nameof(GetClinicOwner), new { id = clinicOwner.OwnerID }, clinicOwner);
-    }
+    //   return CreatedAtAction(nameof(GetClinicOwner), new { id = clinicOwner.OwnerID }, clinicOwner);
+    // }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin, ClinicOwner")]
     public async Task<ActionResult<ClinicOwnerDto>> UpdateClinicOwner(int id, ClinicOwnerUpdateDto clinicOwnerUpdateDto)
     {
-       if (!ModelState.IsValid) return BadRequest(ModelState);
+      if (!ModelState.IsValid) return BadRequest(ModelState);
       var clinicOwner = await _clinicOwnerService.UpdateClinicOwnerAsync(id, clinicOwnerUpdateDto);
       if (clinicOwner == null) return NotFound();
 
@@ -67,6 +72,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteClinicOwner(int id)
     {
       try

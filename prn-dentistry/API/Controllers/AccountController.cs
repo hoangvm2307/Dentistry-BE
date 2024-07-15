@@ -15,15 +15,15 @@ namespace prn_dentistry.API.Controllers
       _accountService = accountService;
     }
 
-    [HttpPost("register-admin")]
-    public async Task<IActionResult> RegisterAdmin()
-    {
-      var result = await _accountService.RegisterAdmin();
+    // [HttpPost("register-admin")]
+    // public async Task<IActionResult> RegisterAdmin()
+    // {
+    //   var result = await _accountService.RegisterAdmin();
 
-      if (result.Succeeded) return Ok("User registered successfully");
+    //   if (result.Succeeded) return Ok("User registered successfully");
 
-      return BadRequest(result.Errors);
-    }
+    //   return BadRequest(result.Errors);
+    // }
     [HttpPost("register-customer")]
     public async Task<IActionResult> RegisterCustomer([FromBody] RegisterCustomerDto registerDto)
     {
@@ -37,6 +37,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost("register-clinicowner")]
+    [Authorize(Roles = "Admin,ClinicOwner")]
     public async Task<IActionResult> RegisterClinicOwner([FromBody] RegisterClinicOwnerDto registerDto)
     {
       if (registerDto == null || !ModelState.IsValid) return BadRequest("Invalid registration request");
@@ -49,6 +50,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost("register-dentist")]
+    [Authorize(Roles = "Admin,Dentist")]
     public async Task<IActionResult> RegisterDentist([FromBody] RegisterDentistDto registerDto)
     {
       if (registerDto == null || !ModelState.IsValid) return BadRequest("Invalid registration request");

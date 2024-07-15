@@ -3,6 +3,7 @@ using DentistryRepositories;
 using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ServiceDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -28,6 +29,7 @@ namespace prn_dentistry.API.Controllers
     ///         ClinicID: 1 (filter by clinic id)
     ///         OrderBy: clinicAsc
     [HttpGet]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<PagedList<ServiceDto>>> GetAllServices([FromQuery] ServiceQueryParams queryParams)
     {
       var services = await _serviceService.GetAllServicesAsync(queryParams);
@@ -36,6 +38,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ServiceDto>> GetService(int id)
     {
       var service = await _serviceService.GetServiceByIdAsync(id);
@@ -47,6 +50,7 @@ namespace prn_dentistry.API.Controllers
 
 
     [HttpPost]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ServiceDto>> CreateService(ServiceCreateDto serviceCreateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -57,6 +61,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost("batch")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<IEnumerable<ServiceDto>>> BatchCreateServices(BatchServiceCreateDto batchServiceCreateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -72,6 +77,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(createdServices);
     }
     [HttpPut("{id}")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> UpdateService(int id, ServiceUpdateDto serviceUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -84,6 +90,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> DeleteService(int id)
     {
       var success = await _serviceService.DeleteServiceAsync(id);

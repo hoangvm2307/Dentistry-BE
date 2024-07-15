@@ -2,6 +2,7 @@ using System.Text.Json;
 using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.AppointmentDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -15,7 +16,7 @@ namespace prn_dentistry.API.Controllers
     {
       _appointmentService = appointmentService;
     }
-    
+
     /// <summary>
     /// Get all appointments
     /// </summary>
@@ -32,7 +33,8 @@ namespace prn_dentistry.API.Controllers
 
     /// </remarks>
     [HttpGet]
-    public async Task<ActionResult<PagedList<AppointmentDto>>> GetAllAppointments([FromQuery]AppointmentQueryParams queryParams)
+    [Authorize(Roles = "Customer,Dentist,ClinicOwner")]
+    public async Task<ActionResult<PagedList<AppointmentDto>>> GetAllAppointments([FromQuery] AppointmentQueryParams queryParams)
     {
       var appointments = await _appointmentService.GetAllAppointmentsAsync(queryParams);
       Response.Headers.Add("Pagination", JsonSerializer.Serialize(appointments.MetaData));
@@ -40,6 +42,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Customer,Dentist,ClinicOwner")]
     public async Task<ActionResult<AppointmentDto>> GetAppointment(int id)
     {
       var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
@@ -50,6 +53,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost]
+    [Authorize(Roles = "Customer, ClinicOwner")]
     public async Task<ActionResult<AppointmentDto>> CreateAppointment(AppointmentCreateDto appointmentCreateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -60,6 +64,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> UpdateAppointment(int id, AppointmentUpdateDto appointmentUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -72,6 +77,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> DeleteAppointment(int id)
     {
       var success = await _appointmentService.DeleteAppointmentAsync(id);

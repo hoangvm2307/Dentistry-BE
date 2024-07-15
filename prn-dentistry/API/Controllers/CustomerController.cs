@@ -29,6 +29,7 @@ namespace prn_dentistry.API.Controllers
     ///         OrderBy: nameAsc/_(nameDesc)
     /// </remarks>
     [HttpGet]
+    [Authorize(Roles = "Admin,ClinicOwner")]
     public async Task<ActionResult<PagedList<CustomerDto>>> GetAllCustomers([FromQuery] CustomerQueryParam queryParams)
     {
       var customers = await _customerService.GetAllCustomersAsync(queryParams);
@@ -37,7 +38,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
-    // [Authorize(Roles = "Admin, ClinicOwner")]
+    [Authorize(Roles = "Admin, ClinicOwner,Customer")]
     public async Task<ActionResult<CustomerDto>> GetCustomerById(int id)
     {
       var customer = await _customerService.GetCustomerByIdAsync(id);
@@ -48,7 +49,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut("{id}")]
-    // [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Customer,Admin,ClinicOwner")]
     public async Task<ActionResult<CustomerDto>> UpdateCustomer(int id, CustomerUpdateDto customerUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -60,7 +61,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    // [Authorize(Roles = "Admin,Customer")]
+    [Authorize(Roles = "Admin,Customer,ClinicOwner")]
     public async Task<IActionResult> DeleteCustomer(int id)
     {
       try

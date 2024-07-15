@@ -5,7 +5,6 @@ namespace DTOs.CustomerDtos
 {
   public class CustomerDto
   {
-
     public int CustomerID { get; set; }
     public string UserName { get; set; }
     public string Id { get; set; }

@@ -31,7 +31,7 @@ namespace prn_dentistry.API.Controllers
     /// </remarks>
 
     [HttpGet]
-    // [Authorize(Roles = "ClinicOwner")]
+    [Authorize(Roles = "ClinicOwner, Admin")]
     public async Task<ActionResult<PagedList<DentistDto>>> GetPagedDentists([FromQuery] DentistQueryParams queryParams)
     {
       var dentists = await _dentistService.GetAllDentistsAsync(queryParams);
@@ -40,7 +40,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
-    // [Authorize(Roles = "ClinicOwner,Customer,Dentist")]
+    [Authorize(Roles = "ClinicOwner,Dentist,Admin")]
     public async Task<ActionResult<DentistDto>> GetDentistById(int id)
     {
       var dentist = await _dentistService.GetDentistByIdAsync(id);
@@ -50,18 +50,18 @@ namespace prn_dentistry.API.Controllers
       return Ok(dentist);
     }
 
-    [HttpPost]
-    // [Authorize(Roles = "ClinicOwner")]
-    public async Task<ActionResult<DentistDto>> CreateDentist(DentistCreateDto dentistDto)
-    {
-      if (!ModelState.IsValid) return BadRequest(ModelState);
-      var dentist = await _dentistService.AddDentistAsync(dentistDto);
+    // [HttpPost]
+    // [Authorize(Roles = "ClinicOwner,Admin")]
+    // public async Task<ActionResult<DentistDto>> CreateDentist(DentistCreateDto dentistDto)
+    // {
+    //   if (!ModelState.IsValid) return BadRequest(ModelState);
+    //   var dentist = await _dentistService.AddDentistAsync(dentistDto);
 
-      return CreatedAtAction(nameof(GetDentistById), new { id = dentist.DentistId }, dentist);
-    }
+    //   return CreatedAtAction(nameof(GetDentistById), new { id = dentist.DentistId }, dentist);
+    // }
 
     [HttpPut]
-    // [Authorize(Roles = "ClinicOwner")]
+    [Authorize(Roles = "ClinicOwner,Admin,Dentist")]
     public async Task<ActionResult<DentistDto>> UpdateDentist(int id, DentistUpdateDto dentistDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -72,7 +72,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    // [Authorize(Roles = "ClinicOwner,Admin")]
+    [Authorize(Roles = "ClinicOwner,Admin,Dentist")]
     public async Task<IActionResult> DeleteDentist(int id)
     {
       try

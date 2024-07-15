@@ -52,11 +52,11 @@ namespace DTOs.ValidationsAttributes
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-      if (value is string dayOfWeek && ValidDays.Contains(dayOfWeek, StringComparer.OrdinalIgnoreCase))
+      if (value is string dayOfWeek && ValidDays.Contains(dayOfWeek))
       {
         return ValidationResult.Success;
       }
-      return new ValidationResult("Day of week must be from \"Monday\" to \"Sunday\".");
+      return new ValidationResult("Day of week must be from Monday to Sunday.");
     }
   }
 }

@@ -3,7 +3,6 @@ using DTOs.ValidationsAttributes;
 
 namespace DTOs.ClinicDtos
 {
-  [TimeValidation]
   public class ClinicCreateDto
   {
     [Required(ErrorMessage = "Name is required.")]
@@ -22,6 +21,7 @@ namespace DTOs.ClinicDtos
     [Required(ErrorMessage = "Opening hours are required.")]
     public DateTime OpeningHours { get; set; }
     [Required(ErrorMessage = "Closing hours are required.")]
+    [TimeGreaterThan("OpeningHours", ErrorMessage = "Closing hours must be after opening hours.")]
     public DateTime ClosingHours { get; set; }
     public string Image { get; set; }
     public bool Status { get; set; }

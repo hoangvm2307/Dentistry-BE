@@ -1,9 +1,10 @@
- 
+
 using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ClinicScheduleDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
- 
+
 namespace prn_dentistry.API.Controllers
 {
   public class ClinicScheduleController : BaseApiController
@@ -28,7 +29,7 @@ namespace prn_dentistry.API.Controllers
     ///         OrderBy: clinicAsc
     /// </remarks>
     [HttpGet]
-    
+    [Authorize(Roles = "Dentist,ClinicOwner")]
     public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> GetAllClinicSchedules([FromQuery] ClinicScheduleParams queryParams)
     {
       var clinicSchedules = await _clinicScheduleService.GetAllClinicSchedulesAsync(queryParams);
@@ -36,6 +37,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Dentist,ClinicOwner")]
     public async Task<ActionResult<ClinicScheduleDto>> GetClinicSchedule(int id)
     {
       var clinicSchedule = await _clinicScheduleService.GetClinicScheduleByIdAsync(id);
@@ -46,6 +48,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<ClinicScheduleDto>> CreateClinicSchedule(ClinicScheduleCreateDto clinicScheduleCreateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -56,6 +59,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost("batch")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> BatchCreateServices(BatchClinicScheduleCreateDto batchServiceCreateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -71,6 +75,7 @@ namespace prn_dentistry.API.Controllers
       return Ok(createdServices);
     }
     [HttpPut("{id}")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> UpdateClinicSchedule(int id, ClinicScheduleUpdateDto clinicScheduleUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -83,6 +88,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "ClinicOwner")]
     public async Task<IActionResult> DeleteClinicSchedule(int id)
     {
       var result = await _clinicScheduleService.DeleteClinicScheduleAsync(id);

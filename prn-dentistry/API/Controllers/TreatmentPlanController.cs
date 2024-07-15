@@ -2,6 +2,7 @@ using System.Text.Json;
 using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.TreatmentPlanDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -29,6 +30,7 @@ namespace prn_dentistry.API.Controllers
     ///         CustomerID: 1(filter by customer id)
     ///         OrderBy: clinicAsc
     [HttpGet]
+    [Authorize(Roles = "Dentist,ClinicOwner")]
     public async Task<ActionResult<IEnumerable<TreatmentPlanDto>>> GetAllTreatmentPlans([FromQuery] TreatmentQueryParams queryParams)
     {
       var treatmentPlans = await _treatmentPlanService.GetAllTreatmentPlansAsync(queryParams);
@@ -37,6 +39,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Dentist,ClinicOwner")]
     public async Task<ActionResult<TreatmentPlanDto>> GetTreatmentPlan(int id)
     {
       var treatmentPlan = await _treatmentPlanService.GetTreatmentPlanByIdAsync(id);
@@ -48,6 +51,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost]
+    [Authorize(Roles = "Dentist")]
     public async Task<ActionResult<TreatmentPlanDto>> CreateTreatmentPlan(TreatmentPlanCreateDto treatmentPlanCreateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -58,6 +62,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Dentist")]
     public async Task<IActionResult> UpdateTreatmentPlan(int id, TreatmentPlanUpdateDto treatmentPlanUpdateDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -71,6 +76,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Dentist")]
     public async Task<IActionResult> DeleteTreatmentPlan(int id)
     {
       var success = await _treatmentPlanService.DeleteTreatmentPlanAsync(id);

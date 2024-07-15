@@ -31,7 +31,7 @@ namespace prn_dentistry.API.Controllers
     ///         OrderBy: nameAsc/_(nameDesc)
     /// </remarks>
     [HttpGet]
-    // [Authorize(Roles = "Admin,Customer")]
+    [Authorize(Roles = "Admin,Customer")]
     public async Task<ActionResult<PagedList<ClinicDto>>> GetAllClinics([FromQuery] ClinicQueryParams queryParams)
     {
       var clinics = await _clinicService.GetAllClinicsAsync(queryParams);
@@ -40,7 +40,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpGet("{id}")]
-    // [Authorize]
+    [Authorize(Roles = "Admin,Customer, ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> GetClinicById(int id)
     {
       var clinic = await _clinicService.GetClinicByIdAsync(id);
@@ -51,7 +51,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPost]
-    // [Authorize(Roles = "ClinicOwner")]
+    [Authorize(Roles = "Admin,ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> CreateClinic([FromBody] ClinicCreateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -61,7 +61,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpPut]
-    // [Authorize(Roles = "ClinicOwner")]
+    [Authorize(Roles = "Admin,ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> UpdateClinic(int id, ClinicUpdateDto clinicDto)
     {
       if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -72,7 +72,7 @@ namespace prn_dentistry.API.Controllers
     }
 
     [HttpDelete("{id}")]
-    // [Authorize(Roles = "ClinicOwner")]
+    [Authorize(Roles = "Admin,ClinicOwner")]
 
     public async Task<IActionResult> DeleteClinic(int id)
     {

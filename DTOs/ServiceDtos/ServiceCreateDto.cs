@@ -20,7 +20,8 @@ namespace DTOs.ServiceDtos
     [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value.")]
 
     public decimal Price { get; set; }
-
+    [Required]
+    [Range(1, 1440, ErrorMessage = "Slot duration must be a positive number, less than 1440.")]
     public int ClinicID { get; set; }
   }
 }
