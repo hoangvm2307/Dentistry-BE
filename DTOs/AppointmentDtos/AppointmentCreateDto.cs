@@ -25,6 +25,7 @@ namespace DTOs.AppointmentDtos
     public DateTime AppointmentDate { get; set; }
 
     [Required(ErrorMessage = "Appointment Time is required.")]
+    // [DataType(DataType.Time, ErrorMessage = "Invalid Date format.")]
     public DateTime AppointmentTime { get; set; }
 
     [Required(ErrorMessage = "Status is required.")]

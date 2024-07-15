@@ -30,6 +30,7 @@ namespace DTOs.AccountDtos
     public string Image { get; set; }
 
     [Required(ErrorMessage = "Clinic ID is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Clinic ID must be a positive integer.")]
     public int ClinicID { get; set; }
 
     public bool Status { get; set; }

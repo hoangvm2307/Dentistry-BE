@@ -14,7 +14,6 @@ namespace DTOs.ValidationsAttributes
     }
   }
 
-  // Custom validation attribute to ensure one date is greater than another
   public class DateGreaterThanAttribute : ValidationAttribute
   {
     private readonly string _comparisonProperty;
@@ -43,6 +42,21 @@ namespace DTOs.ValidationsAttributes
         return ValidationResult.Success;
 
       return new ValidationResult(ErrorMessage);
+    }
+  }
+
+  public class ValidDayOfWeekAttribute : ValidationAttribute
+  {
+    private static readonly string[] ValidDays =
+        { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+      if (value is string dayOfWeek && ValidDays.Contains(dayOfWeek, StringComparer.OrdinalIgnoreCase))
+      {
+        return ValidationResult.Success;
+      }
+      return new ValidationResult("Day of week must be from \"Monday\" to \"Sunday\".");
     }
   }
 }

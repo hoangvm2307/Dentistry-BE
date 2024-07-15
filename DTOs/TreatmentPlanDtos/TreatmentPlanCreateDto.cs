@@ -22,7 +22,7 @@ namespace DTOs.TreatmentPlanDtos
   
         public DateTime? EndDate { get; set; }
 
-        [MaxLength(50, ErrorMessage = "Frequency cannot exceed 50 characters.")]
+        [MaxLength(300, ErrorMessage = "Description cannot exceed 500 characters.")]
         public string Description { get; set; }
 
    
