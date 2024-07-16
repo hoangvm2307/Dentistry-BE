@@ -1,7 +1,11 @@
 using System.Transactions;
+using AutoMapper;
 using DentistryBusinessObjects;
 using DentistryRepositories;
 using DTOs.AccountDtos;
+using DTOs.ClinicOwnerDtos;
+using DTOs.CustomerDtos;
+using DTOs.DentistDtos;
 using Microsoft.AspNetCore.Identity;
 
 namespace DentistryServices
@@ -15,11 +19,13 @@ namespace DentistryServices
     private readonly TokenService _tokenService;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IMapper _mapper;
 
     public AccountService(IAccountRepository accountRepository, ICustomerRepository customerRepository,
       IClinicOwnerRepository clinicOwnerRepository, IDentistRepository dentistRepository, TokenService tokenService,
-      UserManager<User> userManager, SignInManager<User> signInManager)
+      UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
     {
+      _mapper = mapper;
       _dentistRepository = dentistRepository;
       _customerRepository = customerRepository;
       _clinicOwnerRepository = clinicOwnerRepository;
@@ -36,10 +42,25 @@ namespace DentistryServices
       {
         var user = await _userManager.FindByNameAsync(loginDto.Username);
         var specificUserId = await _accountRepository.GetSpecificUserID(user);
+        var specificUser = await _accountRepository.GetSpecificUser(user);
+        if (specificUser is Customer customer)
+        {
+          specificUser = _mapper.Map<CustomerDto>(customer);
+          Console.WriteLine(specificUser);
+        }
+        else if (specificUser is Dentist dentist)
+        {
+          specificUser = _mapper.Map<DentistDto>(dentist);
+        }
+        else if (specificUser is ClinicOwner clinicOwner)
+        {
+          specificUser = _mapper.Map<ClinicOwnerDto>(clinicOwner);
+        }
         return new UserDto
         {
           Email = user.Email,
-          Token = await _tokenService.GenerateToken(user, specificUserId)
+          Token = await _tokenService.GenerateToken(user, specificUserId),
+          SpecificUser = specificUser
         };
       }
 

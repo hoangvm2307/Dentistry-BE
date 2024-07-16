@@ -19,7 +19,7 @@ namespace prn_dentistry.API.Controllers
 
     /// <summary>
     /// Get all customers
-    /// Role: Admin, ClinicOwner
+    /// Role: Admin, ClinicOwner, Dentist
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -30,7 +30,7 @@ namespace prn_dentistry.API.Controllers
     ///         OrderBy: nameAsc/_(nameDesc)
     /// </remarks>
     [HttpGet]
-    [Authorize(Roles = "Admin,ClinicOwner")]
+    [Authorize(Roles = "Admin,ClinicOwner,Dentist")]
     public async Task<ActionResult<PagedList<CustomerDto>>> GetAllCustomers([FromQuery] CustomerQueryParam queryParams)
     {
       var customers = await _customerService.GetAllCustomersAsync(queryParams);

@@ -30,7 +30,7 @@ namespace prn_dentistry.API.Controllers
     ///         OrderBy: clinicAsc
     /// </remarks>
     [HttpGet]
-    [Authorize(Roles = "Dentist,ClinicOwner")]
+    [Authorize(Roles = "Dentist,ClinicOwner,Customer")]
     public async Task<ActionResult<IEnumerable<ClinicScheduleDto>>> GetAllClinicSchedules([FromQuery] ClinicScheduleParams queryParams)
     {
       var clinicSchedules = await _clinicScheduleService.GetAllClinicSchedulesAsync(queryParams);

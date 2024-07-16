@@ -12,7 +12,6 @@ namespace prn_dentistry.API.Profiles
     public DentistProfile()
     {
       CreateMap<Dentist, DentistDto>()
-        .ForMember(dest => dest.ClinicID, opt => opt.MapFrom(src => src.Clinic.ClinicID))
         .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
         .ForMember(dest => dest.Clinic, opt => opt.MapFrom(src => src.Clinic));
         

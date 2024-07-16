@@ -77,7 +77,7 @@ builder.Services.AddAuthentication(options =>
       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
     };
   });
-Console.WriteLine(builder.Configuration["JWTSettings:TokenKey"]);
+ 
 builder.Services.AddAuthorization(options =>
 {
   options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
@@ -108,7 +108,7 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseCors("AllowLocalhost3000");
-app.UseMiddleware<JwtMiddleware>();
+// app.UseMiddleware<JwtMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

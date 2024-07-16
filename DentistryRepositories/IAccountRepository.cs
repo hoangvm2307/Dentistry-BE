@@ -10,5 +10,7 @@ namespace DentistryRepositories
     Task<User> GetUserByUsernameAsync(string username);
     Task AssignRoleAsync(User user, string role);
     Task<int> GetSpecificUserID(User user);
+    Task<object> GetSpecificUser(User user);
+
   }
 }

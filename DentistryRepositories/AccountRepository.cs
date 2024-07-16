@@ -35,7 +35,21 @@ namespace DentistryRepositories
 
       return 0;
     }
+    public async Task<object> GetSpecificUser(User user)
+    {
+      var customer = await _context.Customers
+        .FirstOrDefaultAsync(c => c.Id == user.Id);
+      if (customer != null) return customer;
 
+      var dentist = await _context.Dentists
+        .FirstOrDefaultAsync(d => d.Id == user.Id);
+      if (dentist != null) return dentist;
+
+      var clinicOwner = await _context.ClinicOwners.FirstOrDefaultAsync(co => co.Id == user.Id);
+      if (clinicOwner != null) return clinicOwner;
+
+      return 0;
+    }
     public async Task<User> GetUserByUsernameAsync(string username)
     {
       return await _userManager.FindByNameAsync(username);
