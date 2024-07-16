@@ -3,6 +3,7 @@ using DentistryRepositories;
 using DentistryRepositories.Extensions;
 using DentistryServices;
 using DTOs.ClinicDtos;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

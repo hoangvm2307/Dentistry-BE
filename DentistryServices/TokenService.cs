@@ -36,6 +36,7 @@ namespace DentistryServices
       }
       
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTSettings:TokenKey"]));
+      Console.WriteLine(_config["JWTSettings:TokenKey"]);
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
       var tokenOptions = new JwtSecurityToken(
