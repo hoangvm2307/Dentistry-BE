@@ -33,7 +33,7 @@ namespace prn_dentistry.API.Controllers
     ///         OrderBy: nameAsc/_(nameDesc)
     /// </remarks>
     [HttpGet]
-    [Authorize(Roles = "Admin,Customer, ClinicOwner")]
+    // [Authorize(Roles = "Admin,Customer, ClinicOwner")]
     public async Task<ActionResult<PagedList<ClinicDto>>> GetAllClinics([FromQuery] ClinicQueryParams queryParams)
     {
       var clinics = await _clinicService.GetAllClinicsAsync(queryParams);
@@ -46,7 +46,7 @@ namespace prn_dentistry.API.Controllers
     /// Role: ClinicOwner, Admin, Customer
     /// </summary>
     [HttpGet("{id}")]
-    [Authorize(Roles = "Admin, Customer, ClinicOwner")]
+    // [Authorize(Roles = "Admin, Customer, ClinicOwner")]
     public async Task<ActionResult<ClinicDto>> GetClinicById(int id)
     {
       var clinic = await _clinicService.GetClinicByIdAsync(id);
