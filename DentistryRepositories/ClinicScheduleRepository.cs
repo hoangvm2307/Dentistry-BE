@@ -30,7 +30,7 @@ namespace DentistryRepositories
         Console.WriteLine($"===={a.AppointmentDate:yyyy-MM-dd}====");
       }
      
-      return await PagedList<ClinicSchedule>.ToPagedList(query, queryParams.PageNumber, queryParams.PageSize);
+      return await PagedList<ClinicSchedule>.ToPagedList(query, queryParams.PageNumber, 1000);
     }
 
     public async Task<ClinicSchedule> GetClinicScheduleByIdAsync(int id)
