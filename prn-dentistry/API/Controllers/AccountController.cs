@@ -1,9 +1,10 @@
+using System.Net.Http.Headers;
+using System.Net.Http.Headers;
+using System.Text;
 using DentistryServices;
 using DTOs.AccountDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-
 namespace prn_dentistry.API.Controllers
 {
   public class AccountController : BaseApiController
@@ -92,14 +93,37 @@ namespace prn_dentistry.API.Controllers
 
       if (user == null) return Unauthorized("Invalid user name or password");
 
+      Response.Cookies.Append("token", user.Token, new CookieOptions { Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddDays(7) });
+
       return user;
+    }
+
+    private static void AddCookieToResponse(HttpResponseHeaders headers, System.Net.Cookie cookie)
+    {
+
+      var cookieBuilder = new StringBuilder(System.Web.HttpUtility.UrlEncode(cookie.Name) + "=" + System.Web.HttpUtility.UrlEncode(cookie.Value));
+      if (cookie.HttpOnly)
+      {
+        cookieBuilder.Append("; HttpOnly");
+      }
+
+      if (cookie.Secure)
+      {
+        cookieBuilder.Append("; Secure");
+      }
+
+      headers.Add("Set-Cookie", cookieBuilder.ToString());
     }
 
     [Authorize]
     [HttpGet("currentUser")]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
-      return await _accountService.GetCurrentUser(User.Identity.Name);
+      var user = await _accountService.GetCurrentUser(User.Identity.Name);
+
+      Response.Cookies.Append("token", user.Token, new CookieOptions { Domain = "localhost", Secure = false, HttpOnly = false, SameSite = SameSiteMode.None, IsEssential = true, Expires = DateTime.Now.AddDays(7) });
+
+      return user;
     }
 
   }

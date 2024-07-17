@@ -56,6 +56,7 @@ namespace DentistryServices
         {
           specificUser = _mapper.Map<ClinicOwnerDto>(clinicOwner);
         }
+
         return new UserDto
         {
           Email = user.Email,
