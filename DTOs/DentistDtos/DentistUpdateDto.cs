@@ -7,6 +7,7 @@ namespace DTOs.DentistDtos
     public string Email { get; set; }
     public string Specialization { get; set; }
     public int ClinicID { get; set; }
+    public string Image { get; set; }
     public bool Status { get; set; }
   }
 }

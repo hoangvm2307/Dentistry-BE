@@ -97,24 +97,7 @@ namespace prn_dentistry.API.Controllers
 
       return user;
     }
-
-    private static void AddCookieToResponse(HttpResponseHeaders headers, System.Net.Cookie cookie)
-    {
-
-      var cookieBuilder = new StringBuilder(System.Web.HttpUtility.UrlEncode(cookie.Name) + "=" + System.Web.HttpUtility.UrlEncode(cookie.Value));
-      if (cookie.HttpOnly)
-      {
-        cookieBuilder.Append("; HttpOnly");
-      }
-
-      if (cookie.Secure)
-      {
-        cookieBuilder.Append("; Secure");
-      }
-
-      headers.Add("Set-Cookie", cookieBuilder.ToString());
-    }
-
+    
     [Authorize]
     [HttpGet("currentUser")]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
